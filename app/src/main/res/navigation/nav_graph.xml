@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeClientFragment">
+
+    <fragment
+        android:id="@+id/homeClientFragment"
+        android:name="com.example.barberapp.HomeClientFragment"
+        android:label="fragment_home_client"
+        tools:layout="@layout/fragment_home_client" >
+        <action
+            android:id="@+id/action_homeClientFragment_to_barberShopFragment"
+            app:destination="@id/barberShopFragment" />
+        <action
+            android:id="@+id/action_homeClientFragment_to_barberFragment"
+            app:destination="@id/barberFragment" />
+        <action
+            android:id="@+id/action_homeClientFragment_to_serviceFragment"
+            app:destination="@id/serviceFragment" />
+        <action
+            android:id="@+id/action_homeClientFragment_to_appointmentFragment"
+            app:destination="@id/appointmentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/appointmentFragment"
+        android:name="com.example.barberapp.AppointmentFragment"
+        android:label="fragment_appointment"
+        tools:layout="@layout/fragment_appointment" />
+    <fragment
+        android:id="@+id/barberFragment"
+        android:name="com.example.barberapp.BarberFragment"
+        android:label="fragment_barber"
+        tools:layout="@layout/fragment_barber" />
+    <fragment
+        android:id="@+id/barberShopFragment"
+        android:name="com.example.barberapp.BarberShopFragment"
+        android:label="fragment_barber_shop"
+        tools:layout="@layout/fragment_barber_shop" />
+    <fragment
+        android:id="@+id/serviceFragment"
+        android:name="com.example.barberapp.ServiceFragment"
+        android:label="fragment_service"
+        tools:layout="@layout/fragment_service" />
+</navigation>
