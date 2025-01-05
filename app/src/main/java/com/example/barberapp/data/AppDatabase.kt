@@ -14,7 +14,7 @@ import androidx.room.TypeConverters
     BarberSchedule::class,
     BarberService::class,
     Appointment::class
-], version = 1)
+], version = 1 )
 @TypeConverters(LocalDateConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 
