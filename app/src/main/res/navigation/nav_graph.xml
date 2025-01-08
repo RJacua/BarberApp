@@ -35,7 +35,7 @@
         tools:layout="@layout/fragment_barber" />
     <fragment
         android:id="@+id/barberShopFragment"
-        android:name="com.example.barberapp.BarberShopFragment"
+        android:name="com.example.barberapp.BarberShop.BarberShopFragment"
         android:label="fragment_barber_shop"
         tools:layout="@layout/fragment_barber_shop" />
     <fragment

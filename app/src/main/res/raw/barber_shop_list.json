@@ -1,5 +1,6 @@
 [
   {
+    "id": 1,
     "name": "Barbearia Lux",
     "address": "Rua Principal, 123",
     "latitude": -23.55052,
@@ -7,6 +8,7 @@
     "rating": 4.8
   },
   {
+    "id": 2,
     "name": "Corte Fino",
     "address": "Avenida Central, 456",
     "latitude": -23.562573,
@@ -14,6 +16,7 @@
     "rating": 4.6
   },
   {
+    "id": 3,
     "name": "Barbearia Estilo",
     "address": "Praça das Palmeiras, 789",
     "latitude": -23.548672,
@@ -21,6 +24,7 @@
     "rating": 4.9
   },
   {
+    "id": 4,
     "name": "Barba e Bigode",
     "address": "Rua das Acácias, 12",
     "latitude": -23.551220,
@@ -28,6 +32,7 @@
     "rating": 4.7
   },
   {
+    "id": 5,
     "name": "Clássicos da Navalha",
     "address": "Alameda dos Pinheiros, 321",
     "latitude": -23.558913,
