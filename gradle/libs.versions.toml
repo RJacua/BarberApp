@@ -4,6 +4,7 @@ cameraview = "2.7.2"
 coil = "3.0.4"
 fragmentKtx = "1.8.5"
 glide = "4.16.0"
+gson = "2.10.1"
 kotlin = "1.9.20"
 #kotlin = "2.0.0"
 coreKtx = "1.15.0"
@@ -41,6 +42,7 @@ cameraview = { module = "com.otaliastudios:cameraview", version.ref = "cameravie
 circleimageview = { module = "de.hdodenhof:circleimageview", version.ref = "circleimageviewVersion" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 coil = { module = "io.coil-kt.coil3:coil", version.ref = "coil" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }

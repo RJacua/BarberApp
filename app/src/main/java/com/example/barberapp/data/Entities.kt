@@ -40,8 +40,6 @@ data class Barber(
 data class Service(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val name: String,
-    val duration: Int, // em minutos
-    val price: Double,
     val description: String
 )
 
@@ -63,10 +61,13 @@ data class Service(
         )
     ]
 )
+// Serviços por barbeiro
 data class BarberService(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val barberId: Int,
-    val serviceId: Int
+    val serviceId: Int,
+    val duration: Int,
+    val price: Double,
 )
 
 // Tabela BarberSchedule
