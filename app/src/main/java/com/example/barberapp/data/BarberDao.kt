@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Query
 
 @Dao
-interface BarberDao {
+interface BarberDao: BaseDao<Barber> {
 
     @Query("SELECT * FROM barbers")
     fun getAllBarbers(): List<Barber>
