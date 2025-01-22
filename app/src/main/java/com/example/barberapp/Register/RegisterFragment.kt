@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.barberapp.databinding.FragmentRegisterBinding
 
 
@@ -25,6 +26,10 @@ class RegisterFragment : Fragment() {
 
         binding.registerbtn.setOnClickListener {
             registerUser()
+        }
+
+        binding.backlogin.setOnClickListener {
+            findNavController().navigateUp() // Volta para o fragmento anterior
         }
 
         return binding.root
