@@ -13,8 +13,10 @@ interface AppointmentDao {
     fun getAppointmentsByClient(clientId: Int): List<Appointment>
 
     @Query("""
-        SELECT * FROM appointments 
-        WHERE barberId = :barberId
+        SELECT a.* 
+        FROM appointments a
+        INNER JOIN barber_services bs ON a.barberServiceId = bs.id
+        WHERE bs.barberId = :barberId
     """)
     fun getAppointmentsByBarber(barberId: Int): List<Appointment>
 }

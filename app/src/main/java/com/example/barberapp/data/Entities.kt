@@ -111,24 +111,31 @@ data class Client(
             onDelete = ForeignKey.CASCADE
         ),
         ForeignKey(
+            entity = BarberService::class,
+            parentColumns = ["id"],
+            childColumns = ["barberServiceId"],
+            onDelete = ForeignKey.CASCADE
+        ),
+        /*ForeignKey(
             entity = Barber::class,
             parentColumns = ["id"],
             childColumns = ["barberId"],
             onDelete = ForeignKey.CASCADE
-        ),
-        ForeignKey(
+        ),*/
+        /*ForeignKey(
             entity = Service::class,
             parentColumns = ["id"],
             childColumns = ["serviceId"],
             onDelete = ForeignKey.CASCADE
-        )
+        )*/
     ]
 )
 data class Appointment(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val clientId: Int,
-    val barberId: Int,
-    val serviceId: Int,
+    //val barberId: Int,
+    //val serviceId: Int,
+    val barberServiceId: Int,
     val date: String, // formato: YYYY-MM-DD
     val time: String, // formato: HH:MM
     val status: String // "Ativo", "Concluído", "Cancelado"
