@@ -40,7 +40,7 @@
         tools:layout="@layout/fragment_barber_shop" />
     <fragment
         android:id="@+id/serviceFragment"
-        android:name="com.example.barberapp.ServiceFragment"
+        android:name="com.example.barberapp.Service.ServiceFragment"
         android:label="fragment_service"
         tools:layout="@layout/fragment_service" />
     <fragment

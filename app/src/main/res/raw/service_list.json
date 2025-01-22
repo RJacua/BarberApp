@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "name": "Basic Haircut",
+    "description": "A simple haircut to maintain your style."
+  },
+  {
+    "id": 2,
+    "name": "Fade Haircut",
+    "description": "A modern fade style with clean lines."
+  },
+  {
+    "id": 3,
+    "name": "Complex Haircut with Styling",
+    "description": "A detailed haircut with custom styling included."
+  },
+  {
+    "id": 4,
+    "name": "Basic Beard Trim",
+    "description": "A simple beard trim to keep it neat."
+  },
+  {
+    "id": 5,
+    "name": "Beard Sculpting",
+    "description": "Precision beard sculpting for a polished look."
+  },
+  {
+    "id": 6,
+    "name": "Hair Dye",
+    "description": "Full or partial hair coloring with high-quality products."
+  },
+  {
+    "id": 7,
+    "name": "Beard Dye",
+    "description": "Professional coloring for a fuller and sharper beard."
+  },
+  {
+    "id": 8,
+    "name": "Hair Hydration Treatment",
+    "description": "A deep hydration treatment to restore hair health."
+  },
+  {
+    "id": 9,
+    "name": "Hair Wash and Scalp Massage",
+    "description": "Relaxing hair wash with a soothing scalp massage."
+  },
+  {
+    "id": 10,
+    "name": "Hot Towel Shave",
+    "description": "A classic hot towel shave for a smooth finish."
+  },
+  {
+    "id": 11,
+    "name": "Eyebrow Grooming",
+    "description": "Shaping and grooming for well-defined eyebrows."
+  },
+  {
+    "id": 12,
+    "name": "Children's Haircut",
+    "description": "A gentle and stylish haircut for kids."
+  }
+]

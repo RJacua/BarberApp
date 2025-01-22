@@ -1,8 +1,10 @@
 package com.example.barberapp
 
 import android.app.Application
+import android.util.Log
 import com.example.barberapp.data.AppDatabase
 import com.example.barberapp.data.Barbershop
+import com.example.barberapp.data.Service
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.CoroutineScope
@@ -10,6 +12,7 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.BufferedReader
 
 class BarberApp : Application() {
@@ -24,8 +27,23 @@ class BarberApp : Application() {
         // Carregar os dados do JSON
         val barbershopList = loadBarbershopsFromJson()
 
+        val serviceDao = AppDatabase.invoke(this).serviceDao()
+
+        // Carregar os dados do JSON
+        val serviceList = loadServicesFromJson()
+
+
         GlobalScope.launch(Dispatchers.IO) {
             barbershopDao.insertAll(barbershopList)
+            serviceDao.insertAll(serviceList)
+
+            withContext(Dispatchers.Main) {
+                serviceDao.getAllServices().observeForever { services ->
+                    services.forEach { service ->
+                        Log.d("BarberApp", "Service: ${service.name}, Description: ${service.description}")
+                    }
+                }
+            }
         }
     }
 
@@ -35,6 +53,19 @@ class BarberApp : Application() {
             val bufferedReader = inputStream.bufferedReader()
             val json = bufferedReader.use { it.readText() }
             val type = object : TypeToken<List<Barbershop>>() {}.type
+            Gson().fromJson(json, type)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            emptyList() // Retorna uma lista vazia em caso de erro
+        }
+    }
+
+    private fun loadServicesFromJson(): List<Service> {
+        return try {
+            val inputStream = resources.openRawResource(R.raw.service_list)
+            val bufferedReader = inputStream.bufferedReader()
+            val json = bufferedReader.use { it.readText() }
+            val type = object : TypeToken<List<Service>>() {}.type
             Gson().fromJson(json, type)
         } catch (e: Exception) {
             e.printStackTrace()
