@@ -112,5 +112,8 @@
         <action
             android:id="@+id/action_createBarberServiceFragment_to_barberServiceFragment"
             app:destination="@id/barberServiceFragment" />
+        <action
+            android:id="@+id/action_createBarberServiceFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
 </navigation>

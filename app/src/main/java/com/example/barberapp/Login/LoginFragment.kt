@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.example.barberapp.UserSession
 import com.example.barberapp.databinding.FragmentLoginBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -59,31 +60,40 @@ class LoginFragment : Fragment() {
 
     private fun authenticateUser(email: String, password: String) {
         lifecycleScope.launch {
-            val (result, user) = withContext(Dispatchers.IO) {
-                viewModel.login(email, password)
-            }
+            try {
+                val (result, user) = withContext(Dispatchers.IO) {
+                    viewModel.login(email, password)
+                }
 
-            when (result) {
-
-                "client" -> {
-                    Log.d("login","client")
-                    findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToHomeClientFragment(user!!))
-                }
-                "barber" -> {
-                    Log.d("login","barber")
-                    findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToHomeBarberFragment(user!!))
-                }
-                else -> {
-                    if (result != null) {
-                        Log.d("login",result)
+                when (result) {
+                    "client" -> {
+                        Log.d("login", "client")
+                        UserSession.loggedInClient = viewModel.loggedInClient.value // Salva o cliente na sessão
+                        UserSession.loggedInBarber = null // Certifica-se de que o barbeiro está nulo
+                        findNavController().navigate(
+                            LoginFragmentDirections.actionLoginFragmentToHomeClientFragment(user!!)
+                        )
                     }
-                    else{
-                        Log.d("login","result null")
+                    "barber" -> {
+                        Log.d("login", "barber")
+                        UserSession.loggedInBarber = viewModel.loggedInBarber.value // Salva o barbeiro na sessão
+                        UserSession.loggedInClient = null // Certifica-se de que o cliente está nulo
+                        findNavController().navigate(
+                            LoginFragmentDirections.actionLoginFragmentToHomeBarberFragment(user!!)
+                        )
                     }
-                    Toast.makeText(context, "Email ou senha incorretos!", Toast.LENGTH_SHORT).show()
+                    else -> {
+                        Log.d("login", "Email ou senha incorretos")
+                        Toast.makeText(context, "Email ou senha incorretos!", Toast.LENGTH_SHORT).show()
+                    }
                 }
+            } catch (e: Exception) {
+                Log.e("login", "Erro durante o login", e)
+                Toast.makeText(context, "Ocorreu um erro. Tente novamente!", Toast.LENGTH_SHORT).show()
             }
         }
     }
+
+
 
 }

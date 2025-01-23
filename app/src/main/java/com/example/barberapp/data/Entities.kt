@@ -3,7 +3,6 @@ package com.example.barberapp.data
 import androidx.room.*
 import java.sql.Time
 
-
 // Tabela Barbershop
 @Entity(
     tableName = "barbershops",
