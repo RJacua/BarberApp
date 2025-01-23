@@ -13,7 +13,7 @@ interface ServiceDao {
     @Query("SELECT * FROM services")
     fun getAllServices(): LiveData<List<Service>>
 
-    @Query("SELECT * FROM services WHERE id = :id")
+    @Query("SELECT * FROM services WHERE serviceId = :id")
     fun getServiceById(id: Int): Service?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

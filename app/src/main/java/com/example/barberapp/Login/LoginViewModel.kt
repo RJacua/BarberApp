@@ -3,6 +3,7 @@ package com.example.barberapp.Login
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import com.example.barberapp.data.AppDatabase
+import com.example.barberapp.data.Client
 
 class LoginViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -15,15 +16,16 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
      * - "barber" se o usuário for um barbeiro.
      * - null se o login falhar.
      */
-    suspend fun login(email: String, password: String): String? {
+    suspend fun login(email: String, password: String): Pair<String?, String? >{
         val client = database.clientDao().getAllClients()
             .find { it.email == email && it.password == password }
-        if (client != null) return "client"
+        if (client != null) return Pair("client", client.name )
 
         val barber = database.barberDao().getAllBarbers()
             .find { it.email == email && it.password == password }
-        if (barber != null) return "barber"
+        if (barber != null) return Pair("barber", barber.name)
 
-        return null
+        return Pair(null, null)
     }
+
 }

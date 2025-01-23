@@ -10,7 +10,7 @@ interface BarberServiceDao {
     @Query("""
         SELECT * FROM services 
         INNER JOIN barber_services 
-        ON services.id = barber_services.serviceId 
+        ON services.serviceId = barber_services.serviceId 
         WHERE barber_services.barberId = :barberId
     """)
     fun getServicesByBarber(barberId: Int): List<Service>
@@ -18,7 +18,7 @@ interface BarberServiceDao {
     @Query("""
         SELECT * FROM barbers 
         INNER JOIN barber_services 
-        ON barbers.id = barber_services.barberId 
+        ON barbers.barberId = barber_services.barberId 
         WHERE barber_services.serviceId = :serviceId
     """)
     fun getBarbersByService(serviceId: Int): List<Barber>

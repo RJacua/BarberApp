@@ -8,10 +8,10 @@
 
 
     <TextView
-        android:id="@+id/baberTitle"
+        android:id="@+id/barberTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Home Barber"
+        android:text="Welcome Barber"
         android:textSize="48sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

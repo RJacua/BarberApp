@@ -22,6 +22,10 @@
         <action
             android:id="@+id/action_homeClientFragment_to_appointmentFragment"
             app:destination="@id/appointmentFragment" />
+        <argument
+            android:name="loggedName"
+            app:argType="string"
+            android:defaultValue="Name" />
     </fragment>
     <fragment
         android:id="@+id/appointmentFragment"
@@ -62,10 +66,21 @@
         android:id="@+id/registerFragment"
         android:name="com.example.barberapp.Register.RegisterFragment"
         android:label="fragment_register"
-        tools:layout="@layout/fragment_register" />
+        tools:layout="@layout/fragment_register" >
+        <action
+            android:id="@+id/action_registerFragment_to_homeClientFragment"
+            app:destination="@id/homeClientFragment" />
+        <action
+            android:id="@+id/action_registerFragment_to_homeBarberFragment"
+            app:destination="@id/homeBarberFragment" />
+    </fragment>
     <fragment
         android:id="@+id/homeBarberFragment"
         android:name="com.example.barberapp.HomeBarberFragment"
         android:label="fragment_home_barber"
-        tools:layout="@layout/fragment_home_barber" />
+        tools:layout="@layout/fragment_home_barber" >
+        <argument
+            android:name="loggedName"
+            android:defaultValue="Name" />
+    </fragment>
 </navigation>

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.barberapp.databinding.FragmentHomeClientBinding
 
 class HomeClientFragment : Fragment() {
@@ -23,6 +24,10 @@ class HomeClientFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        val args : HomeClientFragmentArgs by navArgs()
+        binding.clientTitle.setText("Welcome " + args.loggedName)
+
         binding.btnBarberShop.setOnClickListener {
             findNavController().navigate(HomeClientFragmentDirections.actionHomeClientFragmentToBarberShopFragment())
         }

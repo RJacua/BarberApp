@@ -1,6 +1,7 @@
 package com.example.barberapp.Login
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -58,18 +59,27 @@ class LoginFragment : Fragment() {
 
     private fun authenticateUser(email: String, password: String) {
         lifecycleScope.launch {
-            val result = withContext(Dispatchers.IO) {
+            val (result, user) = withContext(Dispatchers.IO) {
                 viewModel.login(email, password)
             }
 
             when (result) {
+
                 "client" -> {
-                    findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToHomeClientFragment())
+                    Log.d("login","client")
+                    findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToHomeClientFragment(user!!))
                 }
                 "barber" -> {
-                    findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToHomeBarberFragment())
+                    Log.d("login","barber")
+                    findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToHomeBarberFragment(user!!))
                 }
                 else -> {
+                    if (result != null) {
+                        Log.d("login",result)
+                    }
+                    else{
+                        Log.d("login","result null")
+                    }
                     Toast.makeText(context, "Email ou senha incorretos!", Toast.LENGTH_SHORT).show()
                 }
             }

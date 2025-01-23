@@ -4,9 +4,12 @@ import androidx.room.*
 
 
 // Tabela Barbershop
-@Entity(tableName = "barbershops")
+@Entity(
+    tableName = "barbershops",
+    indices = [Index(value = ["name"], unique = true)]
+    )
 data class Barbershop(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @PrimaryKey(autoGenerate = false) val barbershopId: Int,
     val name: String,
     val address: String,
     val latitude: Double,
@@ -20,25 +23,26 @@ data class Barbershop(
     foreignKeys = [
         ForeignKey(
             entity = Barbershop::class,
-            parentColumns = ["id"],
-            childColumns = ["barbershopId"],
-            onDelete = ForeignKey.CASCADE
+            parentColumns = arrayOf("barbershopId"),
+            childColumns = arrayOf("barbershopId"),
+            //onDelete = ForeignKey.CASCADE
         )
     ]
 )
 data class Barber(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @PrimaryKey(autoGenerate = true) val barberId: Int = 0,
+    val barbershopId: Int,
     val name: String,
     val email: String,
     val password: String,
-    val bio: String,
-    val barbershopId: Int
+    val bio: String
+
 )
 
 // Tabela Service
 @Entity(tableName = "services")
 data class Service(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @PrimaryKey(autoGenerate = false) val serviceId: Int,
     val name: String,
     val description: String
 )
@@ -49,13 +53,13 @@ data class Service(
     foreignKeys = [
         ForeignKey(
             entity = Barber::class,
-            parentColumns = ["id"],
+            parentColumns = ["barberId"],
             childColumns = ["barberId"],
             onDelete = ForeignKey.CASCADE
         ),
         ForeignKey(
             entity = Service::class,
-            parentColumns = ["id"],
+            parentColumns = ["serviceId"],
             childColumns = ["serviceId"],
             onDelete = ForeignKey.CASCADE
         )
@@ -63,7 +67,7 @@ data class Service(
 )
 // Serviços por barbeiro
 data class BarberService(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @PrimaryKey(autoGenerate = true) val barberServiceId: Int = 0,
     val barberId: Int,
     val serviceId: Int,
     val duration: Int,
@@ -76,14 +80,14 @@ data class BarberService(
     foreignKeys = [
         ForeignKey(
             entity = Barber::class,
-            parentColumns = ["id"],
+            parentColumns = ["barberId"],
             childColumns = ["barberId"],
             onDelete = ForeignKey.CASCADE
         )
     ]
 )
 data class BarberSchedule(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @PrimaryKey(autoGenerate = true) val barberScheduleId: Int = 0,
     val barberId: Int,
     val dayOfWeek: Int, // 0 (Domingo) a 6 (Sábado)
     val startTime: String, // Ex.: "09:00"
@@ -93,7 +97,7 @@ data class BarberSchedule(
 // Tabela Client
 @Entity(tableName = "clients")
 data class Client(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @PrimaryKey(autoGenerate = true) val clientId: Int = 0,
     val name: String,
     val email: String,
     val password: String,
@@ -106,17 +110,17 @@ data class Client(
     foreignKeys = [
         ForeignKey(
             entity = Client::class,
-            parentColumns = ["id"],
+            parentColumns = ["clientId"],
             childColumns = ["clientId"],
             onDelete = ForeignKey.CASCADE
         ),
         ForeignKey(
             entity = BarberService::class,
-            parentColumns = ["id"],
+            parentColumns = ["barberServiceId"],
             childColumns = ["barberServiceId"],
             onDelete = ForeignKey.CASCADE
-        ),
-        /*ForeignKey(
+        )
+        /*,ForeignKey(
             entity = Barber::class,
             parentColumns = ["id"],
             childColumns = ["barberId"],
@@ -131,7 +135,7 @@ data class Client(
     ]
 )
 data class Appointment(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @PrimaryKey(autoGenerate = true) val AppointmentId: Int = 0,
     val clientId: Int,
     //val barberId: Int,
     //val serviceId: Int,

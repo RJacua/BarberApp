@@ -74,7 +74,7 @@ class ServiceFragment : Fragment() {
 
     // DiffUtil para melhor desempenho
     private val serviceDiffer = object : DiffUtil.ItemCallback<Service>() {
-        override fun areItemsTheSame(oldItem: Service, newItem: Service) = oldItem.id == newItem.id
+        override fun areItemsTheSame(oldItem: Service, newItem: Service) = oldItem.serviceId == newItem.serviceId
         override fun areContentsTheSame(oldItem: Service, newItem: Service) = oldItem == newItem
         }
 }

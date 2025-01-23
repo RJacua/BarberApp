@@ -10,7 +10,7 @@
         android:id="@+id/clientTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Home Client"
+        android:text="Welcome Client"
         android:textSize="48sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

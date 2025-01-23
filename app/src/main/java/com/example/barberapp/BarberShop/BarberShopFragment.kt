@@ -63,13 +63,14 @@ class BarberShopFragment : Fragment() {
         fun bind(barbershop: Barbershop) {
             binding.barberShopNameText.text = barbershop.name
             binding.addressText.text = barbershop.address
+            binding.idText.text = barbershop.barbershopId.toString()
             //binding.textViewRating.text = "Rating: ${barbershop.rating}"
         }
     }
 
     // DiffUtil para melhor desempenho
     private val barbershopDiffer = object : DiffUtil.ItemCallback<Barbershop>() {
-        override fun areItemsTheSame(oldItem: Barbershop, newItem: Barbershop) = oldItem.id == newItem.id
+        override fun areItemsTheSame(oldItem: Barbershop, newItem: Barbershop) = oldItem.barbershopId == newItem.barbershopId
         override fun areContentsTheSame(oldItem: Barbershop, newItem: Barbershop) = oldItem == newItem
     }
 }

@@ -9,7 +9,9 @@ interface ClientDao: BaseDao<Client> {
     @Query("SELECT * FROM clients")
     fun getAllClients(): List<Client>
 
-    @Query("SELECT * FROM clients WHERE id = :id")
+    @Query("SELECT * FROM clients WHERE clientId = :id")
     fun getClientById(id: Int): Client?
 
+    @Query("SELECT * FROM clients WHERE email = :email")
+    fun getClientByEmail(email: String): Client?
 }

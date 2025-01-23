@@ -20,17 +20,6 @@
         app:layout_constraintTop_toBottomOf="@+id/registerTitle"
         app:layout_constraintVertical_bias="0.671" />
 
-    <Button
-        android:id="@+id/registerbtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="112dp"
-        android:text="Sign up"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.295"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <EditText
         android:id="@+id/registerEmail"
         android:layout_width="wrap_content"
@@ -72,6 +61,18 @@
         app:layout_constraintVertical_bias="0.617"
         app:layout_constraintVertical_chainStyle="spread" />
 
+    <Spinner
+        android:id="@+id/registerBarberShopId"
+        android:layout_width="288dp"
+        android:layout_height="65dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="92dp"
+        android:entries="@array/barber_shops"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <Switch
         android:id="@+id/registerSwitch"
         android:layout_width="wrap_content"
@@ -88,13 +89,24 @@
         android:id="@+id/backlogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
-        android:layout_marginBottom="112dp"
-        android:text="Login"
+        android:text="Back to Login"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.537"
+        app:layout_constraintHorizontal_bias="0.403"
         app:layout_constraintStart_toEndOf="@+id/registerbtn"
-        app:layout_constraintTop_toBottomOf="@+id/registerSwitch" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.947" />
+
+    <Button
+        android:id="@+id/registerbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign up"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.241"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.947" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
