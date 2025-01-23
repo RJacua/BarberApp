@@ -23,7 +23,7 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
                     phone = phone
                 )
             )
-            logAllClients() // Logar todos os clientes após a inserção
+            logAllClients() // console log todos os clientes após a inserção
         }
     }
 
