@@ -7,13 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example.barberapp.databinding.FragmentBarberServiceBinding
 import com.example.barberapp.databinding.FragmentHomeBarberBinding
 import com.example.barberapp.databinding.FragmentHomeClientBinding
 
 
-class HomeBarberFragment : Fragment() {
+class BarberServiceFragment : Fragment() {
 
-    private lateinit var binding: FragmentHomeBarberBinding
+    private lateinit var binding: FragmentBarberServiceBinding
 
 
     override fun onCreateView(
@@ -21,21 +22,15 @@ class HomeBarberFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        binding = FragmentHomeBarberBinding.inflate(inflater, container, false)
+        binding = FragmentBarberServiceBinding.inflate(inflater, container, false)
         return binding.root
 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        val args : HomeBarberFragmentArgs by navArgs()
-        binding.barberTitle.setText("Welcome " + args.loggedName)
-
-        binding.btnYourServices.setOnClickListener {
-            findNavController().navigate(HomeBarberFragmentDirections.actionHomeBarberFragmentToBarberServiceFragment())
+        binding.btnCreateNewBarberService.setOnClickListener {
+            findNavController().navigate(BarberServiceFragmentDirections.actionBarberServiceFragmentToCreateBarberServiceFragment())
         }
-
-
     }
 }
-

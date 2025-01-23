@@ -82,5 +82,31 @@
         <argument
             android:name="loggedName"
             android:defaultValue="Name" />
+        <action
+            android:id="@+id/action_homeBarberFragment_to_barberServiceFragment"
+            app:destination="@id/barberServiceFragment" />
+        <action
+            android:id="@+id/action_homeBarberFragment_to_barberServiceFragment2"
+            app:destination="@id/barberServiceFragment" />
+        <action
+            android:id="@+id/action_homeBarberFragment_to_barberServiceFragment3"
+            app:destination="@id/barberServiceFragment" />
+        <action
+            android:id="@+id/action_homeBarberFragment_to_barberServiceFragment4"
+            app:destination="@id/barberServiceFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/barberServiceFragment"
+        android:name="com.example.barberapp.BarberServiceFragment"
+        android:label="fragment_barber_service"
+        tools:layout="@layout/fragment_barber_service" >
+        <action
+            android:id="@+id/action_barberServiceFragment_to_createBarberServiceFragment"
+            app:destination="@id/createBarberServiceFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createBarberServiceFragment"
+        android:name="com.example.barberapp.CreateBarberServiceFragment"
+        android:label="fragment_create_barber_service"
+        tools:layout="@layout/fragment_create_barber_service" />
 </navigation>
