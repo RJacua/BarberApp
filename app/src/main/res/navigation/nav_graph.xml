@@ -106,7 +106,11 @@
     </fragment>
     <fragment
         android:id="@+id/createBarberServiceFragment"
-        android:name="com.example.barberapp.CreateBarberServiceFragment"
+        android:name="com.example.barberapp.BarberService.CreateBarberServiceFragment"
         android:label="fragment_create_barber_service"
-        tools:layout="@layout/fragment_create_barber_service" />
+        tools:layout="@layout/fragment_create_barber_service" >
+        <action
+            android:id="@+id/action_createBarberServiceFragment_to_barberServiceFragment"
+            app:destination="@id/barberServiceFragment" />
+    </fragment>
 </navigation>

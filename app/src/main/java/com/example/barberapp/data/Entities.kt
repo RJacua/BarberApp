@@ -1,6 +1,7 @@
 package com.example.barberapp.data
 
 import androidx.room.*
+import java.sql.Time
 
 
 // Tabela Barbershop
@@ -70,8 +71,8 @@ data class BarberService(
     @PrimaryKey(autoGenerate = true) val barberServiceId: Int = 0,
     val barberId: Int,
     val serviceId: Int,
-    val duration: Int,
-    val price: Double,
+    val duration: Time,
+    val price: Double
 )
 
 // Tabela BarberSchedule

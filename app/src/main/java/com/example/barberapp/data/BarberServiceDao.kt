@@ -5,7 +5,7 @@ import androidx.room.Delete
 import androidx.room.Query
 
 @Dao
-interface BarberServiceDao {
+interface BarberServiceDao: BaseDao<BarberService> {
 
     @Query("""
         SELECT * FROM services 
@@ -23,12 +23,15 @@ interface BarberServiceDao {
     """)
     fun getBarbersByService(serviceId: Int): List<Barber>
 
-    @Delete
-    fun delete(barberService: BarberService)
-
     @Query("DELETE FROM barber_services WHERE barberId = :barberId")
     fun deleteServicesByBarber(barberId: Int)
 
     @Query("DELETE FROM barber_services WHERE serviceId = :serviceId")
     fun deleteBarbersByService(serviceId: Int)
+
+    @Query("""
+        SELECT * FROM barber_services
+    """)
+    fun getAllBarberServices(): List<BarberService>
+
 }
