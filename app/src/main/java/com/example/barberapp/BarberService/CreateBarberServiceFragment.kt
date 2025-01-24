@@ -86,6 +86,7 @@ class CreateBarberServiceFragment : Fragment() {
             Log.d("CreateBarberServiceFragment", "Criando serviço para barberId: $barberId com duração: $duration")
             viewModel.registerBarberService(barberId = barberId, serviceId = serviceId, duration = Time.valueOf(duration), price = price)
             Toast.makeText(context, "Serviço criado com sucesso!", Toast.LENGTH_SHORT).show()
+
             findNavController().navigate(CreateBarberServiceFragmentDirections.actionCreateBarberServiceFragmentToBarberServiceFragment())
         }
 
@@ -93,4 +94,5 @@ class CreateBarberServiceFragment : Fragment() {
             findNavController().navigate(CreateBarberServiceFragmentDirections.actionCreateBarberServiceFragmentToBarberServiceFragment())
         }
     }
+
 }

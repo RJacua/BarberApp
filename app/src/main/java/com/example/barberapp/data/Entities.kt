@@ -82,7 +82,7 @@ data class BarberService(
             entity = Barber::class,
             parentColumns = ["barberId"],
             childColumns = ["barberId"],
-            onDelete = ForeignKey.CASCADE
+            //onDelete = ForeignKey.CASCADE
         )
     ]
 )
