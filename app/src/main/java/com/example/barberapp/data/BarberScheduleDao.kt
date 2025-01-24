@@ -7,7 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 
 @Dao
-interface BarberScheduleDao {
+interface BarberScheduleDao: BaseDao<BarberService> {
 
     @Query("SELECT * FROM barber_schedules WHERE barberId = :barberId")
     fun getSchedulesByBarber(barberId: Int): List<BarberSchedule>
@@ -18,9 +18,16 @@ interface BarberScheduleDao {
     """)
     fun getSchedulesByDay(barberId: Int, dayOfWeek: Int): List<BarberSchedule>
 
-    @Delete
-    fun delete(schedule: BarberSchedule)
-
     @Query("DELETE FROM barber_schedules WHERE barberId = :barberId")
     fun deleteSchedulesByBarber(barberId: Int)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(barberSchedule: BarberSchedule)
+
+    @Query("DELETE FROM barber_schedules WHERE barberId = :barberId")
+    fun deleteSchedulesForBarber(barberId: Int)
+
+    @Query("SELECT * FROM barber_schedules WHERE barberId = :barberId")
+    fun getSchedulesForBarber(barberId: Int): List<BarberSchedule>
 }
+

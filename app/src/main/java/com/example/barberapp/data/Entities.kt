@@ -89,9 +89,8 @@ data class BarberService(
 data class BarberSchedule(
     @PrimaryKey(autoGenerate = true) val barberScheduleId: Int = 0,
     val barberId: Int,
-    val dayOfWeek: Int, // 0 (Domingo) a 6 (Sábado)
-    val startTime: String, // Ex.: "09:00"
-    val endTime: String // Ex.: "17:00"
+    val dayOfWeek: Int,
+    val hours: String
 )
 
 // Tabela Client

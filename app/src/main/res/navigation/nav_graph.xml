@@ -124,7 +124,7 @@
     </fragment>
     <fragment
         android:id="@+id/scheduleFragment"
-        android:name="com.example.barberapp.Schedule.BarberScheduleFragment"
+        android:name="com.example.barberapp.BarberSchedule.BarberScheduleFragment"
         android:label="fragment_schedule"
         tools:layout="@layout/fragment_barber_schedule" >
         <action
