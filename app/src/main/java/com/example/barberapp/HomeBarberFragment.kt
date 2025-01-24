@@ -35,6 +35,9 @@ class HomeBarberFragment : Fragment() {
             findNavController().navigate(HomeBarberFragmentDirections.actionHomeBarberFragmentToBarberServiceFragment())
         }
 
+        binding.btnYourSchedule.setOnClickListener {
+            findNavController().navigate(HomeBarberFragmentDirections.actionHomeBarberFragmentToScheduleFragment())
+        }
 
     }
 }
