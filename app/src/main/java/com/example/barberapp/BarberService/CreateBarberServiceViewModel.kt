@@ -42,7 +42,7 @@ class CreateBarberServiceViewModel(application: Application) : AndroidViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             val barberServices = database.barberserviceDao().getAllBarberServices()
             barberServices.forEach {
-                Log.d("RegisterBarberService", "Id: ${it.barberServiceId}, BarberId: ${it.barberId}, ServiceId: ${it.serviceId}, Price: ${it.price}")
+                Log.d("RegisterBarberService", "Id: ${it.barberServiceId}, BarberId: ${it.barberId}, ServiceId: ${it.serviceId}, Price: ${it.price}, Duration: ${it.duration}")
             }
         }
     }

@@ -1,6 +1,5 @@
-package com.example.barberapp
+package com.example.barberapp.BarberService
 
-import BarberServiceViewModel
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -10,21 +9,17 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.barberapp.Login.LoginViewModel
-import com.example.barberapp.Service.ServiceFragment.ServiceViewHolder
-import com.example.barberapp.Service.ServiceViewModel
 import com.example.barberapp.data.BarberServiceDetail
-import com.example.barberapp.data.Service
 import com.example.barberapp.databinding.FragmentBarberServiceBinding
-import com.example.barberapp.databinding.FragmentHomeBarberBinding
-import com.example.barberapp.databinding.FragmentHomeClientBinding
 import com.example.barberapp.databinding.FragmentServiceItemBinding
+import java.text.DecimalFormat
 
+import kotlin.math.round
 
 class BarberServiceFragment : Fragment() {
 
@@ -80,17 +75,38 @@ class BarberServiceFragment : Fragment() {
         binding.btnCreateNewBarberService.setOnClickListener {
             findNavController().navigate(BarberServiceFragmentDirections.actionBarberServiceFragmentToCreateBarberServiceFragment())
         }
+
+        binding.btnBackBarbServToHome.setOnClickListener {
+            findNavController().navigate(BarberServiceFragmentDirections.actionBarberServiceFragmentToHomeBarberFragment())
+        }
     }
 
     // ViewHolder interno
     inner class barberServiceViewHolder(private val binding: FragmentServiceItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+
+
         fun bind(serviceDetail: BarberServiceDetail) {
+            var h = ""
+            var m = ""
+            var n = ""
+            if(serviceDetail.duration.toString().split(":")[0].toInt() != 0) {
+                h = serviceDetail.duration.toString().split(":")[0].replace("0", "") + "h"
+            }
+            if(serviceDetail.duration.toString().split(":")[1].toInt() != 0) {
+                m = serviceDetail.duration.toString().split(":")[1] + "min"
+            }
+            if(serviceDetail.duration.toString().split(":")[0].toInt() != 0 && serviceDetail.duration.toString().split(":")[1].toInt() != 0) n = "and";
+            var duration = "${h} ${n} ${m}"
+
+            var price = serviceDetail.price
+            val decimalFormat = DecimalFormat("#.00") // Garante duas casas decimais
+            val stringPrice = decimalFormat.format(price)
+
             binding.serviceNameText.text = serviceDetail.name
-            Log.d("ServiceViewHolder", "ServiceNameText set to: ${serviceDetail.name}")
-            binding.servicePriceText.text = serviceDetail.price.toString()// Ocultar preço (não relevante aqui)
-            binding.durationText.text = serviceDetail.duration.toString()     // Ocultar duração (não relevante aqui)
+            binding.servicePriceText.text = "Price: €" + stringPrice// Ocultar preço (não relevante aqui)
+            binding.durationText.text = "Duration: " + duration
         }
     }
 

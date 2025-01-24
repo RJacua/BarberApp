@@ -94,15 +94,21 @@
         <action
             android:id="@+id/action_homeBarberFragment_to_barberServiceFragment4"
             app:destination="@id/barberServiceFragment" />
+        <action
+            android:id="@+id/action_homeBarberFragment_to_scheduleFragment"
+            app:destination="@id/scheduleFragment" />
     </fragment>
     <fragment
         android:id="@+id/barberServiceFragment"
-        android:name="com.example.barberapp.BarberServiceFragment"
+        android:name="com.example.barberapp.BarberService.BarberServiceFragment"
         android:label="fragment_barber_service"
         tools:layout="@layout/fragment_barber_service" >
         <action
             android:id="@+id/action_barberServiceFragment_to_createBarberServiceFragment"
             app:destination="@id/createBarberServiceFragment" />
+        <action
+            android:id="@+id/action_barberServiceFragment_to_homeBarberFragment"
+            app:destination="@id/homeBarberFragment" />
     </fragment>
     <fragment
         android:id="@+id/createBarberServiceFragment"
@@ -115,5 +121,14 @@
         <action
             android:id="@+id/action_createBarberServiceFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/scheduleFragment"
+        android:name="com.example.barberapp.Schedule.BarberScheduleFragment"
+        android:label="fragment_schedule"
+        tools:layout="@layout/fragment_barber_schedule" >
+        <action
+            android:id="@+id/action_scheduleFragment_to_homeBarberFragment"
+            app:destination="@id/homeBarberFragment" />
     </fragment>
 </navigation>
