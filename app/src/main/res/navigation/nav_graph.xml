@@ -34,7 +34,7 @@
         tools:layout="@layout/fragment_appointment" />
     <fragment
         android:id="@+id/barberFragment"
-        android:name="com.example.barberapp.BarberFragment"
+        android:name="com.example.barberapp.ChooseBarber.BarberFragment"
         android:label="fragment_barber"
         tools:layout="@layout/fragment_barber" />
     <fragment
@@ -44,9 +44,9 @@
         tools:layout="@layout/fragment_barber_shop" />
     <fragment
         android:id="@+id/serviceFragment"
-        android:name="com.example.barberapp.Service.ServiceFragment"
+        android:name="com.example.barberapp.ChooseService.ChooseServiceFragment"
         android:label="fragment_service"
-        tools:layout="@layout/fragment_service" />
+        tools:layout="@layout/fragment_choose_service" />
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.barberapp.Login.LoginFragment"
