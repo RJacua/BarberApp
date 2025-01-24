@@ -1,15 +1,12 @@
-package com.example.barberapp.Service
+package com.example.barberapp.ChooseService
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.viewModelScope
 import com.example.barberapp.data.AppDatabase
 import com.example.barberapp.data.Service
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
-class ServiceViewModel(application: Application) : AndroidViewModel(application) {
+class ChooseServiceViewModel(application: Application) : AndroidViewModel(application) {
 
     private val serviceDao = AppDatabase(application).serviceDao()
 

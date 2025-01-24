@@ -16,4 +16,7 @@ interface BarberShopDao {
     // Função para inserir uma lista de barbearias
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(barbershops: List<Barbershop>)
+
+    @Query("SELECT * FROM barbershops WHERE barbershopId = :id")
+    fun getBarbershopById(id: Int): LiveData<Barbershop?>
 }

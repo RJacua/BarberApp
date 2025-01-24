@@ -1,4 +1,4 @@
-package com.example.barberapp.Service
+package com.example.barberapp.ChooseService
 
 import android.os.Bundle
 import android.util.Log
@@ -12,20 +12,20 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.barberapp.data.Service
-import com.example.barberapp.databinding.FragmentServiceBinding
+import com.example.barberapp.databinding.FragmentChooseServiceBinding
 import com.example.barberapp.databinding.FragmentServiceItemBinding
 
-class ServiceFragment : Fragment() {
+class ChooseServiceFragment : Fragment() {
 
-    private val viewModel by viewModels<ServiceViewModel>()
+    private val viewModel by viewModels<ChooseServiceViewModel>()
 
-    private lateinit var binding: FragmentServiceBinding
+    private lateinit var binding: FragmentChooseServiceBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentServiceBinding.inflate(inflater, container, false)
+        binding = FragmentChooseServiceBinding.inflate(inflater, container, false)
         return binding.root
     }
 
