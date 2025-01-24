@@ -61,7 +61,7 @@ data class Service(
             entity = Service::class,
             parentColumns = ["serviceId"],
             childColumns = ["serviceId"],
-            onDelete = ForeignKey.CASCADE
+            //onDelete = ForeignKey.CASCADE
         )
     ]
 )

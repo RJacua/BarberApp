@@ -70,7 +70,18 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
      * Retorna o ID do barbeiro logado, se houver.
      */
     fun getLoggedInBarberId(): Int? {
-        return _loggedInBarber.value?.barberId
+        // Primeiro, tentamos pegar o ID do SharedPreferences diretamente
+        val barberId = sharedPreferences.getInt("barber_id", -1)
+
+        // Verificamos se o valor recuperado é válido
+        if (barberId != -1) {
+            return barberId
+        }
+
+        // null, caso não tenha um barbeiro logado
+        return null
+        /*Log.d("_loggedInBarber2", _loggedInBarber.value?.barberId.toString())
+        return _loggedInBarber.value?.barberId*/
     }
 
     /**
@@ -94,6 +105,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
      * Salvar o estado do barbeiro logado no SharedPreferences
      */
     private fun saveLoggedInBarber(barber: Barber) {
+        Log.d("_loggedInBarber", barber.barberId.toString())
         sharedPreferences.edit()
             .putInt("barber_id", barber.barberId)
             .apply()
