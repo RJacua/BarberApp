@@ -17,7 +17,6 @@ import java.sql.Time
 
 class CreateBarberServiceViewModel(application: Application) : AndroidViewModel(application) {
     private val database = AppDatabase(getApplication())
-    private val CreateBarberServiceFragment = CreateBarberServiceViewModel(application) // Instância do LoginViewModel
 
     fun registerBarberService(
         barberId: Int,
@@ -28,10 +27,10 @@ class CreateBarberServiceViewModel(application: Application) : AndroidViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             database.barberserviceDao().insert(
                 BarberService(
-                    barberId = 0,
-                    serviceId = 0,
-                    duration = Time.valueOf("01:30:00"),
-                    price = 1.50
+                    barberId = barberId,
+                    serviceId = serviceId,
+                    duration = duration,
+                    price = price
                 )
             )
             logAllBarberServices() // Console log todos os clientes após a inserção
@@ -43,7 +42,7 @@ class CreateBarberServiceViewModel(application: Application) : AndroidViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             val barberServices = database.barberserviceDao().getAllBarberServices()
             barberServices.forEach {
-                Log.d("RegisterBarberService", "Id: ${it.barberServiceId}, BarberId: ${it.barberId}, ServiceId: ${it.serviceId}")
+                Log.d("RegisterBarberService", "Id: ${it.barberServiceId}, BarberId: ${it.barberId}, ServiceId: ${it.serviceId}, Price: ${it.price}")
             }
         }
     }
