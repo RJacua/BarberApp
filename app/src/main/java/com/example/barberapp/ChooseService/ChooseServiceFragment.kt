@@ -72,6 +72,11 @@ class ChooseServiceFragment : Fragment() {
         // Observar os dados do ViewModel
         viewModelBarberService.services.observe(viewLifecycleOwner) { services ->
             Log.d("ServiceFragment", "Services loaded: ${services.size}")
+
+            // Atualizar os serviços já selecionados na lista
+            selectedServiceIds.clear()
+            selectedServiceIds.addAll(UserSession.selectedServiceIds) // Preencher com os valores da variável global
+
             adapter.submitList(services)
         }
 

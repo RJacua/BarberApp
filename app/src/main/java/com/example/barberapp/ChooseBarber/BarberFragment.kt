@@ -63,7 +63,15 @@ class BarberFragment : Fragment() {
 
         // Observar os dados do ViewModel
         viewModel.barbers.observe(viewLifecycleOwner) { barbers ->
-            Log.d("BarberFragment", "Barbers loaded: ${barbers.size}")
+            // Verificar se há um ID de barbeiro previamente selecionado
+            val savedId = UserSession.selectedBarberId
+            if (savedId != null) {
+                // Encontrar a posição correspondente
+                selectedPosition = barbers.indexOfFirst { it.barberId == savedId }
+                if (selectedPosition != RecyclerView.NO_POSITION) {
+                    selectedBarber = barbers[selectedPosition]
+                }
+            }
             adapter.submitList(barbers)
         }
 

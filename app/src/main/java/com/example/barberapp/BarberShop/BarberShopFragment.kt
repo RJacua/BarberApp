@@ -59,6 +59,15 @@ class BarberShopFragment : Fragment() {
 
         // Observar os dados do ViewModel e atualizá-los no RecyclerView
         viewModel.barbershops.observe(viewLifecycleOwner) { barbershops ->
+            // Verificar se há um ID de barbearia previamente selecionado
+            val savedId = UserSession.selectedBarberShopId
+            if (savedId != null) {
+                // Encontrar a posição correspondente
+                selectedPosition = barbershops.indexOfFirst { it.barbershopId == savedId }
+                if (selectedPosition != RecyclerView.NO_POSITION) {
+                    selectedBarbershop = barbershops[selectedPosition]
+                }
+            }
             adapter.submitList(barbershops)
         }
 
