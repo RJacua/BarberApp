@@ -33,7 +33,7 @@ class HomeBarberFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Acessar informações do barbeiro logado pelo LoginViewModel
-        val barberId = loginViewModel.getLoggedInBarberId()
+        val barberId = UserSession.loggedInBarber?.barberId;
 
         if (barberId != null) {
             val barber = UserSession.loggedInBarber

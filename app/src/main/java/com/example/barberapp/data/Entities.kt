@@ -71,7 +71,8 @@ data class BarberService(
     val barberId: Int,
     val serviceId: Int,
     val duration: Time,
-    val price: Double
+    val price: Double,
+    val isActive: Boolean
 )
 
 // Tabela BarberSchedule
@@ -117,7 +118,7 @@ data class Client(
             entity = BarberService::class,
             parentColumns = ["barberServiceId"],
             childColumns = ["barberServiceId"],
-            onDelete = ForeignKey.CASCADE
+            //onDelete = ForeignKey.CASCADE
         )
         /*,ForeignKey(
             entity = Barber::class,

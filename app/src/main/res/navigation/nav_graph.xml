@@ -76,6 +76,9 @@
         <action
             android:id="@+id/action_registerFragment_to_homeBarberFragment"
             app:destination="@id/homeBarberFragment" />
+        <action
+            android:id="@+id/action_registerFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeBarberFragment"
@@ -127,6 +130,9 @@
         <action
             android:id="@+id/action_createBarberServiceFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <argument
+            android:name="serviceId"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/scheduleFragment"

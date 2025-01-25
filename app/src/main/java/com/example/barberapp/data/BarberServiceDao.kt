@@ -1,27 +1,32 @@
 package com.example.barberapp.data
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
-import androidx.room.Delete
+import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
+import java.sql.Time
 
 @Dao
-interface BarberServiceDao: BaseDao<BarberService> {
+interface BarberServiceDao : BaseDao<BarberService> {
 
-    @Query("""
+    @Query(
+        """
         SELECT * FROM services 
         INNER JOIN barber_services 
         ON services.serviceId = barber_services.serviceId 
         WHERE barber_services.barberId = :barberId
-    """)
+    """
+    )
     fun getServicesByBarber(barberId: Int): List<Service>
 
-    @Query("""
+    @Query(
+        """
         SELECT * FROM barbers 
         INNER JOIN barber_services 
         ON barbers.barberId = barber_services.barberId 
         WHERE barber_services.serviceId = :serviceId
-    """)
+    """
+    )
     fun getBarbersByService(serviceId: Int): List<Barber>
 
     @Query("DELETE FROM barber_services WHERE barberId = :barberId")
@@ -30,12 +35,15 @@ interface BarberServiceDao: BaseDao<BarberService> {
     @Query("DELETE FROM barber_services WHERE serviceId = :serviceId")
     fun deleteBarbersByService(serviceId: Int)
 
-    @Query("""
+    @Query(
+        """
         SELECT * FROM barber_services
-    """)
+    """
+    )
     fun getAllBarberServices(): List<BarberService>
 
-    @Query("""
+    @Query(
+        """
         SELECT 
             services.serviceId AS serviceId,
             services.name AS name,
@@ -46,8 +54,25 @@ interface BarberServiceDao: BaseDao<BarberService> {
         INNER JOIN barber_services 
         ON services.serviceId = barber_services.serviceId
         WHERE barber_services.barberId = :barberId
-    """)
+    """
+    )
     fun getDetailedServicesByBarber(barberId: Int): List<BarberServiceDetail>
+
+    // Método para inserir múltiplos registros com anotação válida do Room
+    @Insert
+    fun insertAll(barberServices: List<BarberService>)
+
+    @Query(
+        """
+    SELECT * FROM barber_services
+    WHERE barberId = :barberId AND serviceId = :serviceId
+    LIMIT 1
+    """
+    )
+    fun getBarberServiceById(barberId: Int, serviceId: Int): BarberService?
+
+
+
 
 
 }

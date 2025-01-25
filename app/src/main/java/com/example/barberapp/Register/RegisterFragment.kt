@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.barberapp.UserSession
 import com.example.barberapp.databinding.FragmentRegisterBinding
 
 class RegisterFragment : Fragment() {
@@ -99,9 +100,10 @@ class RegisterFragment : Fragment() {
 
         if (isBarber) {
             // Registro de barbeiro com callback
-            viewModel.registerBarber(name, email, password, "algo",barbershopIdDrop!!) { isLoggedIn ->
+            viewModel.registerBarber(name, email, password, "algo", barbershopIdDrop!!) { isLoggedIn ->
                 if (isLoggedIn) {
                     // Sucesso no login e registro, navega para o HomeBarberFragment
+                    viewModel.createDefaultServicesForBarber(UserSession.loggedInBarber!!.barberId)
                     findNavController().navigate(RegisterFragmentDirections.actionRegisterFragmentToHomeBarberFragment())
                 } else {
                     // Falha no login

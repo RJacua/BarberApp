@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.barberapp.Login.LoginViewModel
+import com.example.barberapp.UserSession
 import com.example.barberapp.databinding.FragmentBarberScheduleBinding
 
 class BarberScheduleFragment : Fragment() {
@@ -37,7 +38,7 @@ class BarberScheduleFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Verifica se o barbeiro está logado
-        val barberId = loginViewModel.getLoggedInBarberId()
+        val barberId = UserSession.loggedInBarber?.barberId;
         if (barberId == null) {
             // Redireciona para a tela de login se o barbeiro não estiver logado
             findNavController().navigate(BarberScheduleFragmentDirections.actionScheduleFragmentToLoginFragment())

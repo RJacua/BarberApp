@@ -1,5 +1,6 @@
 package com.example.barberapp
 
+import android.util.Log
 import com.example.barberapp.data.Barber
 import com.example.barberapp.data.Client
 import com.example.barberapp.data.Service
@@ -43,13 +44,13 @@ object UserSession {
         selectedServiceIds.clear()
 
         // Para garantir a limpeza, log tudo após o reset
-        println("UserSession: Session cleared.")
-        println("Current state: BarberShopId=$selectedBarberShopId, BarberId=$loggedInBarber, Services=$selectedServiceIds")
+        Log.d("ClearSession","UserSession: Session cleared.")
+        Log.d("ClearSession","Current state: BarberShopId=$selectedBarberShopId, BarberId=$loggedInBarber, Services=$selectedServiceIds")
     }
 
     // Log para acompanhar o estado
     fun logSession(message: String) {
-        println("UserSession: $message")
-        println("Current state: BarberShopId=$selectedBarberShopId, BarberId=$selectedBarberId, Services=$selectedServiceIds")
+        Log.d("ClearSession","UserSession: $message")
+        Log.d("ClearSession","Current state: BarberShopId=$selectedBarberShopId, BarberId=$selectedBarberId, Services=$selectedServiceIds")
     }
 }

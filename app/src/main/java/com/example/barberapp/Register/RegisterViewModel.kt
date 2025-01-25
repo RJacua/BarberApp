@@ -9,11 +9,13 @@ import com.example.barberapp.Login.LoginViewModel
 import com.example.barberapp.UserSession
 import com.example.barberapp.data.AppDatabase
 import com.example.barberapp.data.Barber
+import com.example.barberapp.data.BarberService
 import com.example.barberapp.data.Barbershop
 import com.example.barberapp.data.Client
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.sql.Time
 
 class RegisterViewModel(application: Application) : AndroidViewModel(application) {
     private val database = AppDatabase(getApplication())
@@ -77,10 +79,11 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
             // Limpa a sessão antes de logar
             UserSession.clearSession()
 
-            // Realizar login automaticamente após o registro
+            // Criar os serviços default e realizar login
             val barber = database.barberDao().getAllBarbersList()
                 .find { it.email == email && it.password == password }
             if (barber != null) {
+                createDefaultServicesForBarber(barber.barberId)
                 UserSession.loggedInBarber = barber // Atualiza o UserSession com o novo barbeiro
             }
 
@@ -88,6 +91,25 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
                 callback(barber != null) // Sucesso se o barbeiro foi encontrado
             }
         }
+    }
+
+    // Criar serviços padrão
+     fun createDefaultServicesForBarber(barberId: Int) {
+        val services = listOf(
+            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 // IDs dos serviços
+        )
+
+        val barberServices = services.map { serviceId ->
+            BarberService(
+                barberId = barberId,
+                serviceId = serviceId,
+                duration = Time.valueOf("00:00:00"), // Duração padrão como null
+                price = 0.0, // Preço padrão como 0.0
+                isActive = false // Inativo por padrão
+            )
+        }
+
+        database.barberserviceDao().insertAll(barberServices)
     }
 
     private fun logAllClients() {

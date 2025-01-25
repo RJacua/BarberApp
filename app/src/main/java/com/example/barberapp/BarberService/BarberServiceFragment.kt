@@ -16,10 +16,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.barberapp.Login.LoginViewModel
 import com.example.barberapp.data.BarberServiceDetail
 import com.example.barberapp.databinding.FragmentBarberServiceBinding
+import com.example.barberapp.databinding.FragmentBarberServiceItemBinding
 import com.example.barberapp.databinding.FragmentServiceItemBinding
 import java.text.DecimalFormat
-
-import kotlin.math.round
 
 class BarberServiceFragment : Fragment() {
 
@@ -48,17 +47,17 @@ class BarberServiceFragment : Fragment() {
         viewModel.loadBarberServices(barberId!!)
 
         binding.barberServiceList.layoutManager = LinearLayoutManager(requireContext())
-        val adapter = object : ListAdapter<BarberServiceDetail, barberServiceViewHolder>(barberServiceDiffer) {
-            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): barberServiceViewHolder {
-                val itemBinding = FragmentServiceItemBinding.inflate(
+        val adapter = object : ListAdapter<BarberServiceDetail, BarberServiceViewHolder>(barberServiceDiffer) {
+            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BarberServiceViewHolder {
+                val itemBinding = FragmentBarberServiceItemBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false
                 )
-                return barberServiceViewHolder(itemBinding)
+                return BarberServiceViewHolder(itemBinding)
             }
 
-            override fun onBindViewHolder(holder: barberServiceViewHolder, position: Int) {
+            override fun onBindViewHolder(holder: BarberServiceViewHolder, position: Int) {
                 holder.bind(getItem(position))
             }
         }
@@ -72,41 +71,47 @@ class BarberServiceFragment : Fragment() {
             adapter.submitList(services)
         }
 
-        binding.btnCreateNewBarberService.setOnClickListener {
-            findNavController().navigate(BarberServiceFragmentDirections.actionBarberServiceFragmentToCreateBarberServiceFragment())
-        }
-
         binding.btnBackBarbServToHome.setOnClickListener {
             findNavController().navigate(BarberServiceFragmentDirections.actionBarberServiceFragmentToHomeBarberFragment())
         }
     }
 
     // ViewHolder interno
-    inner class barberServiceViewHolder(private val binding: FragmentServiceItemBinding) :
+    inner class BarberServiceViewHolder(private val binding: FragmentBarberServiceItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-
-
 
         fun bind(serviceDetail: BarberServiceDetail) {
             var h = ""
             var m = ""
             var n = ""
-            if(serviceDetail.duration.toString().split(":")[0].toInt() != 0) {
+            if (serviceDetail.duration.toString().split(":")[0].toInt() != 0) {
                 h = serviceDetail.duration.toString().split(":")[0].replace("0", "") + "h"
             }
-            if(serviceDetail.duration.toString().split(":")[1].toInt() != 0) {
+            if (serviceDetail.duration.toString().split(":")[1].toInt() != 0) {
                 m = serviceDetail.duration.toString().split(":")[1] + "min"
             }
-            if(serviceDetail.duration.toString().split(":")[0].toInt() != 0 && serviceDetail.duration.toString().split(":")[1].toInt() != 0) n = "and";
-            var duration = "${h} ${n} ${m}"
+            if (serviceDetail.duration.toString().split(":")[0].toInt() != 0 &&
+                serviceDetail.duration.toString().split(":")[1].toInt() != 0
+            ) n = "and"
+            val duration = "$h $n $m"
 
-            var price = serviceDetail.price
+            val price = serviceDetail.price
             val decimalFormat = DecimalFormat("#.00") // Garante duas casas decimais
             val stringPrice = decimalFormat.format(price)
 
             binding.serviceNameText.text = serviceDetail.name
-            binding.servicePriceText.text = "Price: €" + stringPrice// Ocultar preço (não relevante aqui)
-            binding.durationText.text = "Duration: " + duration
+            binding.servicePriceText.text = "Price: €$stringPrice"
+            binding.durationText.text = "Duration: $duration"
+
+            // Configura o botão Edit
+            binding.btnEditService.visibility = View.VISIBLE
+            binding.btnEditService.setOnClickListener {
+                val action = BarberServiceFragmentDirections
+                    .actionBarberServiceFragmentToCreateBarberServiceFragment(
+                        serviceId = serviceDetail.serviceId
+                    )
+                findNavController().navigate(action)
+            }
         }
     }
 

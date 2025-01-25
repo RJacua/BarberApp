@@ -13,86 +13,113 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.barberapp.Login.LoginViewModel
 import com.example.barberapp.Register.CreateBarberServiceViewModel
+import com.example.barberapp.UserSession
 import com.example.barberapp.databinding.FragmentCreateBarberServiceBinding
 import java.sql.Time
 
 class CreateBarberServiceFragment : Fragment() {
 
     private lateinit var binding: FragmentCreateBarberServiceBinding
-    private val viewModel: CreateBarberServiceViewModel by viewModels { ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application) }
-
+    private val viewModel: CreateBarberServiceViewModel by viewModels {
+        ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
+    }
     private val loginViewModel: LoginViewModel by activityViewModels()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentCreateBarberServiceBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        loginViewModel.loggedInBarber.observe(viewLifecycleOwner) { barber ->
-            if (barber != null) {
-                Log.d("CreateBarberServiceFragment", "Barbeiro logado com ID: ${barber.barberId}")
-                setupNumberPickers()
-                setupBarberServiceCreation(barber.barberId)
-            } else {
-                Log.e("CreateBarberServiceFragment", "Nenhum usuário logado!")
-                findNavController().navigate(CreateBarberServiceFragmentDirections.actionCreateBarberServiceFragmentToLoginFragment())
-            }
+        // Recuperar o argumento serviceId
+        val args = CreateBarberServiceFragmentArgs.fromBundle(requireArguments())
+        val serviceId = args.serviceId
+
+        // Recuperar o barberId do barbeiro logado
+        val barberId = loginViewModel.getLoggedInBarberId()
+
+        if (barberId != null) {
+            // Carregar informações do serviço para edição
+            viewModel.loadService(barberId, serviceId)
+            observeServiceData(serviceId)
+        } else {
+            Log.e("CreateBarberService", "Nenhum barbeiro logado!")
+            findNavController().navigate(
+                CreateBarberServiceFragmentDirections.actionCreateBarberServiceFragmentToLoginFragment()
+            )
+        }
+
+        setupNumberPickers()
+
+        binding.btnCancelBarberServiceCreation.setOnClickListener {
+            findNavController().navigateUp()
         }
     }
 
     private fun setupNumberPickers() {
-        val numberPickerHours = binding.pickerHours
-        numberPickerHours.minValue = 0
-        numberPickerHours.maxValue = 4
-        numberPickerHours.wrapSelectorWheel = true
+        binding.pickerHours.apply {
+            minValue = 0
+            maxValue = 4
+        }
 
-        val numberPickerMinutes = binding.pickerMinutes
-        val minuteValues = arrayOf("0", "15", "30", "45")
-        numberPickerMinutes.minValue = 0
-        numberPickerMinutes.maxValue = minuteValues.size - 1
-        numberPickerMinutes.displayedValues = minuteValues
-        numberPickerMinutes.wrapSelectorWheel = true
+        binding.pickerMinutes.apply {
+            minValue = 0
+            maxValue = 3
+            displayedValues = arrayOf("0", "15", "30", "45")
+        }
     }
 
-    private fun setupBarberServiceCreation(barberId: Int) {
+    private fun observeServiceData(serviceId: Int) {
+        viewModel.loadServiceName(serviceId)
+
+
+        viewModel.serviceName.observe(viewLifecycleOwner) { serviceName ->
+            binding.textServiceName.text = serviceName ?: "Unknown Service"
+        }
+
+
+        // Observar os dados do serviço do barbeiro
+        viewModel.service.observe(viewLifecycleOwner) { barberService ->
+            if (barberService != null) {
+                // Preencher os campos com as informações do serviço
+                binding.pickerHours.value = barberService.duration.hours
+                binding.pickerMinutes.value =
+                    barberService.duration.minutes / 15 // Ajusta para os valores do NumberPicker
+                binding.priceInput.setText(barberService.price.toString())
+                binding.tglActiveService.isChecked = barberService.isActive
+
+                // Configurar botão de salvar
+                setupSaveButton(barberService.barberId, barberService.serviceId)
+            } else {
+                Log.e("CreateBarberService", "Serviço não encontrado!")
+                Toast.makeText(
+                    requireContext(), "Erro ao carregar informações do serviço.", Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
+
+    private fun setupSaveButton(barberId: Int, serviceId: Int) {
         binding.btnCreateBarberService.setOnClickListener {
             val hours = binding.pickerHours.value
             val minutes = binding.pickerMinutes.displayedValues[binding.pickerMinutes.value].toInt()
+            val duration = Time.valueOf("$hours:$minutes:00")
+            val price = binding.priceInput.text.toString().toDoubleOrNull() ?: 0.0
+            val isActive = binding.tglActiveService.isChecked
 
-
-            val serviceId = binding.servicesDrop.selectedItem.toString().toInt()
-            val duration = "$hours:$minutes:00"
-            val price: Double = if (binding.priceInput.toString() == "") {
-                Log.d("CreateBarberServiceFragment", "Price Input Vazio")
-                0.0 // Valor padrão se o campo estiver vazio
-            } else {
-                try {
-                    Log.d("CreateBarberServiceFragment", "O preço é ${binding.priceInput}")
-                    binding.priceInput.text.toString().trim().replace(',', '.').toDouble() // Tente converter para Double
-                } catch (e: NumberFormatException) {
-                    Log.e("CreateBarberServiceFragment", "Erro ao converter o preço: $binding.priceInput", e)
-                    0.0 // Valor padrão se a conversão falhar
-                }
-            }
-
-            Log.d("CreateBarberServiceFragment", "Criando serviço para barberId: $barberId com duração: $duration")
-            viewModel.registerBarberService(barberId = barberId, serviceId = serviceId, duration = Time.valueOf(duration), price = price)
-            Toast.makeText(context, "Serviço criado com sucesso!", Toast.LENGTH_SHORT).show()
-
-            findNavController().navigate(CreateBarberServiceFragmentDirections.actionCreateBarberServiceFragmentToBarberServiceFragment())
-        }
-
-        binding.btnCancelBarberServiceCreation.setOnClickListener {
-            findNavController().navigate(CreateBarberServiceFragmentDirections.actionCreateBarberServiceFragmentToBarberServiceFragment())
+            // Atualizar serviço existente
+            viewModel.updateBarberService(barberId, serviceId, duration, price, isActive)
+            Toast.makeText(
+                requireContext(), "Serviço atualizado com sucesso!", Toast.LENGTH_SHORT
+            ).show()
+            findNavController().navigateUp()
         }
     }
-
 }
+
+
+

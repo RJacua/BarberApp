@@ -1,5 +1,7 @@
 package com.example.barberapp.Login
 
+import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -27,6 +29,15 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
+
+        val sharedPreferences = requireContext().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+        val isKeepLoggedIn = sharedPreferences.getBoolean("keep_logged_in", false) // Correção
+
+        if (!isKeepLoggedIn) {
+            sharedPreferences.edit().clear().apply()
+            UserSession.clearSession()
+        }
+
         return binding.root
     }
 
@@ -40,6 +51,8 @@ class LoginFragment : Fragment() {
             this,
             ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
         )[LoginViewModel::class.java]
+
+        Log.d("Login", "O user assim q entra no app: ${UserSession.loggedInBarber?.barberId}")
 
         // Redirecionar para Home se o usuário já estiver logado
         if(UserSession.loggedInBarber != null || UserSession.loggedInClient != null){
@@ -58,9 +71,17 @@ class LoginFragment : Fragment() {
             }
         }
 
+        binding.signupbtn.setOnClickListener() {
+            findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToRegisterFragment())
+        }
+
         binding.checkboxKeepLogged.setOnCheckedChangeListener { _, isChecked ->
             UserSession.isKeepLoggedIn = isChecked // Atualiza o estado global
+            val sharedPreferences = requireContext().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+            sharedPreferences.edit().putBoolean("keep_logged_in", isChecked).apply()
         }
+
+
     }
 
     private fun redirectToHome() {
