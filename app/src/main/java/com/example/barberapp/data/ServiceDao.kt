@@ -19,5 +19,8 @@ interface ServiceDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(services: List<Service>)
 
+    @Query("SELECT * FROM services WHERE serviceId IN (:ids)")
+    fun getServicesByIds(ids: List<Int>): LiveData<List<Service>>
+
 }
 

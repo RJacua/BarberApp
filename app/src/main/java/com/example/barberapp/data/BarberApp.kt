@@ -1,19 +1,15 @@
-package com.example.barberapp
+package com.example.barberapp.data
 
 import android.app.Application
 import android.util.Log
-import com.example.barberapp.data.AppDatabase
-import com.example.barberapp.data.Barbershop
-import com.example.barberapp.data.Service
+import com.example.barberapp.R
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.BufferedReader
 
 class BarberApp : Application() {
 

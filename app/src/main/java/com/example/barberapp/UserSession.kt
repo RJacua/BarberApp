@@ -10,7 +10,7 @@ object UserSession {
     // IDs selecionados
     var selectedBarberShopId: Int? = null
     var selectedBarberId: Int? = null
-    private val selectedServiceIds = mutableListOf<Int>()
+    var selectedServiceIds = mutableListOf<Int>()
 
     // Gerenciar seleção de serviços
     fun addService(serviceId: Int) {
@@ -34,9 +34,9 @@ object UserSession {
     fun clearSession() {
         loggedInBarber = null
         loggedInClient = null
-        selectedBarberShopId = null
-        selectedBarberId = null
-        selectedServiceIds.clear()
+//        selectedBarberShopId = null
+//        selectedBarberId = null
+//        selectedServiceIds.clear()
         logSession("Session cleared.")
     }
 

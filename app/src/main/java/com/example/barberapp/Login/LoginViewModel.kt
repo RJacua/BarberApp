@@ -51,7 +51,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
         }
 
         // Verificar barbeiros
-        val barber = database.barberDao().getAllBarbers()
+        val barber = database.barberDao().getAllBarbersList()
             .find { it.email == email && it.password == password }
 
         if (barber != null) {
@@ -127,7 +127,7 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
         // Restaurar barbeiro
         val barberId = sharedPreferences.getInt("barber_id", -1)
         if (barberId != -1) {
-            val barber = database.barberDao().getBarberById(barberId)
+            val barber = database.barberDao().getBarberByIdLogin(barberId)
             if (barber != null) {
                 _loggedInBarber.postValue(barber)
                 UserSession.loggedInBarber = barber // Atualizar o UserSession

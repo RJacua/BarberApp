@@ -77,6 +77,7 @@ class BarberShopFragment : Fragment() {
 //                ).show()
 
                 // Retornar ao fragmento anterior
+                UserSession.selectedBarberId = null
                 parentFragmentManager.popBackStack()
             } else {
                 // Avisar que nenhuma barbearia foi selecionada

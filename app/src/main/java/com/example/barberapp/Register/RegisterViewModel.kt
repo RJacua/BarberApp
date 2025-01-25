@@ -82,7 +82,7 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
 
     private fun logAllBarbers() {
         viewModelScope.launch(Dispatchers.IO) {
-            val barber = database.barberDao().getAllBarbers()
+            val barber = database.barberDao().getAllBarbersList()
             barber.forEach {
                 Log.d("RegisterViewModel", "Barber: ${it.name}, Email: ${it.email}, id: ${it.barberId}, shopid: ${it.barbershopId}, pass: ${it.password}")
             }
