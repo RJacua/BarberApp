@@ -82,7 +82,15 @@ class BarberFragment : Fragment() {
                 UserSession.selectedBarberId = selectedBarber?.barberId
                 // Retornar ao fragmento anterior
                 UserSession.selectedServiceIds.clear()
+                UserSession.selectedAppointmentTime = null
                 parentFragmentManager.popBackStack()
+            }
+            else{
+                Toast.makeText(
+                    requireContext(),
+                    "Selecione um barbeiro antes de salvar.",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 

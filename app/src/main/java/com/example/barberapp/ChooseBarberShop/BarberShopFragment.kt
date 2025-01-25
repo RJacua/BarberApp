@@ -89,6 +89,7 @@ class BarberShopFragment : Fragment() {
                 // Retornar ao fragmento anterior
                 UserSession.selectedBarberId = null
                 UserSession.selectedServiceIds.clear()
+                UserSession.selectedAppointmentTime = null
                 parentFragmentManager.popBackStack()
             } else {
                 // Avisar que nenhuma barbearia foi selecionada

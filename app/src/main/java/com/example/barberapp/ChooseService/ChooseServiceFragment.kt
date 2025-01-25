@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -114,13 +115,21 @@ class ChooseServiceFragment : Fragment() {
 
         // Botão para confirmar os serviços selecionados
         binding.savebtn.setOnClickListener {
-            if (selectedServiceIds != null) {
+            if (selectedServiceIds.isNotEmpty()) {
                 // Salvar no UserSession
                 UserSession.selectedServiceIds.clear()
                 UserSession.selectedServiceIds.addAll(selectedServiceIds)
 
                 //Dar clear na variável global appoitment
+                UserSession.selectedAppointmentTime = null
                 parentFragmentManager.popBackStack()
+            }
+            else{
+                Toast.makeText(
+                    requireContext(),
+                    "Selecione serviços antes de salvar.",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 

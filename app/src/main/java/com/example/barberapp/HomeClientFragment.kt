@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.barberapp.BarberShop.BarbershopViewModel
+import com.example.barberapp.ChooseBarberShop.BarbershopViewModel
 import com.example.barberapp.ChooseBarber.BarberViewModel
 import com.example.barberapp.ChooseService.ChooseServiceViewModel
 import com.example.barberapp.databinding.FragmentHomeClientBinding
@@ -32,25 +32,26 @@ class HomeClientFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        val args : HomeClientFragmentArgs by navArgs()
+        val args: HomeClientFragmentArgs by navArgs()
         binding.clientTitle.setText("Welcome " + args.loggedName)
 
         // Verificar se há uma barbearia selecionada
         if (UserSession.selectedBarberShopId != null) {
             val selectedId = UserSession.selectedBarberShopId
             // Consultar o nome da barbearia com base no ID
-            viewModelBarberShop.getBarbershopById(selectedId!!).observe(viewLifecycleOwner) { barbershop ->
-                if (barbershop != null) {
-                    binding.btnBarberShop.text = barbershop.name // Exibir o nome
-                } else {
-                    binding.btnBarberShop.text = "Select Barber Shop"
+            viewModelBarberShop.getBarbershopById(selectedId!!)
+                .observe(viewLifecycleOwner) { barbershop ->
+                    if (barbershop != null) {
+                        binding.btnBarberShop.text = barbershop.name // Exibir o nome
+                    } else {
+                        binding.btnBarberShop.text = "Select Barber Shop"
+                    }
                 }
-            }
         } else {
             binding.btnBarberShop.text = "Select Barber Shop"
         }
 
-        // Verificar se há um barbeiroselecionada
+        // Verificar se há um barbeiro selecionado
         if (UserSession.selectedBarberId != null) {
             val selectedId = UserSession.selectedBarberId
             // Consultar o nome do barbeiro com base no ID
@@ -65,28 +66,40 @@ class HomeClientFragment : Fragment() {
             binding.btnBarber.text = "Select Barber"
         }
 
+        // Verificar se há serviços selecionados
         if (UserSession.selectedServiceIds.isNotEmpty()) {
-            viewModelChooseService.getServicesByIds(UserSession.selectedServiceIds).observe(viewLifecycleOwner) { services ->
-                if (services.isNotEmpty()) {
-                    val serviceNames = services.joinToString(", ") { it.name }
-                    binding.btnServices.text = serviceNames
-                } else {
-                    binding.btnServices.text = "Select Services"
+            viewModelChooseService.getServicesByIds(UserSession.selectedServiceIds)
+                .observe(viewLifecycleOwner) { services ->
+                    if (services.isNotEmpty()) {
+                        val serviceNames = services.joinToString(", ") { it.name }
+                        binding.btnServices.text = serviceNames
+                    } else {
+                        binding.btnServices.text = "Select Services"
+                    }
                 }
-            }
         } else {
             binding.btnServices.text = "Select Services"
         }
 
+        // Verificar se há um horário selecionado
+        if (UserSession.selectedAppointmentTime != null) {
+            val selectedTime = UserSession.selectedAppointmentTime
+            val selectedDate = UserSession.selectedAppointmentDate
+            // Exibir o horário selecionado no botão
+            binding.btnAppointment.text = selectedDate + " - " +
+                selectedTime // Alterar o texto do botão para o horário selecionado
+        } else {
+            // Caso não haja horário selecionado, exibir o texto padrão
+            binding.btnAppointment.text = "Select Appointment"
+        }
 
         binding.btnBarberShop.setOnClickListener {
             findNavController().navigate(HomeClientFragmentDirections.actionHomeClientFragmentToBarberShopFragment())
         }
 
-        if (UserSession.selectedBarberShopId == null ) {
+        if (UserSession.selectedBarberShopId == null) {
             binding.btnBarber.isEnabled = false
-        }
-        else{
+        } else {
             binding.btnBarber.isEnabled = true
         }
 
@@ -94,24 +107,31 @@ class HomeClientFragment : Fragment() {
             findNavController().navigate(HomeClientFragmentDirections.actionHomeClientFragmentToBarberFragment())
         }
 
-        if (UserSession.selectedBarberId == null ) {
+        if (UserSession.selectedBarberId == null) {
             binding.btnServices.isEnabled = false
-        }
-        else{
+        } else {
             binding.btnServices.isEnabled = true
         }
         binding.btnServices.setOnClickListener {
             findNavController().navigate(HomeClientFragmentDirections.actionHomeClientFragmentToServiceFragment())
         }
 
-        if (UserSession.selectedServiceIds.isEmpty() ) {
-            binding.btnappointment.isEnabled = false
+        if (UserSession.selectedServiceIds.isEmpty()) {
+            binding.btnAppointment.isEnabled = false
+        } else {
+            binding.btnAppointment.isEnabled = true
         }
-        else{
-            binding.btnappointment.isEnabled = true
-        }
-        binding.btnappointment.setOnClickListener {
+        binding.btnAppointment.setOnClickListener {
             findNavController().navigate(HomeClientFragmentDirections.actionHomeClientFragmentToAppointmentFragment())
+        }
+
+        if (UserSession.selectedAppointmentTime == null) {
+            binding.btnsave.isEnabled = false
+        } else {
+            binding.btnsave.isEnabled = true
+        }
+        binding.btnsave.setOnClickListener {
+        //Aqui deveria ser feito o insert na base de dados
         }
 
         binding.btnClientLogout.setOnClickListener {

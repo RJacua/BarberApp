@@ -52,12 +52,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Services"
-        app:layout_constraintBottom_toTopOf="@+id/btnappointment"
+        app:layout_constraintBottom_toTopOf="@+id/btnAppointment"
         app:layout_constraintTop_toBottomOf="@+id/btnBarber"
         tools:layout_editor_absoluteX="151dp" />
 
     <Button
-        android:id="@+id/btnappointment"
+        android:id="@+id/btnAppointment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Appointment"
@@ -71,6 +71,6 @@
         android:layout_height="wrap_content"
         android:text="Save"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnappointment"
+        app:layout_constraintTop_toBottomOf="@+id/btnAppointment"
         tools:layout_editor_absoluteX="150dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

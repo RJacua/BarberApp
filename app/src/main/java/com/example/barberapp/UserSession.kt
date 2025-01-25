@@ -15,6 +15,8 @@ object UserSession {
     var selectedBarberShopId: Int? = null
     var selectedBarberId: Int? = null
     var selectedServiceIds = mutableListOf<Int>()
+    var selectedAppointmentTime: String? = null
+    var selectedAppointmentDate: String? = null
 
 
     // Gerenciar seleção de serviços
@@ -36,12 +38,15 @@ object UserSession {
         return selectedServiceIds.toList()
     }
 
+
     fun clearSession() {
         loggedInClient = null
         loggedInBarber = null
         selectedBarberShopId = null
         selectedBarberId = null
         selectedServiceIds.clear()
+        selectedAppointmentTime = null
+        selectedAppointmentTime = null
 
         // Para garantir a limpeza, log tudo após o reset
         Log.d("ClearSession","UserSession: Session cleared.")
@@ -50,7 +55,12 @@ object UserSession {
 
     // Log para acompanhar o estado
     fun logSession(message: String) {
+<<<<<<< Updated upstream
         Log.d("ClearSession","UserSession: $message")
         Log.d("ClearSession","Current state: BarberShopId=$selectedBarberShopId, BarberId=$selectedBarberId, Services=$selectedServiceIds")
+=======
+        println("UserSession: $message")
+        println("Current state: BarberShopId=$selectedBarberShopId, BarberId=$selectedBarberId, Services=$selectedServiceIds, Appointment=$selectedAppointmentTime")
+>>>>>>> Stashed changes
     }
 }

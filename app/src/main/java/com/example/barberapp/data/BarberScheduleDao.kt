@@ -11,7 +11,7 @@ import androidx.room.Query
 interface BarberScheduleDao: BaseDao<BarberService> {
 
     @Query("SELECT * FROM barber_schedules WHERE barberId = :barberId")
-    fun getSchedulesByBarber(barberId: Int): List<BarberSchedule>
+    fun getSchedulesByBarber(barberId: Int): LiveData<List<BarberSchedule>>
 
     @Query("""
         SELECT * FROM barber_schedules 
@@ -31,16 +31,5 @@ interface BarberScheduleDao: BaseDao<BarberService> {
     @Query("SELECT * FROM barber_schedules WHERE barberId = :barberId")
     fun getSchedulesForBarber(barberId: Int): List<BarberSchedule>
 
-    @Dao
-    interface BarberScheduleDao {
-        @Query(
-            """
-        SELECT hours FROM barber_schedules
-        WHERE barberId = :barberId 
-        AND hours BETWEEN :startTime AND :endTime
-        """
-        )
-        fun getAvailableHours(barberId: Int, startTime: String, endTime: String): LiveData<List<String>>
-    }
 }
 
