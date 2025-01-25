@@ -1,4 +1,4 @@
-package com.example.barberapp.BarberShop
+package com.example.barberapp.ChooseBarberShop
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.barberapp.data.AppDatabase
 import com.example.barberapp.data.Barbershop
-import com.example.barberapp.data.BarberShopDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

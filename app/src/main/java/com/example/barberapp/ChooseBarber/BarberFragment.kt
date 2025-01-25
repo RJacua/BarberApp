@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
@@ -63,7 +64,15 @@ class BarberFragment : Fragment() {
 
         // Observar os dados do ViewModel
         viewModel.barbers.observe(viewLifecycleOwner) { barbers ->
-            Log.d("BarberFragment", "Barbers loaded: ${barbers.size}")
+            // Verificar se há um ID de barbeiro previamente selecionado
+            val savedId = UserSession.selectedBarberId
+            if (savedId != null) {
+                // Encontrar a posição correspondente
+                selectedPosition = barbers.indexOfFirst { it.barberId == savedId }
+                if (selectedPosition != RecyclerView.NO_POSITION) {
+                    selectedBarber = barbers[selectedPosition]
+                }
+            }
             adapter.submitList(barbers)
         }
 
@@ -75,6 +84,10 @@ class BarberFragment : Fragment() {
                 UserSession.selectedServiceIds.clear()
                 parentFragmentManager.popBackStack()
             }
+        }
+
+        binding.backBtn.setOnClickListener{
+            findNavController().navigateUp() // Volta para o fragmento anterior
         }
 
     }

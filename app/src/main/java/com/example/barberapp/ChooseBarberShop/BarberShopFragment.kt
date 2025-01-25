@@ -1,4 +1,4 @@
-package com.example.barberapp.BarberShop
+package com.example.barberapp.ChooseBarberShop
 
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -59,6 +60,15 @@ class BarberShopFragment : Fragment() {
 
         // Observar os dados do ViewModel e atualizá-los no RecyclerView
         viewModel.barbershops.observe(viewLifecycleOwner) { barbershops ->
+            // Verificar se há um ID de barbearia previamente selecionado
+            val savedId = UserSession.selectedBarberShopId
+            if (savedId != null) {
+                // Encontrar a posição correspondente
+                selectedPosition = barbershops.indexOfFirst { it.barbershopId == savedId }
+                if (selectedPosition != RecyclerView.NO_POSITION) {
+                    selectedBarbershop = barbershops[selectedPosition]
+                }
+            }
             adapter.submitList(barbershops)
         }
 
@@ -78,6 +88,7 @@ class BarberShopFragment : Fragment() {
 
                 // Retornar ao fragmento anterior
                 UserSession.selectedBarberId = null
+                UserSession.selectedServiceIds.clear()
                 parentFragmentManager.popBackStack()
             } else {
                 // Avisar que nenhuma barbearia foi selecionada
@@ -87,6 +98,10 @@ class BarberShopFragment : Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
+        }
+
+        binding.backBtn.setOnClickListener{
+            findNavController().navigateUp() // Volta para o fragmento anterior
         }
     }
 
