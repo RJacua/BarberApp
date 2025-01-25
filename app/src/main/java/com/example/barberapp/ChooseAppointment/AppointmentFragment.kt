@@ -1,6 +1,8 @@
 package com.example.barberapp.ChooseAppointment
 
+import AppointmentViewModel
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -11,6 +13,7 @@ import android.widget.Button
 import android.widget.GridLayout
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.barberapp.R
@@ -38,6 +41,7 @@ class AppointmentFragment : Fragment() {
         return binding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val barberId = UserSession.selectedBarberId!!
         val today = Calendar.getInstance()
@@ -56,19 +60,18 @@ class AppointmentFragment : Fragment() {
             val selectedDate = Calendar.getInstance().apply {
                 set(year, month, dayOfMonth)
             }
-            val dayOfWeek = selectedDate.get(Calendar.DAY_OF_WEEK) - 2 // Ajusta para seu cálculo
-            Log.d("Horario", "Novo Dia Selecionado: $dayOfWeek")
+            val dayOfWeek = selectedDate.get(Calendar.DAY_OF_WEEK) - 2 // Ajusta para sua lógica
+            val formattedDate = "${year}-${month + 1}-${dayOfMonth}" // Formato de data esperado
 
-            val formattedDate = "${year}-${month + 1}-${dayOfMonth}"
             tempSelectedDate = formattedDate // Armazena a data temporariamente
 
             // Limpar os contêineres antes de carregar os novos horários
             clearSlots()
 
             // Carregar os horários do novo dia
-
-            viewModel.loadSchedules(barberId, dayOfWeek)
+            viewModel.loadSchedules(barberId, dayOfWeek, formattedDate)
         }
+
 
         // Inicializar com o dia de hoje
         val todayYear = today.get(Calendar.YEAR)
@@ -79,7 +82,8 @@ class AppointmentFragment : Fragment() {
         // Limpar e carregar os horários para hoje
         clearSlots()
         val todayDayOfWeek = today.get(Calendar.DAY_OF_WEEK) - 2
-        viewModel.loadSchedules(barberId, todayDayOfWeek)
+        val formattedDate = "${todayYear}-${todayMonth + 1}-${todayDay}"
+        viewModel.loadSchedules(barberId, todayDayOfWeek,formattedDate)
 
 
         // Inicializar opacidade padrão
@@ -132,46 +136,60 @@ class AppointmentFragment : Fragment() {
     private fun renderSlots(slots: List<String>, container: GridLayout) {
         container.removeAllViews() // Remove botões antigos
         slots.forEach { slot ->
+            val isBlocked = slot.endsWith("*") // Indicador para bloqueado (conforme lógica do ViewModel)
+            var actualSlot = slot.removeSuffix("*") // Remove o marcador antes de exibir
+
+            actualSlot = actualSlot.split(":")[0] + ":" + actualSlot.split(":")[1]
+
+            if (actualSlot.split(":")[0] == "09") {
+                actualSlot = actualSlot.replace("09", "9")
+            }
+
+            // Se o horário está bloqueado, não cria o botão
+            if (isBlocked) return@forEach
+
             val button = Button(requireContext()).apply {
-                setBackgroundColor(Color.GRAY)
-                text = slot
+                text = actualSlot
+                setBackgroundColor(if (isBlocked) Color.LTGRAY else Color.GRAY)
+                isEnabled = !isBlocked // Desabilita clique se o horário estiver bloqueado
+
                 setOnClickListener {
-                    // Verifica se o botão clicado já está marcado
                     if (isSelected) {
                         // Se o botão já estiver marcado, desmarque-o
                         isSelected = false
-                        setBackgroundColor(Color.GRAY) // Reverte a cor para o padrão
-                        tempSelectedTime = null // Limpa o horário selecionado
-                        selectedButton = null // Limpa a referência para o botão selecionado
+                        setBackgroundColor(Color.GRAY)
+                        tempSelectedTime = null
+                        selectedButton = null
                     } else {
                         // Desmarcar o botão anterior, se existir
                         selectedButton?.isSelected = false
-                        selectedButton?.setBackgroundColor(Color.GRAY) // Reverte a cor para o padrão
+                        selectedButton?.setBackgroundColor(Color.GRAY)
 
                         // Marcar o botão atual como selecionado
                         isSelected = true
-                        setBackgroundColor(Color.parseColor("#4CAF50")) // Exemplo de cor para selecionado
+                        setBackgroundColor(Color.parseColor("#4CAF50"))
 
-                        tempSelectedTime = slot // Armazenar o horário selecionado
-
-                        // Atualizar a referência para o botão selecionado
+                        tempSelectedTime = actualSlot
                         selectedButton = this
                     }
                 }
             }
 
+
+
             // Adiciona o botão ao GridLayout
             val params = GridLayout.LayoutParams().apply {
                 width = 0
                 height = GridLayout.LayoutParams.WRAP_CONTENT
-                columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f) // Tamanho igual para todas as colunas
+                columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f)
                 rowSpec = GridLayout.spec(GridLayout.UNDEFINED)
-                setMargins(4, 4, 4, 4) // Margem entre os botões
+                setMargins(4, 4, 4, 4)
             }
             button.layoutParams = params
             container.addView(button)
         }
     }
+
 
     // Função para limpar os contêineres
     private fun clearSlots() {
