@@ -55,12 +55,9 @@ object UserSession {
 
     // Log para acompanhar o estado
     fun logSession(message: String) {
-<<<<<<< Updated upstream
+
         Log.d("ClearSession","UserSession: $message")
         Log.d("ClearSession","Current state: BarberShopId=$selectedBarberShopId, BarberId=$selectedBarberId, Services=$selectedServiceIds")
-=======
-        println("UserSession: $message")
-        println("Current state: BarberShopId=$selectedBarberShopId, BarberId=$selectedBarberId, Services=$selectedServiceIds, Appointment=$selectedAppointmentTime")
->>>>>>> Stashed changes
+
     }
 }

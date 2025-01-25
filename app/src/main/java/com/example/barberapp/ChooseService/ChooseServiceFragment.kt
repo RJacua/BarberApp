@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.barberapp.BarberService.BarberServiceFragment.barberServiceViewHolder
 import com.example.barberapp.BarberService.BarberServiceViewModel
 import com.example.barberapp.UserSession
 import com.example.barberapp.data.BarberServiceDetail

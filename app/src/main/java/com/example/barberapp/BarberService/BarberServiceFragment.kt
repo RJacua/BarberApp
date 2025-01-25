@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.barberapp.Login.LoginViewModel
+import com.example.barberapp.UserSession
 import com.example.barberapp.data.BarberServiceDetail
 import com.example.barberapp.databinding.FragmentBarberServiceBinding
 import com.example.barberapp.databinding.FragmentBarberServiceItemBinding
@@ -24,8 +25,6 @@ class BarberServiceFragment : Fragment() {
 
     private val viewModel by viewModels<BarberServiceViewModel>()
     private lateinit var binding: FragmentBarberServiceBinding
-
-    private val loginViewModel by activityViewModels<LoginViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +39,7 @@ class BarberServiceFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         // Obtém o barberId
-        val barberId = loginViewModel.getLoggedInBarberId()
+        val barberId = UserSession.loggedInBarber?.barberId;
         Log.d("Barber Login", barberId.toString())
 
         // Carrega os serviços do barbeiro

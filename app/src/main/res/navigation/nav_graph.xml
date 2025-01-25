@@ -32,7 +32,7 @@
     </fragment>
     <fragment
         android:id="@+id/appointmentFragment"
-        android:name="com.example.barberapp.AppointmentFragment"
+        android:name="com.example.barberapp.ChooseAppointment.AppointmentFragment"
         android:label="fragment_appointment"
         tools:layout="@layout/fragment_appointment" />
     <fragment
@@ -42,7 +42,7 @@
         tools:layout="@layout/fragment_barber" />
     <fragment
         android:id="@+id/barberShopFragment"
-        android:name="com.example.barberapp.BarberShop.BarberShopFragment"
+        android:name="com.example.barberapp.ChooseBarberShop.BarberShopFragment"
         android:label="fragment_barber_shop"
         tools:layout="@layout/fragment_barber_shop" />
     <fragment
