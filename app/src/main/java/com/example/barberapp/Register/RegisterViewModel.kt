@@ -3,10 +3,12 @@ package com.example.barberapp.Register
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.example.barberapp.Login.LoginViewModel
 import com.example.barberapp.data.AppDatabase
 import com.example.barberapp.data.Barber
+import com.example.barberapp.data.Barbershop
 import com.example.barberapp.data.Client
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -15,6 +17,9 @@ import kotlinx.coroutines.withContext
 class RegisterViewModel(application: Application) : AndroidViewModel(application) {
     private val database = AppDatabase(getApplication())
     private val loginViewModel = LoginViewModel(application) // Instância do LoginViewModel
+
+    // Obter todas as barbearias como LiveData
+    val barbershops: LiveData<List<Barbershop>> = database.barbershopDao().getAllBarbershops()
 
     fun registerClient(
         name: String,
