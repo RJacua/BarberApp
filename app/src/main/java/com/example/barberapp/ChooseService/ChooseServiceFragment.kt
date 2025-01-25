@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -70,14 +71,45 @@ class ChooseServiceFragment : Fragment() {
         binding.serviceList.adapter = adapter
 
         // Observar os dados do ViewModel
-        viewModelBarberService.services.observe(viewLifecycleOwner) { services ->
-            Log.d("ServiceFragment", "Services loaded: ${services.size}")
+//        viewModelBarberService.services.observe(viewLifecycleOwner) { services ->
+//            Log.d("ServiceFragment", "Services loaded: ${services.size}")
+//
+//            // Atualizar os serviços já selecionados na lista
+//            selectedServiceIds.clear()
+//            selectedServiceIds.addAll(UserSession.selectedServiceIds) // Preencher com os valores da variável global
+//
+//            adapter.submitList(services)
+//        }
 
-            // Atualizar os serviços já selecionados na lista
-            selectedServiceIds.clear()
-            selectedServiceIds.addAll(UserSession.selectedServiceIds) // Preencher com os valores da variável global
 
-            adapter.submitList(services)
+        // Observar ambos os dados
+        viewModel.services.observe(viewLifecycleOwner) { allServices ->
+            Log.d("ChooseServiceFragment", "All services: $allServices")
+
+            viewModelBarberService.services.observe(viewLifecycleOwner) { barberServices ->
+                Log.d("ChooseServiceFragment", "Barber services: $barberServices")
+                val barberServiceMap = barberServices.associateBy { it.serviceId }
+
+                val displayItems = allServices.map { service ->
+                    val barberDetail = barberServiceMap[service.serviceId]
+                    BarberServiceDetail(
+                        serviceId = service.serviceId,
+                        name = service.name,
+                        description = service.description,
+                        duration = barberDetail?.duration,
+                        price = barberDetail?.price
+                    )
+                }.sortedWith(compareByDescending { it.price != null && it.duration != null })
+
+
+                // Atualizar os serviços já selecionados na lista
+                selectedServiceIds.clear()
+                selectedServiceIds.addAll(UserSession.selectedServiceIds) // Preencher com os valores da variável global
+
+                adapter.submitList(displayItems)
+                // Forçar atualização visual do RecyclerView
+                binding.serviceList.post { adapter.notifyDataSetChanged() }
+            }
         }
 
         // Botão para confirmar os serviços selecionados
@@ -91,6 +123,10 @@ class ChooseServiceFragment : Fragment() {
                 parentFragmentManager.popBackStack()
             }
         }
+
+        binding.backBtn.setOnClickListener{
+            findNavController().navigateUp() // Volta para o fragmento anterior
+        }
     }
 
     // ViewHolder interno
@@ -98,28 +134,49 @@ class ChooseServiceFragment : Fragment() {
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(serviceDetail: BarberServiceDetail) {
-            var h = ""
-            var m = ""
-            var n = ""
-            if(serviceDetail.duration.toString().split(":")[0].toInt() != 0) {
-                h = serviceDetail.duration.toString().split(":")[0].replace("0", "") + "h"
-            }
-            if(serviceDetail.duration.toString().split(":")[1].toInt() != 0) {
-                m = serviceDetail.duration.toString().split(":")[1] + "min"
-            }
-            if(serviceDetail.duration.toString().split(":")[0].toInt() != 0 && serviceDetail.duration.toString().split(":")[1].toInt() != 0) n = "and";
-            var duration = "${h} ${n} ${m}"
+            var stringPrice = "00.00"  // Definir um valor padrão
+            var duration = "00h00min"  // Definir um valor padrão
 
-            var price = serviceDetail.price
-            val decimalFormat = DecimalFormat("#.00") // Garante duas casas decimais
-            val stringPrice = decimalFormat.format(price)
+            // Verifique se price e duration não são null
+            val isAvailable = serviceDetail.price != null && serviceDetail.duration != null
+            if (isAvailable) {
+                var h = ""
+                var m = ""
+                var n = ""
 
+                // Lógica para manipulação de duration
+                if (serviceDetail.duration.toString().split(":")[0].toInt() != 0) {
+                    h = serviceDetail.duration.toString().split(":")[0].replace("0", "") + "h"
+                }
+                if (serviceDetail.duration.toString().split(":")[1].toInt() != 0) {
+                    m = serviceDetail.duration.toString().split(":")[1] + "min"
+                }
+                if (serviceDetail.duration.toString()
+                        .split(":")[0].toInt() != 0 && serviceDetail.duration.toString()
+                        .split(":")[1].toInt() != 0
+                ) {
+                    n = "and"
+                }
+                duration = "$h $n $m"
+
+                // Formatação do preço
+                val decimalFormat = DecimalFormat("#.00") // Garante duas casas decimais
+                stringPrice = decimalFormat.format(serviceDetail.price)
+            }
+
+            // Atualizar a interface com os valores processados
             binding.serviceNameText.text = serviceDetail.name
-            binding.servicePriceText.text = "Price: €" + stringPrice
-            binding.durationText.text = "Duration: " + duration
+            binding.servicePriceText.text = "Price: €$stringPrice"
+            binding.durationText.text = "Duration: $duration"
+
+            // Define se o item está ativo ou inativo com base nos valores de preço e duração
+            binding.root.isEnabled = isAvailable
+            // Ajuste no alpha para garantir que a opacidade seja aplicada corretamente
+            binding.root.alpha = if (isAvailable) 1f else 0.5f
 
             // Atualizar visual com base na seleção
-            binding.itemContainerService.isSelected = selectedServiceIds.contains(serviceDetail.serviceId)
+            binding.itemContainerService.isSelected =
+                selectedServiceIds.contains(serviceDetail.serviceId)
 
             // Clique para adicionar/remover da seleção
             binding.root.setOnClickListener {
@@ -130,7 +187,8 @@ class ChooseServiceFragment : Fragment() {
                 }
 
                 // Atualizar o visual do item
-                binding.itemContainerService.isSelected = selectedServiceIds.contains(serviceDetail.serviceId)
+                binding.itemContainerService.isSelected =
+                    selectedServiceIds.contains(serviceDetail.serviceId)
             }
         }
     }

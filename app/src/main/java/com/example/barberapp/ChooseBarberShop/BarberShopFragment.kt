@@ -1,4 +1,4 @@
-package com.example.barberapp.BarberShop
+package com.example.barberapp.ChooseBarberShop
 
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -87,6 +88,7 @@ class BarberShopFragment : Fragment() {
 
                 // Retornar ao fragmento anterior
                 UserSession.selectedBarberId = null
+                UserSession.selectedServiceIds.clear()
                 parentFragmentManager.popBackStack()
             } else {
                 // Avisar que nenhuma barbearia foi selecionada
@@ -96,6 +98,10 @@ class BarberShopFragment : Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
+        }
+
+        binding.backBtn.setOnClickListener{
+            findNavController().navigateUp() // Volta para o fragmento anterior
         }
     }
 

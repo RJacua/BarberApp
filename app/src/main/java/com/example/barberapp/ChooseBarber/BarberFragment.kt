@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
@@ -83,6 +84,10 @@ class BarberFragment : Fragment() {
                 UserSession.selectedServiceIds.clear()
                 parentFragmentManager.popBackStack()
             }
+        }
+
+        binding.backBtn.setOnClickListener{
+            findNavController().navigateUp() // Volta para o fragmento anterior
         }
 
     }
