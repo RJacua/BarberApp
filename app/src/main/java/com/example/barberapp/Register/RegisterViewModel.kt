@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.example.barberapp.Login.LoginViewModel
+import com.example.barberapp.UserSession
 import com.example.barberapp.data.AppDatabase
 import com.example.barberapp.data.Barber
 import com.example.barberapp.data.Barbershop
@@ -16,7 +17,6 @@ import kotlinx.coroutines.withContext
 
 class RegisterViewModel(application: Application) : AndroidViewModel(application) {
     private val database = AppDatabase(getApplication())
-    private val loginViewModel = LoginViewModel(application) // Instância do LoginViewModel
 
     // Obter todas as barbearias como LiveData
     val barbershops: LiveData<List<Barbershop>> = database.barbershopDao().getAllBarbershops()
@@ -37,12 +37,19 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
                     phone = phone
                 )
             )
-            logAllClients() // Console log todos os clientes após a inserção
+            logAllClients()
+
+            // Limpa a sessão antes de logar
+            UserSession.clearSession()
 
             // Realizar login automaticamente após o registro
-            val loginResult = loginViewModel.login(email, password)
+            val client = database.clientDao().getAllClients().find { it.email == email && it.password == password }
+            if (client != null) {
+                UserSession.loggedInClient = client // Atualiza o UserSession com o novo cliente
+            }
+
             withContext(Dispatchers.Main) {
-                callback(loginResult != null) // Sucesso se loginResult não for null
+                callback(client != null) // Sucesso se o cliente foi encontrado
             }
         }
     }
@@ -65,13 +72,20 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
                     barbershopId = barbershopId
                 )
             )
+            logAllBarbers()
 
-            logAllBarbers() // Console log todos os clientes após a inserção
+            // Limpa a sessão antes de logar
+            UserSession.clearSession()
 
             // Realizar login automaticamente após o registro
-            val loginResult = loginViewModel.login(email, password)
+            val barber = database.barberDao().getAllBarbersList()
+                .find { it.email == email && it.password == password }
+            if (barber != null) {
+                UserSession.loggedInBarber = barber // Atualiza o UserSession com o novo barbeiro
+            }
+
             withContext(Dispatchers.Main) {
-                callback(loginResult != null) // Sucesso se loginResult não for null
+                callback(barber != null) // Sucesso se o barbeiro foi encontrado
             }
         }
     }
@@ -87,11 +101,15 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
 
     private fun logAllBarbers() {
         viewModelScope.launch(Dispatchers.IO) {
-            val barber = database.barberDao().getAllBarbersList()
-            barber.forEach {
-                Log.d("RegisterViewModel", "Barber: ${it.name}, Email: ${it.email}, id: ${it.barberId}, shopid: ${it.barbershopId}, pass: ${it.password}")
+            val barbers = database.barberDao().getAllBarbersList()
+            barbers.forEach {
+                Log.d(
+                    "RegisterViewModel",
+                    "Barber: ${it.name}, Email: ${it.email}, id: ${it.barberId}, shopid: ${it.barbershopId}, pass: ${it.password}"
+                )
             }
         }
     }
 }
+
 

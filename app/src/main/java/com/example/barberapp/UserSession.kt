@@ -2,15 +2,19 @@ package com.example.barberapp
 
 import com.example.barberapp.data.Barber
 import com.example.barberapp.data.Client
+import com.example.barberapp.data.Service
 
 object UserSession {
     var loggedInBarber: Barber? = null
     var loggedInClient: Client? = null
+    var isKeepLoggedIn: Boolean = false // Variável global para armazenar o estado do checkbox
+
 
     // IDs selecionados
     var selectedBarberShopId: Int? = null
     var selectedBarberId: Int? = null
     var selectedServiceIds = mutableListOf<Int>()
+
 
     // Gerenciar seleção de serviços
     fun addService(serviceId: Int) {
@@ -32,12 +36,15 @@ object UserSession {
     }
 
     fun clearSession() {
-        loggedInBarber = null
         loggedInClient = null
-//        selectedBarberShopId = null
-//        selectedBarberId = null
-//        selectedServiceIds.clear()
-        logSession("Session cleared.")
+        loggedInBarber = null
+        selectedBarberShopId = null
+        selectedBarberId = null
+        selectedServiceIds.clear()
+
+        // Para garantir a limpeza, log tudo após o reset
+        println("UserSession: Session cleared.")
+        println("Current state: BarberShopId=$selectedBarberShopId, BarberId=$loggedInBarber, Services=$selectedServiceIds")
     }
 
     // Log para acompanhar o estado

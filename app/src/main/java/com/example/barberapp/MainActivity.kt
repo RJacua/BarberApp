@@ -17,4 +17,16 @@ class MainActivity : AppCompatActivity() {
             insets
         }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        // Limpa a sessão ao fechar o aplicativo
+        val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
+        val isKeepLoggedIn = sharedPreferences.getBoolean("keep_logged_in", false)
+
+        if (!isKeepLoggedIn) {
+            UserSession.clearSession()
+        }
+    }
+
 }

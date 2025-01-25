@@ -26,7 +26,6 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Configurar o View Binding para o fragmento
         binding = FragmentLoginBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -34,13 +33,20 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Inicializar o ViewModel
+        binding.checkboxKeepLogged.isChecked = UserSession.isKeepLoggedIn // Restaura o estado
+
+        // Inicializar ViewModel
         viewModel = ViewModelProvider(
             this,
             ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
         )[LoginViewModel::class.java]
 
-        // Configuração do botão de login
+        // Redirecionar para Home se o usuário já estiver logado
+        if(UserSession.loggedInBarber != null || UserSession.loggedInClient != null){
+            redirectToHome()
+        }
+
+        // Configurar o botão de login
         binding.loginbtn.setOnClickListener {
             val email = binding.loginEmail.text.toString().trim()
             val password = binding.loginPassword.text.toString().trim()
@@ -52,48 +58,55 @@ class LoginFragment : Fragment() {
             }
         }
 
-        // Configuração do botão de registro
-        binding.signupbtn.setOnClickListener {
-            findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToRegisterFragment())
+        binding.checkboxKeepLogged.setOnCheckedChangeListener { _, isChecked ->
+            UserSession.isKeepLoggedIn = isChecked // Atualiza o estado global
+        }
+    }
+
+    private fun redirectToHome() {
+        Log.d("LoginFragment", "Entrando em redirectToHome")
+        val barber = UserSession.loggedInBarber
+        val client = UserSession.loggedInClient
+
+        if (barber != null) {
+            Log.d("LoginFragment", "Barbeiro detectado: ${barber.name}")
+            findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToHomeBarberFragment())
+        } else if (client != null) {
+            Log.d("LoginFragment", "Cliente detectado: ${client.name}")
+            findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToHomeClientFragment())
+        } else {
+            Log.d("LoginFragment", "Nenhum usuário logado detectado")
         }
     }
 
     private fun authenticateUser(email: String, password: String) {
         lifecycleScope.launch {
             try {
-                val (result, user) = withContext(Dispatchers.IO) {
+                val (result, userName) = withContext(Dispatchers.IO) {
                     viewModel.login(email, password)
                 }
 
                 when (result) {
                     "client" -> {
-                        Log.d("login", "client")
-                        UserSession.loggedInClient = viewModel.loggedInClient.value // Salva o cliente na sessão
-                        UserSession.loggedInBarber = null // Certifica-se de que o barbeiro está nulo
-                        findNavController().navigate(
-                            LoginFragmentDirections.actionLoginFragmentToHomeClientFragment(user!!)
-                        )
+                        Log.d("LoginFragment", "Cliente logado: $userName")
+                        UserSession.loggedInClient = viewModel.loggedInClient.value
+                        redirectToHome()
                     }
                     "barber" -> {
-                        Log.d("login", "barber")
-                        UserSession.loggedInBarber = viewModel.loggedInBarber.value // Salva o barbeiro na sessão
-                        UserSession.loggedInClient = null // Certifica-se de que o cliente está nulo
-                        findNavController().navigate(
-                            LoginFragmentDirections.actionLoginFragmentToHomeBarberFragment(user!!)
-                        )
+                        Log.d("LoginFragment", "Barbeiro logado: $userName")
+                        UserSession.loggedInBarber = viewModel.loggedInBarber.value
+                        redirectToHome()
                     }
                     else -> {
-                        Log.d("login", "Email ou senha incorretos")
+                        Log.d("LoginFragment", "Login falhou")
                         Toast.makeText(context, "Email ou senha incorretos!", Toast.LENGTH_SHORT).show()
                     }
                 }
             } catch (e: Exception) {
-                Log.e("login", "Erro durante o login", e)
+                Log.e("LoginFragment", "Erro durante o login", e)
                 Toast.makeText(context, "Ocorreu um erro. Tente novamente!", Toast.LENGTH_SHORT).show()
             }
         }
     }
-
-
-
 }
+

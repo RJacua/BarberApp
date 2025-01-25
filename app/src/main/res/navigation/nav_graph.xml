@@ -26,6 +26,9 @@
             android:name="loggedName"
             app:argType="string"
             android:defaultValue="Name" />
+        <action
+            android:id="@+id/action_homeClientFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/appointmentFragment"
@@ -97,6 +100,9 @@
         <action
             android:id="@+id/action_homeBarberFragment_to_scheduleFragment"
             app:destination="@id/scheduleFragment" />
+        <action
+            android:id="@+id/action_homeBarberFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/barberServiceFragment"
@@ -130,5 +136,8 @@
         <action
             android:id="@+id/action_scheduleFragment_to_homeBarberFragment"
             app:destination="@id/homeBarberFragment" />
+        <action
+            android:id="@+id/action_scheduleFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
 </navigation>

@@ -40,6 +40,8 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
      * - null se o login falhar.
      */
     suspend fun login(email: String, password: String): Pair<String?, String?> {
+        // Limpa a sessão antes de tentar logar
+
         // Verificar clientes
         val client = database.clientDao().getAllClients()
             .find { it.email == email && it.password == password }
@@ -53,18 +55,17 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
         // Verificar barbeiros
         val barber = database.barberDao().getAllBarbersList()
             .find { it.email == email && it.password == password }
-
         if (barber != null) {
             _loggedInBarber.postValue(barber) // Armazenar o objeto Barber no LiveData
             _loggedInClient.postValue(null) // Certificar-se de que não há cliente logado
             saveLoggedInBarber(barber) // Salvar no SharedPreferences
-            Log.d("_loggedInBarber", _loggedInBarber.value.toString())
             return Pair("barber", barber.name)
         }
 
         // Falha no login
         return Pair(null, null)
     }
+
 
     /**
      * Retorna o ID do barbeiro logado, se houver.
@@ -88,23 +89,35 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
      * Retorna o ID do cliente logado, se houver.
      */
     fun getLoggedInClientId(): Int? {
-        return _loggedInClient.value?.clientId
+        // Primeiro, tentamos pegar o ID do SharedPreferences diretamente
+        val clientId = sharedPreferences.getInt("barber_id", -1)
+
+        // Verificamos se o valor recuperado é válido
+        if (clientId != -1) {
+            return clientId
+        }
+
+        // null, caso não tenha um barbeiro logado
+        return null
+        /*Log.d("_loggedInBarber2", _loggedInBarber.value?.barberId.toString())
+        return _loggedInBarber.value?.barberId*/
     }
 
     /**
      * Limpa o estado do usuário logado.
      */
     fun logout() {
-        _loggedInBarber.postValue(null)
-        _loggedInClient.postValue(null)
-        sharedPreferences.edit().clear().apply() // Limpar SharedPreferences
-        UserSession.clearSession() // Limpar o UserSession
+        sharedPreferences.edit().clear().apply()
+        UserSession.clearSession()
     }
+
+
+
 
     /**
      * Salvar o estado do barbeiro logado no SharedPreferences
      */
-    private fun saveLoggedInBarber(barber: Barber) {
+    fun saveLoggedInBarber(barber: Barber) {
         Log.d("_loggedInBarber", barber.barberId.toString())
         sharedPreferences.edit()
             .putInt("barber_id", barber.barberId)
@@ -114,11 +127,28 @@ class LoginViewModel(application: Application) : AndroidViewModel(application) {
     /**
      * Salvar o estado do cliente logado no SharedPreferences
      */
-    private fun saveLoggedInClient(client: Client) {
+    fun saveLoggedInClient(client: Client) {
         sharedPreferences.edit()
             .putInt("client_id", client.clientId)
             .apply()
     }
+
+    /**
+     * Salvar o estado de "manter logado" no SharedPreferences
+     */
+    fun saveKeepLoggedIn(keepLogged: Boolean) {
+        sharedPreferences.edit()
+            .putBoolean("keep_logged_in", keepLogged)
+            .apply()
+    }
+
+    /**
+     * Verificar se o usuário optou por "manter logado"
+     */
+    fun isKeepLoggedIn(): Boolean {
+        return sharedPreferences.getBoolean("keep_logged_in", false)
+    }
+
 
     /**
      * Restaurar o estado do usuário logado a partir do SharedPreferences

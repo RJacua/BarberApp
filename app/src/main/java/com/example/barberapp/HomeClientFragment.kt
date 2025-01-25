@@ -114,6 +114,12 @@ class HomeClientFragment : Fragment() {
             findNavController().navigate(HomeClientFragmentDirections.actionHomeClientFragmentToAppointmentFragment())
         }
 
+        binding.btnClientLogout.setOnClickListener {
+            UserSession.clearSession()
+            findNavController().navigate(HomeClientFragmentDirections.actionHomeClientFragmentToLoginFragment())
+
+        }
+
     }
 
 }

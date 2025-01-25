@@ -11,16 +11,19 @@ import android.widget.TableRow
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-
-import com.example.barberapp.UserSession
+import com.example.barberapp.Login.LoginViewModel
 import com.example.barberapp.databinding.FragmentBarberScheduleBinding
 
 class BarberScheduleFragment : Fragment() {
 
     private lateinit var binding: FragmentBarberScheduleBinding
-    private val viewModel by viewModels<ScheduleViewModel>() // ViewModel para gerenciar os dados
+
+    // Usar LoginViewModel para gerenciar o estado global
+    private val loginViewModel: LoginViewModel by activityViewModels()
+
+    private val viewModel by activityViewModels<ScheduleViewModel>() // ViewModel para gerenciar os dados
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,9 +36,11 @@ class BarberScheduleFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val barberId = UserSession.loggedInBarber?.barberId
+        // Verifica se o barbeiro está logado
+        val barberId = loginViewModel.getLoggedInBarberId()
         if (barberId == null) {
-            findNavController().navigate(BarberScheduleFragmentDirections.actionScheduleFragmentToHomeBarberFragment())
+            // Redireciona para a tela de login se o barbeiro não estiver logado
+            findNavController().navigate(BarberScheduleFragmentDirections.actionScheduleFragmentToLoginFragment())
             return
         }
 
@@ -44,14 +49,15 @@ class BarberScheduleFragment : Fragment() {
             createScheduleTable(scheduleMap)
         }
 
-        // Botão para voltar
+        // Botão para voltar à página inicial
         binding.btnBackScheduleBackToHome.setOnClickListener {
             findNavController().navigate(BarberScheduleFragmentDirections.actionScheduleFragmentToHomeBarberFragment())
         }
 
-        // Botão para salvar
+        // Botão para salvar os horários
         binding.btnSaveSchedule.setOnClickListener {
             saveBarberSchedule(barberId)
+            findNavController().navigate(BarberScheduleFragmentDirections.actionScheduleFragmentToHomeBarberFragment())
         }
     }
 
@@ -144,5 +150,4 @@ class BarberScheduleFragment : Fragment() {
         viewModel.saveBarberSchedule(barberId, scheduleMap)
         Toast.makeText(requireContext(), "Schedule saved successfully!", Toast.LENGTH_SHORT).show()
     }
-
 }
