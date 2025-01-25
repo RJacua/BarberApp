@@ -81,36 +81,23 @@ class ChooseServiceFragment : Fragment() {
 //            adapter.submitList(services)
 //        }
 
+        viewModelBarberService.services.observe(viewLifecycleOwner) { barberServices ->
+            Log.d("ChooseServiceFragment", "Barber services: $barberServices")
 
-        // Observar ambos os dados
-        viewModel.services.observe(viewLifecycleOwner) { allServices ->
-            Log.d("ChooseServiceFragment", "All services: $allServices")
+            // Ordena os serviços pelos ativos primeiro
+            val displayItems = barberServices.sortedByDescending { it.isActive }
 
-            viewModelBarberService.services.observe(viewLifecycleOwner) { barberServices ->
-                Log.d("ChooseServiceFragment", "Barber services: $barberServices")
-                val barberServiceMap = barberServices.associateBy { it.serviceId }
+            // Atualizar os serviços já selecionados na lista
+            selectedServiceIds.clear()
+            selectedServiceIds.addAll(UserSession.selectedServiceIds) // Preencher com os valores da variável global
 
-                val displayItems = allServices.map { service ->
-                    val barberDetail = barberServiceMap[service.serviceId]
-                    BarberServiceDetail(
-                        serviceId = service.serviceId,
-                        name = service.name,
-                        description = service.description,
-                        duration = barberDetail?.duration,
-                        price = barberDetail?.price
-                    )
-                }.sortedWith(compareByDescending { it.price != null && it.duration != null })
+            // Submete a lista ordenada ao adapter
+            adapter.submitList(displayItems)
 
-
-                // Atualizar os serviços já selecionados na lista
-                selectedServiceIds.clear()
-                selectedServiceIds.addAll(UserSession.selectedServiceIds) // Preencher com os valores da variável global
-
-                adapter.submitList(displayItems)
-                // Forçar atualização visual do RecyclerView
-                binding.serviceList.post { adapter.notifyDataSetChanged() }
-            }
+            // Forçar atualização visual do RecyclerView
+            binding.serviceList.post { adapter.notifyDataSetChanged() }
         }
+
 
         // Botão para confirmar os serviços selecionados
         binding.savebtn.setOnClickListener {
@@ -146,7 +133,7 @@ class ChooseServiceFragment : Fragment() {
             var duration = "00h00min"  // Definir um valor padrão
 
             // Verifique se price e duration não são null
-            val isAvailable = serviceDetail.price != null && serviceDetail.duration != null
+            val isAvailable = serviceDetail.isActive
             if (isAvailable) {
                 var h = ""
                 var m = ""

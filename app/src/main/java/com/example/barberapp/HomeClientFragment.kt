@@ -6,12 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.barberapp.ChooseBarberShop.BarbershopViewModel
 import com.example.barberapp.ChooseBarber.BarberViewModel
 import com.example.barberapp.ChooseService.ChooseServiceViewModel
 import com.example.barberapp.databinding.FragmentHomeClientBinding
+import kotlinx.coroutines.launch
 
 class HomeClientFragment : Fragment() {
 
@@ -19,6 +21,7 @@ class HomeClientFragment : Fragment() {
     private val viewModelBarberShop by viewModels<BarbershopViewModel>() // ViewModel para acessar o banco de dados BarberShor
     private val viewModelBarber by viewModels<BarberViewModel>() // ViewModel para acessar o banco de dados Barber
     private val viewModelChooseService by viewModels<ChooseServiceViewModel>()
+    private val viewModelHomeClient by viewModels<HomeClientViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -131,7 +134,10 @@ class HomeClientFragment : Fragment() {
             binding.btnsave.isEnabled = true
         }
         binding.btnsave.setOnClickListener {
-        //Aqui deveria ser feito o insert na base de dados
+            lifecycleScope.launch {
+                viewModelHomeClient.createAppointments()
+            }
+
         }
 
         binding.btnClientLogout.setOnClickListener {

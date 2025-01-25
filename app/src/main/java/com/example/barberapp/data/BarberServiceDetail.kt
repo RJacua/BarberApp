@@ -7,5 +7,6 @@ data class BarberServiceDetail(
     val name: String,
     val description: String,
     val price: Double?,
-    val duration: Time?
+    val duration: Time?,
+    val isActive: Boolean
 )

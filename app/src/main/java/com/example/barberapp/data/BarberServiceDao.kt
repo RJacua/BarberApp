@@ -49,7 +49,8 @@ interface BarberServiceDao : BaseDao<BarberService> {
             services.name AS name,
             services.description AS description,
             barber_services.price AS price,
-            barber_services.duration AS duration
+            barber_services.duration AS duration,
+            barber_services.isActive as isActive
         FROM services
         INNER JOIN barber_services 
         ON services.serviceId = barber_services.serviceId

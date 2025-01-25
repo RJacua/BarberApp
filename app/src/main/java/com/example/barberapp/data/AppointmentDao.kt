@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Query
 
 @Dao
-interface AppointmentDao {
+interface AppointmentDao: BaseDao<Appointment> {
 
     @Query("""
         SELECT * FROM appointments 
