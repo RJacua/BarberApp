@@ -11,4 +11,11 @@
         android:layout_height="350dp"
         android:scaleType="centerCrop" />
 
+    <TextView
+        android:id="@+id/textBarber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold" />
+
 </androidx.cardview.widget.CardView>

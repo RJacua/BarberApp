@@ -29,7 +29,7 @@ class GalleryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Configuração do RecyclerView para exibir fotos em 3 colunas
+        // Configuração do RecyclerView para exibir fotos
         binding.galleryRecyclerView.layoutManager = GridLayoutManager(requireContext(), 1)
         val adapter = PhotoAdapter()
         binding.galleryRecyclerView.adapter = adapter
@@ -53,7 +53,6 @@ class GalleryFragment : Fragment() {
     }
 
 
-    // Função para carregar as fotos do diretório
     // Função para carregar as fotos do diretório filtrando pelo barberId
     private fun loadPhotos() {
         val barberId = UserSession.loggedInBarber!!.barberId
