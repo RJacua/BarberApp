@@ -1,29 +1,26 @@
 package com.example.barberapp.ChooseAppointment
 
-import AppointmentViewModel
+import ChooseAppointmentViewModel
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.GridLayout
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.example.barberapp.R
 import com.example.barberapp.UserSession
 import com.example.barberapp.databinding.FragmentAppointmentBinding
 import java.util.Calendar
 
-class AppointmentFragment : Fragment() {
+class ChooseAppointmentFragment : Fragment() {
 
-    private val viewModel by viewModels<AppointmentViewModel>()
+    private val viewModel by viewModels<ChooseAppointmentViewModel>()
 
     private lateinit var binding: FragmentAppointmentBinding
 

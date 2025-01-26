@@ -1,4 +1,4 @@
-package com.example.barberapp
+package com.example.barberapp.MyAppointmentsBarber
 
 import android.app.Application
 import android.util.Log
@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.barberapp.data.AppDatabase
-import com.example.barberapp.data.AppointmentDetails
+import com.example.barberapp.UtilityClasses.AppointmentDetails
 import kotlinx.coroutines.launch
 
 class BarberAppointmentsViewModel(application: Application) : AndroidViewModel(application) {

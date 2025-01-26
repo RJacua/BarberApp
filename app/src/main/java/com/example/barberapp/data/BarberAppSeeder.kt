@@ -11,7 +11,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class BarberApp : Application() {
+class BarberAppSeeder : Application() {
 
     @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate() {

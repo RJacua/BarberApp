@@ -13,10 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.barberapp.BarberService.BarberServiceViewModel
+import com.example.barberapp.SetBarberService.BarberServiceViewModel
 import com.example.barberapp.UserSession
-import com.example.barberapp.data.BarberServiceDetail
-import com.example.barberapp.data.Service
+import com.example.barberapp.UtilityClasses.BarberServiceDetail
 import com.example.barberapp.databinding.FragmentChooseServiceBinding
 import com.example.barberapp.databinding.FragmentServiceItemBinding
 import java.text.DecimalFormat

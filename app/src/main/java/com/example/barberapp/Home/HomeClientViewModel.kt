@@ -1,9 +1,9 @@
-package com.example.barberapp
+package com.example.barberapp.Home
 
 import android.app.Application
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
+import com.example.barberapp.UserSession
 import com.example.barberapp.data.AppDatabase
 import com.example.barberapp.data.Appointment
 

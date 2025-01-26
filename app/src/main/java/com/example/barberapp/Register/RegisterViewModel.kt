@@ -5,7 +5,6 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
-import com.example.barberapp.Login.LoginViewModel
 import com.example.barberapp.UserSession
 import com.example.barberapp.data.AppDatabase
 import com.example.barberapp.data.Barber

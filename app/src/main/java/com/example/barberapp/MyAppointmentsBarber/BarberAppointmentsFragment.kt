@@ -1,4 +1,4 @@
-package com.example.barberapp
+package com.example.barberapp.MyAppointmentsBarber
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -12,7 +12,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.barberapp.data.AppointmentDetails
+import com.example.barberapp.UserSession
+import com.example.barberapp.UtilityClasses.AppointmentDetails
 import com.example.barberapp.databinding.FragmentBarberAppointmentsBinding
 import com.example.barberapp.databinding.FragmentBarberAppointmentsItemBinding
 

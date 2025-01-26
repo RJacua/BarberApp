@@ -1,4 +1,4 @@
-package com.example.barberapp.BarberService
+package com.example.barberapp.SetBarberService
 
 import android.os.Bundle
 import android.util.Log

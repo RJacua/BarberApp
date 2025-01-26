@@ -1,11 +1,9 @@
 package com.example.barberapp.data
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import androidx.room.Update
-import java.sql.Time
+import com.example.barberapp.UtilityClasses.BarberServiceDetail
 
 @Dao
 interface BarberServiceDao : BaseDao<BarberService> {

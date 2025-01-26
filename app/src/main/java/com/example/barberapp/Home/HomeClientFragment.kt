@@ -1,4 +1,4 @@
-package com.example.barberapp
+package com.example.barberapp.Home
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,8 +10,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.barberapp.ChooseBarberShop.BarbershopViewModel
-import com.example.barberapp.ChooseBarber.BarberViewModel
+import com.example.barberapp.ChooseBarber.ChooseBarberViewModel
 import com.example.barberapp.ChooseService.ChooseServiceViewModel
+import com.example.barberapp.UserSession
 import com.example.barberapp.databinding.FragmentHomeClientBinding
 import kotlinx.coroutines.launch
 
@@ -19,7 +20,7 @@ class HomeClientFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeClientBinding
     private val viewModelBarberShop by viewModels<BarbershopViewModel>() // ViewModel para acessar o banco de dados BarberShor
-    private val viewModelBarber by viewModels<BarberViewModel>() // ViewModel para acessar o banco de dados Barber
+    private val viewModelBarber by viewModels<ChooseBarberViewModel>() // ViewModel para acessar o banco de dados Barber
     private val viewModelChooseService by viewModels<ChooseServiceViewModel>()
     private val viewModelHomeClient by viewModels<HomeClientViewModel>()
 

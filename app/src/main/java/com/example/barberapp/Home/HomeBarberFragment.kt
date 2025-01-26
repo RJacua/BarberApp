@@ -1,4 +1,4 @@
-package com.example.barberapp
+package com.example.barberapp.Home
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,11 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.example.barberapp.Login.LoginViewModel
+import com.example.barberapp.UserSession
 import com.example.barberapp.databinding.FragmentHomeBarberBinding
-import com.example.barberapp.databinding.FragmentHomeClientBinding
-
 
 
 class HomeBarberFragment : Fragment() {

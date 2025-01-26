@@ -1,4 +1,4 @@
-package com.example.barberapp.BarberService
+package com.example.barberapp.SetBarberService
 
 import android.graphics.Color
 import android.graphics.Typeface
@@ -14,9 +14,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.barberapp.R
 import com.example.barberapp.UserSession
-import com.example.barberapp.data.BarberServiceDetail
+import com.example.barberapp.UtilityClasses.BarberServiceDetail
 import com.example.barberapp.databinding.FragmentBarberServiceBinding
 import com.example.barberapp.databinding.FragmentBarberServiceItemBinding
 import java.text.DecimalFormat

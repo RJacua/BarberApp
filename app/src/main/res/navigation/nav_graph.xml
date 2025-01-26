@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeClientFragment"
-        android:name="com.example.barberapp.HomeClientFragment"
+        android:name="com.example.barberapp.Home.HomeClientFragment"
         android:label="fragment_home_client"
         tools:layout="@layout/fragment_home_client" >
         <action
@@ -31,17 +31,17 @@
     </fragment>
     <fragment
         android:id="@+id/appointmentFragment"
-        android:name="com.example.barberapp.ChooseAppointment.AppointmentFragment"
+        android:name="com.example.barberapp.ChooseAppointment.ChooseAppointmentFragment"
         android:label="fragment_appointment"
         tools:layout="@layout/fragment_appointment" />
     <fragment
         android:id="@+id/barberFragment"
-        android:name="com.example.barberapp.ChooseBarber.BarberFragment"
+        android:name="com.example.barberapp.ChooseBarber.ChooseBarberFragment"
         android:label="fragment_barber"
         tools:layout="@layout/fragment_barber" />
     <fragment
         android:id="@+id/barberShopFragment"
-        android:name="com.example.barberapp.ChooseBarberShop.BarberShopFragment"
+        android:name="com.example.barberapp.ChooseBarberShop.ChooseBarberShopFragment"
         android:label="fragment_barber_shop"
         tools:layout="@layout/fragment_barber_shop" />
     <fragment
@@ -81,7 +81,7 @@
     </fragment>
     <fragment
         android:id="@+id/homeBarberFragment"
-        android:name="com.example.barberapp.HomeBarberFragment"
+        android:name="com.example.barberapp.Home.HomeBarberFragment"
         android:label="fragment_home_barber"
         tools:layout="@layout/fragment_home_barber" >
         <argument
@@ -114,7 +114,7 @@
     </fragment>
     <fragment
         android:id="@+id/barberServiceFragment"
-        android:name="com.example.barberapp.BarberService.BarberServiceFragment"
+        android:name="com.example.barberapp.SetBarberService.BarberServiceFragment"
         android:label="fragment_barber_service"
         tools:layout="@layout/fragment_barber_service" >
         <action
@@ -126,7 +126,7 @@
     </fragment>
     <fragment
         android:id="@+id/createBarberServiceFragment"
-        android:name="com.example.barberapp.BarberService.CreateBarberServiceFragment"
+        android:name="com.example.barberapp.SetBarberService.CreateBarberServiceFragment"
         android:label="fragment_create_barber_service"
         tools:layout="@layout/fragment_create_barber_service" >
         <action
@@ -141,7 +141,7 @@
     </fragment>
     <fragment
         android:id="@+id/scheduleFragment"
-        android:name="com.example.barberapp.BarberSchedule.BarberScheduleFragment"
+        android:name="com.example.barberapp.SetBarberSchedule.BarberScheduleFragment"
         android:label="fragment_schedule"
         tools:layout="@layout/fragment_barber_schedule" >
         <action
@@ -153,12 +153,12 @@
     </fragment>
     <fragment
         android:id="@+id/appointmentsFragment"
-        android:name="com.example.barberapp.AppointmentsFragment"
+        android:name="com.example.barberapp.MyAppointmentsClient.ClientAppointmentsFragment"
         android:label="fragment_appointments"
         tools:layout="@layout/fragment_appointments" />
     <fragment
         android:id="@+id/cameraFragment"
-        android:name="com.example.barberapp.CameraFragment"
+        android:name="com.example.barberapp.GalleryBarber.CameraFragment"
         android:label="fragment_camera"
         tools:layout="@layout/fragment_camera" >
         <action
@@ -167,7 +167,7 @@
     </fragment>
     <fragment
         android:id="@+id/photoPreviewFragment"
-        android:name="com.example.barberapp.PhotoPreviewFragment"
+        android:name="com.example.barberapp.GalleryBarber.PhotoPreviewFragment"
         android:label="fragment_photo_preview"
         tools:layout="@layout/fragment_photo_preview" >
         <argument
@@ -176,7 +176,7 @@
     </fragment>
     <fragment
         android:id="@+id/barberAppointmentsFragment"
-        android:name="com.example.barberapp.BarberAppointmentsFragment"
+        android:name="com.example.barberapp.MyAppointmentsBarber.BarberAppointmentsFragment"
         android:label="fragment_barber_appointments"
         tools:layout="@layout/fragment_barber_appointments" />
 </navigation>

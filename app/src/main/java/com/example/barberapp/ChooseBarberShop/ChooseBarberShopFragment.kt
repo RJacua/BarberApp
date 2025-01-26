@@ -18,7 +18,7 @@ import com.example.barberapp.databinding.FragmentBarberShopBinding
 import com.example.barberapp.databinding.FragmentBarberShopItemBinding
 import com.example.barberapp.UserSession
 
-class BarberShopFragment : Fragment() {
+class ChooseBarberShopFragment : Fragment() {
 
     private val viewModel by viewModels<BarbershopViewModel>()
 

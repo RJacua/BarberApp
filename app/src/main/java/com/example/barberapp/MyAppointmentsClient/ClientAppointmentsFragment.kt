@@ -1,29 +1,23 @@
-package com.example.barberapp
+package com.example.barberapp.MyAppointmentsClient
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.barberapp.ChooseBarberShop.BarbershopViewModel
-import com.example.barberapp.data.Appointment
-import com.example.barberapp.data.AppointmentDetails
-import com.example.barberapp.data.Barbershop
+import com.example.barberapp.UserSession
+import com.example.barberapp.UtilityClasses.AppointmentDetails
 import com.example.barberapp.databinding.FragmentAppointmentsBinding
 import com.example.barberapp.databinding.FragmentAppointmentsItemBinding
-import com.example.barberapp.databinding.FragmentBarberShopBinding
-import com.example.barberapp.databinding.FragmentBarberShopItemBinding
 
 
-class AppointmentsFragment : Fragment() {
+class ClientAppointmentsFragment : Fragment() {
 
     private val viewModel by viewModels<AppointmentViewModel>()
     private lateinit var binding: FragmentAppointmentsBinding

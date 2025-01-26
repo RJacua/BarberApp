@@ -1,7 +1,6 @@
 package com.example.barberapp.Login
 
 import android.content.Context
-import android.content.Context.MODE_PRIVATE
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment

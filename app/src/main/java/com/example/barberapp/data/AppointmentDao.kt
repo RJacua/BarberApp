@@ -3,6 +3,8 @@ package com.example.barberapp.data
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Query
+import com.example.barberapp.UtilityClasses.AppointmentDetails
+import com.example.barberapp.UtilityClasses.AppointmentWithDuration
 
 @Dao
 interface AppointmentDao: BaseDao<Appointment> {

@@ -1,4 +1,4 @@
-package com.example.barberapp.data
+package com.example.barberapp.UtilityClasses
 
 import java.sql.Time
 

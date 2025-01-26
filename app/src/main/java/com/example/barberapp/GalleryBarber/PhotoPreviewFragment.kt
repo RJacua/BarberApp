@@ -1,4 +1,4 @@
-package com.example.barberapp
+package com.example.barberapp.GalleryBarber
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

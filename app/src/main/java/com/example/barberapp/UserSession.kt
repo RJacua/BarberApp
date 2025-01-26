@@ -3,7 +3,6 @@ package com.example.barberapp
 import android.util.Log
 import com.example.barberapp.data.Barber
 import com.example.barberapp.data.Client
-import com.example.barberapp.data.Service
 
 object UserSession {
     var loggedInBarber: Barber? = null

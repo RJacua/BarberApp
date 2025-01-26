@@ -18,9 +18,9 @@ import com.example.barberapp.data.Barber
 import com.example.barberapp.databinding.FragmentBarberBinding
 import com.example.barberapp.databinding.FragmentBarberItemBinding
 
-class BarberFragment : Fragment() {
+class ChooseBarberFragment : Fragment() {
 
-    private val viewModel by viewModels<BarberViewModel>()
+    private val viewModel by viewModels<ChooseBarberViewModel>()
 
     private lateinit var binding: FragmentBarberBinding
 
@@ -132,7 +132,7 @@ class BarberFragment : Fragment() {
 
     // DiffUtil para melhor desempenho
     private val barberDiffer = object : DiffUtil.ItemCallback<Barber>() {
-        override fun areItemsTheSame(oldItem:Barber, newItem: Barber) = oldItem.barberId == newItem.barberId
+        override fun areItemsTheSame(oldItem: Barber, newItem: Barber) = oldItem.barberId == newItem.barberId
         override fun areContentsTheSame(oldItem: Barber, newItem: Barber) = oldItem == newItem
     }
 

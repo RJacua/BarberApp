@@ -8,7 +8,7 @@ import com.example.barberapp.UserSession
 import com.example.barberapp.data.AppDatabase
 import com.example.barberapp.data.Barber
 
-class BarberViewModel(application: Application) : AndroidViewModel(application) {
+class ChooseBarberViewModel(application: Application) : AndroidViewModel(application) {
 
     private val barberDao = AppDatabase(application).barberDao()
 

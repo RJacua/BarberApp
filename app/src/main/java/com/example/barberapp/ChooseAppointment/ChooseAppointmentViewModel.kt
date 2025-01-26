@@ -6,12 +6,11 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.barberapp.data.AppDatabase
-import com.example.barberapp.data.AppointmentWithDuration
-import java.sql.Time
+import com.example.barberapp.UtilityClasses.AppointmentWithDuration
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
-class AppointmentViewModel(application: Application) : AndroidViewModel(application) {
+class ChooseAppointmentViewModel(application: Application) : AndroidViewModel(application) {
 
     private val scheduleDao = AppDatabase(application).barberscheduleDao()
     private val appointmentDao = AppDatabase(application).appointmentDao()

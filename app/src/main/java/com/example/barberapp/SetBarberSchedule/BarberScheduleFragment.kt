@@ -1,4 +1,4 @@
-package com.example.barberapp.BarberSchedule
+package com.example.barberapp.SetBarberSchedule
 
 import android.graphics.Color
 import android.os.Bundle
