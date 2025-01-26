@@ -141,9 +141,9 @@ class AppointmentFragment : Fragment() {
 
             actualSlot = actualSlot.split(":")[0] + ":" + actualSlot.split(":")[1]
 
-            if (actualSlot.split(":")[0] == "09") {
+            /*if (actualSlot.split(":")[0] == "09") {
                 actualSlot = actualSlot.replace("09", "9")
-            }
+            }*/
 
             // Se o horário está bloqueado, não cria o botão
             if (isBlocked) return@forEach

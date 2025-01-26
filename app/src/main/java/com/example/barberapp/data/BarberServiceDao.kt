@@ -1,5 +1,6 @@
 package com.example.barberapp.data
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -71,9 +72,5 @@ interface BarberServiceDao : BaseDao<BarberService> {
     """
     )
     fun getBarberServiceById(barberId: Int, serviceId: Int): BarberService?
-
-
-
-
 
 }

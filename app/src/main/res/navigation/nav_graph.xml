@@ -29,6 +29,9 @@
         <action
             android:id="@+id/action_homeClientFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_homeClientFragment_to_appointmentsFragment"
+            app:destination="@id/appointmentsFragment" />
     </fragment>
     <fragment
         android:id="@+id/appointmentFragment"
@@ -106,6 +109,9 @@
         <action
             android:id="@+id/action_homeBarberFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_homeBarberFragment_to_cameraFragment"
+            app:destination="@id/cameraFragment" />
     </fragment>
     <fragment
         android:id="@+id/barberServiceFragment"
@@ -145,5 +151,28 @@
         <action
             android:id="@+id/action_scheduleFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/appointmentsFragment"
+        android:name="com.example.barberapp.AppointmentsFragment"
+        android:label="fragment_appointments"
+        tools:layout="@layout/fragment_appointments" />
+    <fragment
+        android:id="@+id/cameraFragment"
+        android:name="com.example.barberapp.CameraFragment"
+        android:label="fragment_camera"
+        tools:layout="@layout/fragment_camera" >
+        <action
+            android:id="@+id/action_cameraFragment_to_photoPreviewFragment"
+            app:destination="@id/photoPreviewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/photoPreviewFragment"
+        android:name="com.example.barberapp.PhotoPreviewFragment"
+        android:label="fragment_photo_preview"
+        tools:layout="@layout/fragment_photo_preview" >
+        <argument
+            android:name="file"
+            app:argType="java.io.File" />
     </fragment>
 </navigation>

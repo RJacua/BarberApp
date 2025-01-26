@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -135,15 +136,24 @@ class HomeClientFragment : Fragment() {
         }
         binding.btnsave.setOnClickListener {
             lifecycleScope.launch {
-                viewModelHomeClient.createAppointments()
+                val result = viewModelHomeClient.createAppointments()
+                result.onSuccess {
+                    Toast.makeText(context, "Marcações criadas com sucesso!", Toast.LENGTH_SHORT).show()
+                    findNavController().navigate(HomeClientFragmentDirections.actionHomeClientFragmentToAppointmentsFragment())
+                }.onFailure { exception ->
+                    Toast.makeText(context, "Erro: ${exception.message}", Toast.LENGTH_LONG).show()
+                }
             }
-
         }
 
         binding.btnClientLogout.setOnClickListener {
             UserSession.clearSession()
             findNavController().navigate(HomeClientFragmentDirections.actionHomeClientFragmentToLoginFragment())
 
+        }
+
+        binding.btnAppointments.setOnClickListener {
+            findNavController().navigate(HomeClientFragmentDirections.actionHomeClientFragmentToAppointmentsFragment())
         }
 
     }

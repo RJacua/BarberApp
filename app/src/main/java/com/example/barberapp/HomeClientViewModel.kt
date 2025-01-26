@@ -12,7 +12,7 @@ class HomeClientViewModel(application: Application) : AndroidViewModel(applicati
     private val barberserviceDao = AppDatabase(application).barberserviceDao()
     private val appointmentDao = AppDatabase(application).appointmentDao()
 
-    suspend fun createAppointments() {
+    suspend fun createAppointments(): Result<Boolean> {
         val client = UserSession.loggedInClient
         val barberId = UserSession.selectedBarberId
         val selectedServices = UserSession.selectedServiceIds
@@ -20,47 +20,47 @@ class HomeClientViewModel(application: Application) : AndroidViewModel(applicati
         var appointmentTime = UserSession.selectedAppointmentTime
 
         if (client == null || barberId == null || appointmentDate == null || appointmentTime == null || selectedServices.isEmpty()) {
-            Log.e("CreateAppointment", "Informações incompletas para criar a marcação.")
-            return
+            return Result.failure(Exception("Informações incompletas para criar a marcação."))
         }
 
-        // Itera pelos serviços selecionados e cria um Appointment para cada um
-        for (serviceId in selectedServices) {
-            // Obtém o BarberService correspondente
-            val barberService = barberserviceDao.getBarberServiceById(barberId, serviceId)
-            if (barberService == null) {
-                Log.e("CreateAppointment", "Serviço não encontrado para BarberID: $barberId e ServiceID: $serviceId")
-                continue
+        try {
+            // Itera pelos serviços selecionados e cria um Appointment para cada um
+            for (serviceId in selectedServices) {
+                val barberService = barberserviceDao.getBarberServiceById(barberId, serviceId)
+                if (barberService == null) {
+                    return Result.failure(Exception("Serviço não encontrado para BarberID: $barberId e ServiceID: $serviceId"))
+                }
+
+                val appointment = Appointment(
+                    clientId = client.clientId,
+                    barberServiceId = barberService.barberServiceId,
+                    date = appointmentDate,
+                    time = appointmentTime!!,
+                    status = "Ativo"
+                )
+
+                appointmentDao.insert(appointment)
+
+                // Calcula a hora do próximo serviço
+                val serviceDuration = barberService.duration.toString() // "HH:MM:SS"
+                val durationParts = serviceDuration.split(":").map { it.toInt() }
+                val hours = durationParts[0]
+                val minutes = durationParts[1]
+
+                val timeParts = appointmentTime.split(":").map { it.toInt() }
+                val newHour = timeParts[0] + hours + (timeParts[1] + minutes) / 60
+                val newMinute = (timeParts[1] + minutes) % 60
+                appointmentTime = String.format("%02d:%02d", newHour, newMinute)
             }
 
-            // Cria o objeto Appointment
-            val appointment = Appointment(
-                clientId = client.clientId,
-                barberServiceId = barberService.barberServiceId,
-                date = appointmentDate,
-                time = appointmentTime!!,
-                status = "Ativo"
-            )
-
-            // Insere o Appointment na base de dados
-            appointmentDao.insert(appointment)
-
-            // Calcula o tempo do próximo serviço
-            val serviceDuration = barberService.duration.toString() // "HH:MM:SS"
-            val durationParts = serviceDuration.split(":").map { it.toInt() }
-            val hours = durationParts[0]
-            val minutes = durationParts[1]
-
-            // Atualiza a hora do próximo serviço
-            val timeParts = appointmentTime.split(":").map { it.toInt() }
-            val newHour = timeParts[0] + hours + (timeParts[1] + minutes) / 60
-            val newMinute = (timeParts[1] + minutes) % 60
-            appointmentTime = String.format("%02d:%02d", newHour, newMinute)
+            UserSession.selectedAppointmentDate = null
+            UserSession.selectedAppointmentTime = null
+            return Result.success(true)
+        } catch (e: Exception) {
+            Log.e("CreateAppointment", "Erro ao criar marcações: ${e.message}")
+            return Result.failure(e)
         }
-
-        UserSession.selectedAppointmentDate = null
-        UserSession.selectedAppointmentTime = null
-        Log.d("CreateAppointment", "Marcações criadas com sucesso para o cliente ${client.clientId}.")
     }
+
 
 }

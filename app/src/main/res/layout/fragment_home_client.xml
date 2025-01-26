@@ -10,9 +10,11 @@
         android:id="@+id/btnClientLogout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="44dp"
         android:text="Logout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.191"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnYourGallery" />
 
@@ -34,43 +36,63 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="BarberShop"
-        app:layout_constraintBottom_toTopOf="@+id/btnBarber"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="144dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/clientTitle"
+        app:layout_constraintVertical_bias="0.038" />
 
     <Button
         android:id="@+id/btnBarber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
         android:text="barber"
-        app:layout_constraintBottom_toTopOf="@+id/btnServices"
-        app:layout_constraintTop_toBottomOf="@+id/btnBarberShop"
-        tools:layout_editor_absoluteX="152dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnBarberShop" />
 
     <Button
         android:id="@+id/btnServices"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
         android:text="Services"
-        app:layout_constraintBottom_toTopOf="@+id/btnAppointment"
-        app:layout_constraintTop_toBottomOf="@+id/btnBarber"
-        tools:layout_editor_absoluteX="151dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnBarber" />
 
     <Button
         android:id="@+id/btnAppointment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
         android:text="Appointment"
-        app:layout_constraintBottom_toTopOf="@+id/btnsave"
-        app:layout_constraintTop_toBottomOf="@+id/btnServices"
-        tools:layout_editor_absoluteX="149dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.514"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnServices" />
 
     <Button
         android:id="@+id/btnsave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
         android:text="Save"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnAppointment" />
+
+    <Button
+        android:id="@+id/btnAppointments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="44dp"
+        android:text="Appointments"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnAppointment"
-        tools:layout_editor_absoluteX="150dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.271"
+        app:layout_constraintStart_toEndOf="@+id/btnClientLogout" />
 </androidx.constraintlayout.widget.ConstraintLayout>

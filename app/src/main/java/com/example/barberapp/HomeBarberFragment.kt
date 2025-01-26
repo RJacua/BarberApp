@@ -65,6 +65,11 @@ class HomeBarberFragment : Fragment() {
             loginViewModel.logout() // Limpa o estado global e SharedPreferences
             findNavController().navigate(HomeBarberFragmentDirections.actionHomeBarberFragmentToLoginFragment())
         }
+
+        //Botão para Camera
+        binding.btnYourGallery.setOnClickListener{
+            findNavController().navigate(HomeBarberFragmentDirections.actionHomeBarberFragmentToCameraFragment())
+        }
     }
 }
 
