@@ -17,7 +17,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.062" />
+        app:layout_constraintVertical_bias="0.062"
+        style="@style/TextStyle.Title"/>
 
     <Button
         android:id="@+id/btnYourServices"
@@ -30,7 +31,8 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/barberTitle"
-        app:layout_constraintVertical_bias="0.17" />
+        app:layout_constraintVertical_bias="0.17"
+        style="@style/ButtonStyle"/>
 
     <Button
         android:id="@+id/btnYourGallery"
@@ -43,7 +45,8 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/barberTitle"
-        app:layout_constraintVertical_bias="0.655" />
+        app:layout_constraintVertical_bias="0.655"
+        style="@style/ButtonStyle"/>
 
     <Button
         android:id="@+id/btnYourSchedule"
@@ -56,7 +59,8 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/barberTitle"
-        app:layout_constraintVertical_bias="0.369" />
+        app:layout_constraintVertical_bias="0.369"
+        style="@style/ButtonStyle"/>
 
     <Button
         android:id="@+id/btnBarberLogout"
@@ -68,7 +72,8 @@
         app:layout_constraintHorizontal_bias="0.22"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnYourGallery"
-        app:layout_constraintVertical_bias="0.783" />
+        app:layout_constraintVertical_bias="0.783"
+        style="@style/ButtonStyle"/>
 
     <Button
         android:id="@+id/btnAppointments"
@@ -79,7 +84,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.294"
-        app:layout_constraintStart_toEndOf="@+id/btnBarberLogout" />
+        app:layout_constraintStart_toEndOf="@+id/btnBarberLogout"
+        style="@style/ButtonStyle"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

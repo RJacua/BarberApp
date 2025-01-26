@@ -18,7 +18,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|left"
         android:src="@drawable/baseline_close_24"
-        android:layout_margin="32dp"/>
+        android:layout_margin="32dp"
+        android:backgroundTint="#F6BE00"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/acceptBtn"
@@ -26,7 +27,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:src="@drawable/baseline_check_24"
-        android:layout_margin="32dp"/>
+        android:layout_margin="32dp"
+        android:backgroundTint="#F6BE00"/>
 
 
 </FrameLayout>

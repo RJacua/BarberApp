@@ -17,7 +17,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/TextStyle.Subtitle"/>
 
     <EditText
         android:id="@+id/priceInput"
@@ -41,7 +42,8 @@
         app:layout_constraintHorizontal_bias="0.067"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.228" />
+        app:layout_constraintVertical_bias="0.228"
+        style="@style/TextStyle.Body"/>
 
     <TextView
         android:id="@+id/textViewDuration"
@@ -51,7 +53,8 @@
         android:layout_marginTop="36dp"
         android:text="Duration"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/priceInput" />
+        app:layout_constraintTop_toBottomOf="@id/priceInput"
+        style="@style/TextStyle.Body"/>
 
     <NumberPicker
         android:id="@+id/pickerMinutes"
@@ -79,7 +82,8 @@
         android:layout_marginTop="56dp"
         android:text="Active"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/pickerHours" />
+        app:layout_constraintTop_toBottomOf="@id/pickerHours"
+        style="@style/SwitchStyle"/>
 
     <Button
         android:id="@+id/btnCancelBarberServiceCreation"
@@ -90,7 +94,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/btnCreateBarberService"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.945" />
+        app:layout_constraintVertical_bias="0.945"
+        style="@style/ButtonStyle"/>
 
     <Button
         android:id="@+id/btnCreateBarberService"
@@ -101,6 +106,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.945" />
+        app:layout_constraintVertical_bias="0.945"
+        style="@style/ButtonStyle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

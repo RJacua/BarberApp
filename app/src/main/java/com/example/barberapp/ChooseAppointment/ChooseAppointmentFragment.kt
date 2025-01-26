@@ -155,16 +155,20 @@ class ChooseAppointmentFragment : Fragment() {
                         // Se o botão já estiver marcado, desmarque-o
                         isSelected = false
                         setBackgroundColor(Color.GRAY)
+                        setTextColor(Color.parseColor("#F6BE00"))
                         tempSelectedTime = null
                         selectedButton = null
                     } else {
                         // Desmarcar o botão anterior, se existir
                         selectedButton?.isSelected = false
                         selectedButton?.setBackgroundColor(Color.GRAY)
+                        selectedButton?.setTextColor(Color.parseColor("#F6BE00"))
 
                         // Marcar o botão atual como selecionado
                         isSelected = true
-                        setBackgroundColor(Color.parseColor("#4CAF50"))
+                        setBackgroundColor(Color.parseColor("#F6BE00"))
+                        setTextColor(Color.BLACK)
+
 
                         tempSelectedTime = actualSlot
                         selectedButton = this

@@ -18,7 +18,8 @@
             android:textSize="18sp"
             android:textStyle="bold"
             android:layout_gravity="center"
-            android:paddingBottom="16dp" />
+            android:paddingBottom="16dp"
+            style="@style/TextStyle.Subtitle"/>
 
         <!-- Tabela (dinâmica, criada no código) -->
         <TableLayout
@@ -42,14 +43,16 @@
                 android:id="@+id/btnSaveSchedule"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Save" />
+                android:text="Save"
+                style="@style/ButtonStyle"/>
 
             <Button
                 android:id="@+id/btnBackScheduleBackToHome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:text="Back" />
+                android:text="Back"
+                style="@style/ButtonStyle"/>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

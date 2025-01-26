@@ -16,7 +16,7 @@
     <color name="colorButtonText">#000000</color> <!-- Texto preto para contraste -->
 
     <!-- Cor de fundo dos botões desativados -->
-    <color name="colorButtonDisabledBackground">#7F7F7F</color> <!-- Cor de fundo dos botões inativos (cinza) -->
+    <color name="colorButtonDisabledBackground">#212121</color> <!-- Cor de fundo dos botões inativos (cinza) -->
 
     <!-- Cor do texto dos botões desativados -->
     <color name="colorButtonDisabledText">#B0B0B0</color> <!-- Texto de botão inativo (cinza claro) -->

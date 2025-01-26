@@ -6,7 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
 
-class GalleryViewModel(application: Application) : AndroidViewModel(application) {
+class BarberGalleryViewModel(application: Application) : AndroidViewModel(application) {
 
     private val _photos = MutableLiveData<List<String>>()
     val photos: LiveData<List<String>> get() = _photos

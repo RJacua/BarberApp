@@ -69,6 +69,17 @@
         <item name="android:textStyle">normal</item> <!-- Texto normal -->
     </style>
 
+    <!-- Estilo para os dias do calendário -->
+    <style name="CalendarDateStyle" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textSize">18sp</item> <!-- Tamanho da fonte -->
+        <item name="android:textColor">@color/colorText</item> <!-- Cor do texto -->
+    </style>
+
+    <!-- Estilo para os dias da semana (segunda, terça, etc.) -->
+    <style name="CalendarWeekDayStyle" parent="TextAppearance.Material3.BodySmall">
+        <item name="android:textSize">16sp</item> <!-- Tamanho da fonte -->
+        <item name="android:textColor">@color/colorText</item> <!-- Cor do texto -->
+    </style>
 
 
     <!-- Tema principal que herda do Base -->

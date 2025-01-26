@@ -101,9 +101,15 @@ class HomeClientFragment : Fragment() {
         }
 
         if (UserSession.selectedBarberShopId == null) {
-            binding.btnBarber.isEnabled = false
+            binding.btnBarber.apply {
+                alpha = 0.3f
+                isEnabled = false
+            }
         } else {
-            binding.btnBarber.isEnabled = true
+            binding.btnBarber.apply {
+                alpha = 1f
+                isEnabled = true
+            }
         }
 
         binding.btnBarber.setOnClickListener {
@@ -111,27 +117,45 @@ class HomeClientFragment : Fragment() {
         }
 
         if (UserSession.selectedBarberId == null) {
-            binding.btnServices.isEnabled = false
+            binding.btnServices.apply {
+                alpha = 0.3f
+                isEnabled = false
+            }
         } else {
-            binding.btnServices.isEnabled = true
+            binding.btnServices.apply {
+                alpha = 1f
+                isEnabled = true
+            }
         }
         binding.btnServices.setOnClickListener {
             findNavController().navigate(HomeClientFragmentDirections.actionHomeClientFragmentToServiceFragment())
         }
 
         if (UserSession.selectedServiceIds.isEmpty()) {
-            binding.btnAppointment.isEnabled = false
+            binding.btnAppointment.apply {
+                alpha = 0.3f
+                isEnabled = false
+            }
         } else {
-            binding.btnAppointment.isEnabled = true
+            binding.btnAppointment.apply {
+                alpha = 1f
+                isEnabled = true
+            }
         }
         binding.btnAppointment.setOnClickListener {
             findNavController().navigate(HomeClientFragmentDirections.actionHomeClientFragmentToAppointmentFragment())
         }
 
         if (UserSession.selectedAppointmentTime == null) {
-            binding.btnsave.isEnabled = false
+            binding.btnsave.apply {
+                alpha = 0.3f
+                isEnabled = false
+            }
         } else {
-            binding.btnsave.isEnabled = true
+            binding.btnsave.apply {
+                alpha = 1f
+                isEnabled = true
+            }
         }
         binding.btnsave.setOnClickListener {
             lifecycleScope.launch {

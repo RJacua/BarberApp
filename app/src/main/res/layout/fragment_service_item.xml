@@ -38,7 +38,8 @@
         app:layout_constraintHorizontal_bias="0.055"
         app:layout_constraintStart_toEndOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.495" />
+        app:layout_constraintVertical_bias="0.495"
+        style="@style/TextStyle.Body"/>
 
     <TextView
         android:id="@+id/servicePriceText"
@@ -49,7 +50,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/serviceNameText"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.495" />
+        app:layout_constraintVertical_bias="0.495"
+        style="@style/TextStyle.Body"/>
 
     <TextView
         android:id="@+id/durationText"
@@ -60,7 +62,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.039"
         app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/serviceNameText" />
+        app:layout_constraintTop_toBottomOf="@+id/serviceNameText"
+        style="@style/TextStyle.Body"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

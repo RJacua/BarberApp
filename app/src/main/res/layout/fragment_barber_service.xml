@@ -18,7 +18,8 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/TextStyle.Subtitle"/>
 
     <!-- RecyclerView para a lista de serviços -->
     <androidx.recyclerview.widget.RecyclerView
@@ -52,6 +53,7 @@
             android:layout_width="150dp"
             android:layout_height="50dp"
             android:layout_marginStart="8dp"
-            android:text="Back to Home" />
+            android:text="Back to Home"
+            style="@style/ButtonStyle"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

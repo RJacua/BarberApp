@@ -15,11 +15,11 @@ import androidx.recyclerview.widget.RecyclerView
 import coil3.load
 import com.example.barberapp.UserSession
 import com.example.barberapp.databinding.FragmentGalleryBinding
-import com.example.barberapp.databinding.PhotoItemBinding
+import com.example.barberapp.databinding.FragmentPhotoItemBinding
 
 class GalleryFragment : Fragment() {
     private lateinit var binding: FragmentGalleryBinding
-    private val viewModel: GalleryViewModel by viewModels()
+    private val viewModel: BarberGalleryViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentGalleryBinding.inflate(inflater, container, false)
@@ -30,7 +30,7 @@ class GalleryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Configuração do RecyclerView para exibir fotos em 3 colunas
-        binding.galleryRecyclerView.layoutManager = GridLayoutManager(requireContext(), 3)
+        binding.galleryRecyclerView.layoutManager = GridLayoutManager(requireContext(), 1)
         val adapter = PhotoAdapter()
         binding.galleryRecyclerView.adapter = adapter
 
@@ -45,6 +45,10 @@ class GalleryFragment : Fragment() {
 
         binding.loadPhotosBtn.setOnClickListener{
             findNavController().navigate(GalleryFragmentDirections.actionGalleryFragmentToCameraFragment())
+        }
+
+        binding.btnBack.setOnClickListener{
+            findNavController().popBackStack()
         }
     }
 
@@ -68,7 +72,7 @@ class GalleryFragment : Fragment() {
 
 class PhotoAdapter : ListAdapter<String, PhotoAdapter.PhotoViewHolder>(DiffCallback) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {
-        val binding = PhotoItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = FragmentPhotoItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return PhotoViewHolder(binding)
     }
 
@@ -76,7 +80,7 @@ class PhotoAdapter : ListAdapter<String, PhotoAdapter.PhotoViewHolder>(DiffCallb
         holder.bind(getItem(position))
     }
 
-    inner class PhotoViewHolder(private val binding: PhotoItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class PhotoViewHolder(private val binding: FragmentPhotoItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(photoPath: String) {
             binding.photoImageView.load(photoPath)
             Log.d("PhotoAdapter", "Carregando imagem: $photoPath")
