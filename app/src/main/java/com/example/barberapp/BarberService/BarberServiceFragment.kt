@@ -1,24 +1,24 @@
 package com.example.barberapp.BarberService
 
+import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.barberapp.Login.LoginViewModel
+import com.example.barberapp.R
 import com.example.barberapp.UserSession
 import com.example.barberapp.data.BarberServiceDetail
 import com.example.barberapp.databinding.FragmentBarberServiceBinding
 import com.example.barberapp.databinding.FragmentBarberServiceItemBinding
-import com.example.barberapp.databinding.FragmentServiceItemBinding
 import java.text.DecimalFormat
 
 class BarberServiceFragment : Fragment() {
@@ -98,12 +98,33 @@ class BarberServiceFragment : Fragment() {
             val decimalFormat = DecimalFormat("#.00") // Garante duas casas decimais
             val stringPrice = decimalFormat.format(price)
 
+            // Define estilos com base em "isActive"
+            if (serviceDetail.isActive) {
+                // Ativo: texto negrito e fundo amarelado
+                binding.root.setBackgroundColor(Color.parseColor("#FFF9C4")) // Amarelo claro (Light Yellow)
+                binding.serviceNameText.setTextColor(Color.BLACK)
+                binding.serviceNameText.setTypeface(null, Typeface.BOLD)
+                binding.servicePriceText.setTextColor(Color.BLACK)
+                binding.servicePriceText.setTypeface(null, Typeface.BOLD)
+                binding.durationText.setTextColor(Color.BLACK)
+                binding.durationText.setTypeface(null, Typeface.BOLD)
+            } else {
+                // Inativo: texto acinzentado e fundo desbotado
+                binding.root.setBackgroundColor(Color.parseColor("#E0E0E0")) // Cinza claro (Light Gray)
+                binding.serviceNameText.setTextColor(Color.GRAY)
+                binding.serviceNameText.setTypeface(null, Typeface.NORMAL)
+                binding.servicePriceText.setTextColor(Color.GRAY)
+                binding.servicePriceText.setTypeface(null, Typeface.NORMAL)
+                binding.durationText.setTextColor(Color.GRAY)
+                binding.durationText.setTypeface(null, Typeface.NORMAL)
+            }
+
+            // Define os textos dos serviços
             binding.serviceNameText.text = serviceDetail.name
             binding.servicePriceText.text = "Price: €$stringPrice"
             binding.durationText.text = "Duration: $duration"
 
-            // Configura o botão Edit
-            binding.btnEditService.visibility = View.VISIBLE
+            // Configura o botão Edit (sempre igual para ativos e inativos)
             binding.btnEditService.setOnClickListener {
                 val action = BarberServiceFragmentDirections
                     .actionBarberServiceFragmentToCreateBarberServiceFragment(
@@ -113,6 +134,8 @@ class BarberServiceFragment : Fragment() {
             }
         }
     }
+
+
 
     private val barberServiceDiffer = object : DiffUtil.ItemCallback<BarberServiceDetail>() {
         override fun areItemsTheSame(oldItem: BarberServiceDetail, newItem: BarberServiceDetail) = oldItem.serviceId == newItem.serviceId
