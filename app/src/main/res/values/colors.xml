@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+
+    <!-- Cor de fundo preta -->
+    <color name="colorBackground">#000000</color>
+
+    <!-- Cor do texto principal (amarelo) -->
+    <color name="colorText">#F6BE00</color>
+
+
+
+    <!-- Cor de fundo dos botões -->
+    <color name="colorButtonBackground">#F6BE00</color>
+
+    <!-- Cor do texto dos botões -->
+    <color name="colorButtonText">#000000</color> <!-- Texto preto para contraste -->
+
+    <!-- Cor de fundo dos botões desativados -->
+    <color name="colorButtonDisabledBackground">#7F7F7F</color> <!-- Cor de fundo dos botões inativos (cinza) -->
+
+    <!-- Cor do texto dos botões desativados -->
+    <color name="colorButtonDisabledText">#B0B0B0</color> <!-- Texto de botão inativo (cinza claro) -->
 </resources>
