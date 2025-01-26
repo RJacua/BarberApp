@@ -11,7 +11,6 @@ import com.otaliastudios.cameraview.CameraListener
 import com.otaliastudios.cameraview.PictureResult
 import java.io.File
 
-
 class CameraFragment : Fragment() {
     private lateinit var binding: FragmentCameraBinding
 
@@ -19,44 +18,29 @@ class CameraFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         binding = FragmentCameraBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.camera.setLifecycleOwner(viewLifecycleOwner)
 
-
         binding.shutterBtn.setOnClickListener {
-
             binding.camera.takePicture()
-
         }
-
 
         binding.camera.addCameraListener(object : CameraListener() {
             override fun onPictureTaken(result: PictureResult) {
-
-
-                val file = File(requireContext().filesDir, "photo.jpg")
+                val file = File(requireContext().filesDir, "photo_temp.jpg")
 
                 result.toFile(file) {
                     findNavController().navigate(
-                        CameraFragmentDirections.actionCameraFragmentToPhotoPreviewFragment(
-                            it!!
-                        )
+                        CameraFragmentDirections.actionCameraFragmentToPhotoPreviewFragment(it!!)
                     )
                 }
-
-
             }
-
         })
-
-
     }
 }

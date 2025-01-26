@@ -61,7 +61,7 @@ class HomeBarberFragment : Fragment() {
 
         //Botão para Camera
         binding.btnYourGallery.setOnClickListener{
-            findNavController().navigate(HomeBarberFragmentDirections.actionHomeBarberFragmentToCameraFragment())
+            findNavController().navigate(HomeBarberFragmentDirections.actionHomeBarberFragmentToGalleryFragment())
         }
 
         // Botão para logout

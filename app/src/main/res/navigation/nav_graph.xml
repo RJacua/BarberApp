@@ -111,6 +111,9 @@
         <action
             android:id="@+id/action_homeBarberFragment_to_barberAppointmentsFragment"
             app:destination="@id/barberAppointmentsFragment" />
+        <action
+            android:id="@+id/action_homeBarberFragment_to_galleryFragment"
+            app:destination="@id/galleryFragment" />
     </fragment>
     <fragment
         android:id="@+id/barberServiceFragment"
@@ -173,10 +176,22 @@
         <argument
             android:name="file"
             app:argType="java.io.File" />
+        <action
+            android:id="@+id/action_photoPreviewFragment_to_galleryFragment"
+            app:destination="@id/galleryFragment" />
     </fragment>
     <fragment
         android:id="@+id/barberAppointmentsFragment"
         android:name="com.example.barberapp.MyAppointmentsBarber.BarberAppointmentsFragment"
         android:label="fragment_barber_appointments"
         tools:layout="@layout/fragment_barber_appointments" />
+    <fragment
+        android:id="@+id/galleryFragment"
+        android:name="com.example.barberapp.GalleryBarber.GalleryFragment"
+        android:label="fragment_gallery"
+        tools:layout="@layout/fragment_gallery" >
+        <action
+            android:id="@+id/action_galleryFragment_to_cameraFragment"
+            app:destination="@id/cameraFragment" />
+    </fragment>
 </navigation>
