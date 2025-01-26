@@ -17,7 +17,6 @@ import com.example.barberapp.UtilityClasses.AppointmentDetails
 import com.example.barberapp.databinding.FragmentBarberAppointmentsBinding
 import com.example.barberapp.databinding.FragmentBarberAppointmentsItemBinding
 
-
 class BarberAppointmentsFragment : Fragment() {
 
     private val viewModel by viewModels<BarberAppointmentsViewModel>()
@@ -36,20 +35,26 @@ class BarberAppointmentsFragment : Fragment() {
 
         // Configurar o RecyclerView
         binding.appointmentsList.layoutManager = LinearLayoutManager(requireContext())
-        val adapter = object : ListAdapter<AppointmentDetails, BarberAppointmentsViewHolder>(appointmentDiffer) {
-            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BarberAppointmentsViewHolder {
-                val itemBinding = FragmentBarberAppointmentsItemBinding.inflate(
-                    LayoutInflater.from(parent.context),
-                    parent,
-                    false
-                )
-                return BarberAppointmentsViewHolder(itemBinding)
-            }
+        val adapter =
+            object :
+                ListAdapter<AppointmentDetails, BarberAppointmentsViewHolder>(appointmentDiffer) {
+                override fun onCreateViewHolder(
+                    parent: ViewGroup,
+                    viewType: Int
+                ): BarberAppointmentsViewHolder {
+                    val itemBinding =
+                        FragmentBarberAppointmentsItemBinding.inflate( // Usando o layout do cliente
+                            LayoutInflater.from(parent.context),
+                            parent,
+                            false
+                        )
+                    return BarberAppointmentsViewHolder(itemBinding)
+                }
 
-            override fun onBindViewHolder(holder: BarberAppointmentsViewHolder, position: Int) {
-                holder.bind(getItem(position))
+                override fun onBindViewHolder(holder: BarberAppointmentsViewHolder, position: Int) {
+                    holder.bind(getItem(position))
+                }
             }
-        }
         binding.appointmentsList.adapter = adapter
 
         // Observar os dados do ViewModel
@@ -75,26 +80,94 @@ class BarberAppointmentsFragment : Fragment() {
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(details: AppointmentDetails) {
-            binding.ClientName.text = details.clientName
+            // Preenchendo os dados do item
+            binding.textViewClientName.text = details.barberName
             binding.textViewService.text = details.serviceName
             binding.textViewPrice.text = "€${details.price}"
             binding.textViewDate.text = details.date
             binding.textViewTime.text = details.time
 
-            // Verificar o estado e aplicar cor cinza se não for "ativo"
-            if (details.status != "Ativo") {
-                binding.root.alpha = 0.5f // Tornar o item semi-transparente
-                binding.root.setBackgroundColor(
-                    binding.root.context.getColor(android.R.color.darker_gray) // Cor cinza
-                )
-            } else {
-                binding.root.alpha = 1f // Totalmente opaco
-                binding.root.setBackgroundColor(
-                    binding.root.context.getColor(android.R.color.transparent) // Sem cor de fundo
-                )
+            // Aplicando aparência condicional com base no status
+            when (details.status.lowercase()) {
+                "active" -> {
+                    binding.root.setBackgroundColor(
+                        binding.root.context.getColor(android.R.color.transparent) // Sem cor de fundo
+                    )
+                    binding.textViewClientName.setTypeface(null, android.graphics.Typeface.BOLD) // Texto em negrito
+                    binding.textViewService.setTypeface(null, android.graphics.Typeface.BOLD)
+                    binding.textViewPrice.setTypeface(null, android.graphics.Typeface.BOLD)
+                    binding.textViewDate.setTypeface(null, android.graphics.Typeface.BOLD)
+                    binding.textViewTime.setTypeface(null, android.graphics.Typeface.BOLD)
+
+                    binding.textViewClientName.setTextColor(
+                        binding.root.context.getColor(android.R.color.black)
+                    )
+                    binding.textViewService.setTextColor(
+                        binding.root.context.getColor(android.R.color.black)
+                    )
+                    binding.textViewPrice.setTextColor(
+                        binding.root.context.getColor(android.R.color.black)
+                    )
+                    binding.textViewDate.setTextColor(
+                        binding.root.context.getColor(android.R.color.black)
+                    )
+                    binding.textViewTime.setTextColor(
+                        binding.root.context.getColor(android.R.color.black)
+                    )
+                }
+
+                "completed", "missed", "canceled" -> {
+                    binding.root.setBackgroundColor(
+                        binding.root.context.getColor(android.R.color.darker_gray) // Fundo cinza para itens inativos
+                    )
+                    binding.textViewClientName.setTypeface(null, android.graphics.Typeface.NORMAL) // Texto normal
+                    binding.textViewService.setTypeface(null, android.graphics.Typeface.NORMAL)
+                    binding.textViewPrice.setTypeface(null, android.graphics.Typeface.NORMAL)
+                    binding.textViewDate.setTypeface(null, android.graphics.Typeface.NORMAL)
+                    binding.textViewTime.setTypeface(null, android.graphics.Typeface.NORMAL)
+
+                    binding.textViewClientName.setTextColor(
+                        binding.root.context.getColor(android.R.color.darker_gray)
+                    )
+                    binding.textViewService.setTextColor(
+                        binding.root.context.getColor(android.R.color.darker_gray)
+                    )
+                    binding.textViewPrice.setTextColor(
+                        binding.root.context.getColor(android.R.color.darker_gray)
+                    )
+                    binding.textViewDate.setTextColor(
+                        binding.root.context.getColor(android.R.color.darker_gray)
+                    )
+                    binding.textViewTime.setTextColor(
+                        binding.root.context.getColor(android.R.color.darker_gray)
+                    )
+                }
+
+                else -> {
+                    // Status desconhecido - fallback
+                    binding.root.setBackgroundColor(
+                        binding.root.context.getColor(android.R.color.darker_gray)
+                    )
+                }
+            }
+
+            // Configurando o botão "Edit Status" sempre ativo
+            binding.btnEditStatus.apply {
+                isEnabled = true // Sempre habilitado
+                alpha = 1f // Sempre opaco
+                setOnClickListener {
+                    val action = BarberAppointmentsFragmentDirections
+                        .actionBarberAppointmentsFragmentToAppointmentDetailsFragment(
+                            appointmentId = details.appointmentId
+                        )
+                    findNavController().navigate(action)
+                }
             }
         }
     }
+
+
+
 
     private val appointmentDiffer = object : DiffUtil.ItemCallback<AppointmentDetails>() {
         override fun areItemsTheSame(oldItem: AppointmentDetails, newItem: AppointmentDetails) =
@@ -107,3 +180,4 @@ class BarberAppointmentsFragment : Fragment() {
             oldItem == newItem
     }
 }
+

@@ -184,7 +184,11 @@
         android:id="@+id/barberAppointmentsFragment"
         android:name="com.example.barberapp.MyAppointmentsBarber.BarberAppointmentsFragment"
         android:label="fragment_barber_appointments"
-        tools:layout="@layout/fragment_barber_appointments" />
+        tools:layout="@layout/fragment_barber_appointments" >
+        <action
+            android:id="@+id/action_barberAppointmentsFragment_to_appointmentDetailsFragment"
+            app:destination="@id/appointmentDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/galleryFragment"
         android:name="com.example.barberapp.GalleryBarber.GalleryFragment"
@@ -193,5 +197,17 @@
         <action
             android:id="@+id/action_galleryFragment_to_cameraFragment"
             app:destination="@id/cameraFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/appointmentDetailsFragment"
+        android:name="com.example.barberapp.MyAppointmentsBarber.AppointmentDetailsFragment"
+        android:label="fragment_appointment_details"
+        tools:layout="@layout/fragment_appointment_details" >
+        <action
+            android:id="@+id/action_appointmentDetailsFragment_to_barberAppointmentsFragment"
+            app:destination="@id/barberAppointmentsFragment" />
+        <argument
+            android:name="appointmentId"
+            app:argType="integer" />
     </fragment>
 </navigation>

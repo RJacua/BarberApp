@@ -137,8 +137,6 @@ data class Client(
 data class Appointment(
     @PrimaryKey(autoGenerate = true) val AppointmentId: Int = 0,
     val clientId: Int,
-    //val barberId: Int,
-    //val serviceId: Int,
     val barberServiceId: Int,
     val date: String, // formato: YYYY-MM-DD
     val time: String, // formato: HH:MM

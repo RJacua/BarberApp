@@ -75,4 +75,33 @@ interface AppointmentDao: BaseDao<Appointment> {
     )
     fun getAppointmentsForBarber(barberId: Int): List<AppointmentDetails>
 
+    @Query(
+        """
+    SELECT 
+        a.AppointmentId AS appointmentId,
+        a.date AS date,
+        a.time AS time,
+        a.status AS status,
+        bs.name AS barbershopName,
+        b.name AS barberName,
+        s.name AS serviceName,
+        bsrv.price AS price,
+        c.name AS clientName
+    FROM appointments AS a
+    INNER JOIN barber_services AS bsrv ON a.barberServiceId = bsrv.barberServiceId
+    INNER JOIN barbers AS b ON bsrv.barberId = b.barberId
+    INNER JOIN barbershops AS bs ON b.barbershopId = bs.barbershopId
+    INNER JOIN services AS s ON bsrv.serviceId = s.serviceId
+    LEFT JOIN clients AS c ON a.clientId = c.clientId
+    WHERE a.appointmentId = :appointmentId
+    """
+    )
+    fun getAppointmentDetailsById(appointmentId: Int): AppointmentDetails?
+
+    @Query("UPDATE appointments SET status = :status WHERE appointmentId = :appointmentId")
+    fun updateAppointmentStatus(appointmentId: Int, status: String)
+
+
+
+
 }

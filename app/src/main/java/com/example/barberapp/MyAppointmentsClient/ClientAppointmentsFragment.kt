@@ -78,7 +78,7 @@ class ClientAppointmentsFragment : Fragment() {
                 binding.textViewTime.text = details.time
 
                 // Verificar o estado e aplicar cor cinza se não for "ativo"
-                if (details.status != "Ativo") {
+                if (details.status != "Active") {
                     binding.root.alpha = 0.5f // Tornar o item semi-transparente
                     binding.root.setBackgroundColor(
                         binding.root.context.getColor(android.R.color.darker_gray) // Cor cinza
