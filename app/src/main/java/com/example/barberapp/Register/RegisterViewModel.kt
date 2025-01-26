@@ -82,7 +82,7 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
             val barber = database.barberDao().getAllBarbersList()
                 .find { it.email == email && it.password == password }
             if (barber != null) {
-                createDefaultServicesForBarber(barber.barberId)
+                //createDefaultServicesForBarber(barber.barberId)
                 UserSession.loggedInBarber = barber // Atualiza o UserSession com o novo barbeiro
             }
 
