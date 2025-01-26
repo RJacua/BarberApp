@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Your Services:"
+        android:text="@string/yourServices"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -53,7 +53,7 @@
             android:layout_width="150dp"
             android:layout_height="50dp"
             android:layout_marginStart="8dp"
-            android:text="Back to Home"
+            android:text="@string/back"
             style="@style/ButtonStyle"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

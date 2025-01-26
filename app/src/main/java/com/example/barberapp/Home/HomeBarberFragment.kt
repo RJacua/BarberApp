@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.barberapp.Login.LoginViewModel
+import com.example.barberapp.R
 import com.example.barberapp.UserSession
 import com.example.barberapp.databinding.FragmentHomeBarberBinding
 
@@ -36,7 +37,9 @@ class HomeBarberFragment : Fragment() {
         if (barberId != null) {
             val barber = UserSession.loggedInBarber
             if (barber != null) {
-                binding.barberTitle.text = "Welcome ${barber.name}"
+//                binding.barberTitle.text = "Welcome ${barber.name}"
+                val welcomeText = getString(R.string.user_title, barber.name)
+                binding.barberTitle.text = welcomeText
             } else {
                 // Redireciona para o login se não houver barber na sessão
                 findNavController().navigate(HomeBarberFragmentDirections.actionHomeBarberFragmentToLoginFragment())

@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.barberapp.ChooseBarberShop.BarbershopViewModel
 import com.example.barberapp.ChooseBarber.ChooseBarberViewModel
 import com.example.barberapp.ChooseService.ChooseServiceViewModel
+import com.example.barberapp.R
 import com.example.barberapp.UserSession
 import com.example.barberapp.databinding.FragmentHomeClientBinding
 import kotlinx.coroutines.launch
@@ -36,7 +37,9 @@ class HomeClientFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        binding.clientTitle.setText("Welcome " + UserSession.loggedInClient!!.name)
+        val clientName = UserSession.loggedInClient!!.name
+        val welcomeText = getString(R.string.user_title, clientName)
+        binding.clientTitle.text = welcomeText
 
         // Verificar se há uma barbearia selecionada
         if (UserSession.selectedBarberShopId != null) {

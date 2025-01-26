@@ -14,7 +14,7 @@
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Define Work Schedule"
+            android:text="@string/defineWorkSchedule"
             android:textSize="18sp"
             android:textStyle="bold"
             android:layout_gravity="center"
@@ -43,7 +43,7 @@
                 android:id="@+id/btnSaveSchedule"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Save"
+                android:text="@string/save"
                 style="@style/ButtonStyle"/>
 
             <Button
@@ -51,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:text="Back"
+                android:text="@string/back"
                 style="@style/ButtonStyle"/>
         </LinearLayout>
     </LinearLayout>

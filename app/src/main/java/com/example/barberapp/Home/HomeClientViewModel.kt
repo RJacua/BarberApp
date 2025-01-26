@@ -36,7 +36,7 @@ class HomeClientViewModel(application: Application) : AndroidViewModel(applicati
                     barberServiceId = barberService.barberServiceId,
                     date = appointmentDate,
                     time = appointmentTime!!,
-                    status = "Ativo"
+                    status = "Active"
                 )
 
                 appointmentDao.insert(appointment)
