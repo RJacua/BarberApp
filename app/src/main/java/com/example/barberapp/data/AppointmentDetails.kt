@@ -8,5 +8,6 @@ data class AppointmentDetails(
     val barbershopName: String,
     val barberName: String,
     val serviceName: String,
-    val price: Double
+    val price: Double,
+    val clientName: String?,
 )

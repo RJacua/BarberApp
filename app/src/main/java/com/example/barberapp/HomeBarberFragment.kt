@@ -60,15 +60,21 @@ class HomeBarberFragment : Fragment() {
             findNavController().navigate(HomeBarberFragmentDirections.actionHomeBarberFragmentToScheduleFragment())
         }
 
+
+        //Botão para Camera
+        binding.btnYourGallery.setOnClickListener{
+            findNavController().navigate(HomeBarberFragmentDirections.actionHomeBarberFragmentToCameraFragment())
+        }
+
         // Botão para logout
         binding.btnBarberLogout.setOnClickListener {
             loginViewModel.logout() // Limpa o estado global e SharedPreferences
             findNavController().navigate(HomeBarberFragmentDirections.actionHomeBarberFragmentToLoginFragment())
         }
 
-        //Botão para Camera
-        binding.btnYourGallery.setOnClickListener{
-            findNavController().navigate(HomeBarberFragmentDirections.actionHomeBarberFragmentToCameraFragment())
+        //Botão para meus appoinments
+        binding.btnAppointments.setOnClickListener {
+            findNavController().navigate(HomeBarberFragmentDirections.actionHomeBarberFragmentToBarberAppointmentsFragment())
         }
     }
 }

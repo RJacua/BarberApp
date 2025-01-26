@@ -7,11 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.barberapp.Login.LoginViewModel
 import com.example.barberapp.Register.CreateBarberServiceViewModel
 import com.example.barberapp.UserSession
 import com.example.barberapp.databinding.FragmentCreateBarberServiceBinding
@@ -23,7 +21,6 @@ class CreateBarberServiceFragment : Fragment() {
     private val viewModel: CreateBarberServiceViewModel by viewModels {
         ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
     }
-    private val loginViewModel: LoginViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -40,7 +37,7 @@ class CreateBarberServiceFragment : Fragment() {
         val serviceId = args.serviceId
 
         // Recuperar o barberId do barbeiro logado
-        val barberId = loginViewModel.getLoggedInBarberId()
+        val barberId = UserSession.loggedInBarber!!.barberId
 
         if (barberId != null) {
             // Carregar informações do serviço para edição

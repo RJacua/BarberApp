@@ -9,7 +9,6 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.example.barberapp.ChooseBarberShop.BarbershopViewModel
 import com.example.barberapp.ChooseBarber.BarberViewModel
 import com.example.barberapp.ChooseService.ChooseServiceViewModel
@@ -36,8 +35,7 @@ class HomeClientFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        val args: HomeClientFragmentArgs by navArgs()
-        binding.clientTitle.setText("Welcome " + args.loggedName)
+        binding.clientTitle.setText("Welcome " + UserSession.loggedInClient!!.name)
 
         // Verificar se há uma barbearia selecionada
         if (UserSession.selectedBarberShopId != null) {

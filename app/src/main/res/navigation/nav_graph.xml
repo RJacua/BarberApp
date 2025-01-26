@@ -22,10 +22,6 @@
         <action
             android:id="@+id/action_homeClientFragment_to_appointmentFragment"
             app:destination="@id/appointmentFragment" />
-        <argument
-            android:name="loggedName"
-            app:argType="string"
-            android:defaultValue="Name" />
         <action
             android:id="@+id/action_homeClientFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
@@ -112,6 +108,9 @@
         <action
             android:id="@+id/action_homeBarberFragment_to_cameraFragment"
             app:destination="@id/cameraFragment" />
+        <action
+            android:id="@+id/action_homeBarberFragment_to_barberAppointmentsFragment"
+            app:destination="@id/barberAppointmentsFragment" />
     </fragment>
     <fragment
         android:id="@+id/barberServiceFragment"
@@ -175,4 +174,9 @@
             android:name="file"
             app:argType="java.io.File" />
     </fragment>
+    <fragment
+        android:id="@+id/barberAppointmentsFragment"
+        android:name="com.example.barberapp.BarberAppointmentsFragment"
+        android:label="fragment_barber_appointments"
+        tools:layout="@layout/fragment_barber_appointments" />
 </navigation>
