@@ -182,6 +182,10 @@ class HomeClientFragment : Fragment() {
             findNavController().navigate(HomeClientFragmentDirections.actionHomeClientFragmentToAppointmentsFragment())
         }
 
+        binding.btnGallery.setOnClickListener {
+            findNavController().navigate(HomeClientFragmentDirections.actionHomeClientFragmentToClientGalleryFragment())
+        }
+
     }
 
 }

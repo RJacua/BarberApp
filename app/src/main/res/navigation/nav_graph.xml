@@ -28,6 +28,9 @@
         <action
             android:id="@+id/action_homeClientFragment_to_appointmentsFragment"
             app:destination="@id/appointmentsFragment" />
+        <action
+            android:id="@+id/action_homeClientFragment_to_clientGalleryFragment"
+            app:destination="@id/clientGalleryFragment" />
     </fragment>
     <fragment
         android:id="@+id/appointmentFragment"
@@ -210,4 +213,9 @@
             android:name="appointmentId"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/clientGalleryFragment"
+        android:name="com.example.barberapp.GalleryClient.ClientGalleryFragment"
+        android:label="fragment_gallery_client"
+        tools:layout="@layout/fragment_gallery_client" />
 </navigation>
