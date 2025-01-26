@@ -1,36 +1,76 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.BarberApp" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-
         <!-- Cor de fundo do app -->
         <item name="android:windowBackground">@color/colorBackground</item>
 
         <!-- Cor do texto no app -->
-        <item name="android:textColorPrimary">@color/colorText</item> <!-- Cor de texto principal -->
-        <item name="android:textColorSecondary">@color/colorText</item> <!-- Cor de texto secundário -->
-        <item name="android:textColorHint">@color/colorText</item> <!-- Cor do texto de dica (hint) -->
+        <item name="android:textColorPrimary">@color/colorText
+        </item> <!-- Cor de texto principal -->
+        <item name="android:textColorSecondary">@color/colorText
+        </item> <!-- Cor de texto secundário -->
+        <item name="android:textColorHint">@color/colorText
+        </item> <!-- Cor do texto de dica (hint) -->
 
         <!-- Estilos para botões -->
-        <item name="android:buttonStyle">@style/ButtonStyle</item> <!-- Botões com fundo amarelo e texto amarelo -->
+        <item name="buttonStyle">@style/ButtonStyle</item> <!-- Aplica o estilo global de botões -->
 
         <!-- Cor da barra de status -->
         <item name="android:statusBarColor">@color/colorBackground</item>
     </style>
 
-    <!-- Definindo o estilo de botões -->
-    <style name="ButtonStyle">
-        <item name="android:background">@color/colorButtonBackground</item> <!-- Fundo do botão -->
-        <item name="android:textColor">@color/colorButtonText</item> <!-- Texto do botão -->
+    <!-- Estilo global para botões ativos -->
+    <style name="ButtonStyle" parent="Widget.Material3.Button">
+        <item name="android:backgroundTint">@color/colorButtonBackground
+        </item> <!-- Cor de fundo do botão -->
+        <item name="android:textColor">@color/colorButtonText</item> <!-- Cor do texto do botão -->
     </style>
 
-    <!-- Estilo de botões inativos -->
-    <style name="ButtonStyle.Disabled">
-        <item name="android:background">@color/colorButtonDisabledBackground</item> <!-- Fundo do botão desativado -->
-        <item name="android:textColor">@color/colorButtonDisabledText</item> <!-- Texto do botão desativado -->
+    <!-- Estilo para botões desativados -->
+    <style name="ButtonStyle.Disabled" parent="Widget.Material3.Button">
+        <item name="android:backgroundTint">@color/colorButtonDisabledBackground
+        </item> <!-- Fundo do botão desativado -->
+        <item name="android:textColor">@color/colorButtonDisabledText
+        </item> <!-- Texto do botão desativado -->
     </style>
 
 
+    <!-- Estilo personalizado para Checkbox -->
+    <style name="CheckboxStyle" parent="Widget.Material3.CompoundButton.CheckBox">
+        <item name="android:buttonTint">@color/colorButtonBackground</item> <!-- Cor do "check" -->
+        <item name="android:textColor">@color/colorText</item> <!-- Cor do texto -->
+    </style>
+
+
+    <!-- Estilo personalizado para Switch -->
+    <style name="SwitchStyle" parent="Widget.Material3.CompoundButton.Switch">
+        <item name="android:thumbTint">@color/colorButtonBackground
+        </item> <!-- Cor do botão deslizante -->
+        <item name="android:trackTint">@color/colorButtonDisabledBackground
+        </item> <!-- Cor do trilho -->
+        <item name="android:textColor">@color/colorText</item> <!-- Cor do texto -->
+    </style>
+
+    <style name="TextStyle.Title" parent="TextAppearance.Material3.HeadlineLarge">
+        <item name="android:textColor">@color/colorText</item> <!-- Cor amarela -->
+        <item name="android:textSize">24sp</item> <!-- Tamanho grande -->
+        <item name="android:textStyle">bold</item> <!-- Negrito -->
+    </style>
+
+    <style name="TextStyle.Subtitle" parent="TextAppearance.Material3.BodyLarge">
+        <item name="android:textColor">@color/colorText</item> <!-- Cor amarela -->
+        <item name="android:textSize">18sp</item> <!-- Tamanho médio -->
+        <item name="android:textStyle">normal</item> <!-- Texto normal -->
+    </style>
+
+    <style name="TextStyle.Body" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textColor">@color/colorButtonDisabledText</item> <!-- Cor cinza claro -->
+        <item name="android:textSize">14sp</item> <!-- Tamanho menor -->
+        <item name="android:textStyle">normal</item> <!-- Texto normal -->
+    </style>
+
+
+
+    <!-- Tema principal que herda do Base -->
     <style name="Theme.BarberApp" parent="Base.Theme.BarberApp" />
 </resources>
