@@ -56,17 +56,18 @@ class ChooseAppointmentViewModel(application: Application) : AndroidViewModel(ap
         appointments.forEach { appointment ->
             val startTime = parseTime(appointment.time)
 
-            // Converte a duração para minutos
-            val durationInMinutes = appointment.duration.minutes // Obtém os minutos de Time
+            // Obtém a duração em minutos, considerando horas completas
+            val durationInMinutes = appointment.duration.hours * 60 + appointment.duration.minutes
 
             val endTime = startTime.plusMinutes(durationInMinutes.toLong())
 
             var current = startTime
-            while (current.isBefore(endTime)) {
+            while (!current.isAfter(endTime.minusMinutes(15))) {
                 blockedSlots.add(formatTime(current))
                 current = current.plusMinutes(15)
             }
         }
+
         Log.d("Horario", "Horários bloqueados: $blockedSlots")
 
         // Retorna apenas os horários disponíveis
@@ -74,6 +75,7 @@ class ChooseAppointmentViewModel(application: Application) : AndroidViewModel(ap
         Log.d("Horario", "Horários disponíveis: $availableSlots")
         return availableSlots
     }
+
 
 
     @RequiresApi(Build.VERSION_CODES.O)
