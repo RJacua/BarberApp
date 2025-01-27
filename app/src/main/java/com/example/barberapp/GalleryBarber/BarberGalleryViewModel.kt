@@ -11,6 +11,11 @@ class BarberGalleryViewModel(application: Application) : AndroidViewModel(applic
     private val _photos = MutableLiveData<List<String>>()
     val photos: LiveData<List<String>> get() = _photos
 
+    /**
+     * Set photos
+     *
+     * @param photoPaths
+     */
     fun setPhotos(photoPaths: List<String>) {
         _photos.value = photoPaths
     }

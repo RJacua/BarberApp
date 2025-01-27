@@ -18,6 +18,7 @@ import com.example.barberapp.databinding.FragmentGalleryBinding
 import com.example.barberapp.databinding.FragmentPhotoItemBinding
 
 class GalleryFragment : Fragment() {
+
     private lateinit var binding: FragmentGalleryBinding
     private val viewModel: BarberGalleryViewModel by viewModels()
 
@@ -29,65 +30,66 @@ class GalleryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Configuração do RecyclerView para exibir fotos
         binding.galleryRecyclerView.layoutManager = GridLayoutManager(requireContext(), 1)
-        val adapter = PhotoAdapter()
+
+        val adapter = object : ListAdapter<String, PhotoViewHolder>(PhotoDiffCallback) {
+            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {
+                val itemBinding = FragmentPhotoItemBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+                return PhotoViewHolder(itemBinding)
+            }
+
+            override fun onBindViewHolder(holder: PhotoViewHolder, position: Int) {
+                holder.bind(getItem(position))
+            }
+        }
+
         binding.galleryRecyclerView.adapter = adapter
 
-        // Carregar todas as fotos automaticamente
+        // Automatically load all photos
         loadPhotos()
 
-        // Observando as fotos no ViewModel
         viewModel.photos.observe(viewLifecycleOwner) { photos ->
-            Log.d("GalleryFragment", "Fotos observadas: $photos")
+            Log.d("GalleryFragment", "Observed photos: $photos")
             adapter.submitList(photos)
         }
 
-        binding.loadPhotosBtn.setOnClickListener{
+        binding.loadPhotosBtn.setOnClickListener {
             findNavController().navigate(GalleryFragmentDirections.actionGalleryFragmentToCameraFragment())
         }
 
-        binding.btnBack.setOnClickListener{
+        binding.btnBack.setOnClickListener {
             findNavController().popBackStack()
         }
     }
 
-
-    // Função para carregar as fotos do diretório filtrando pelo barberId
+    /**
+     * Load photos from the directory filtered by barberId.
+     */
     private fun loadPhotos() {
         val barberId = UserSession.loggedInBarber!!.barberId
         val photos = requireContext().filesDir.listFiles()?.filter { file ->
-            Log.d("GalleryFragment", "Verificando arquivo: ${file.name}")
-            // Verificando se o nome do arquivo contém o barberId
+            Log.d("GalleryFragment", "Checking file: ${file.name}")
             file.nameWithoutExtension.matches(Regex("\\d+_${barberId}_\\d+"))
         }?.map { it.absolutePath } ?: emptyList()
 
-        Log.d("GalleryFragment", "Fotos encontradas para o barberId $barberId: $photos")
+        Log.d("GalleryFragment", "Photos found for barberId $barberId: $photos")
         viewModel.setPhotos(photos)
-    }
-
-
-}
-
-class PhotoAdapter : ListAdapter<String, PhotoAdapter.PhotoViewHolder>(DiffCallback) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {
-        val binding = FragmentPhotoItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return PhotoViewHolder(binding)
-    }
-
-    override fun onBindViewHolder(holder: PhotoViewHolder, position: Int) {
-        holder.bind(getItem(position))
     }
 
     inner class PhotoViewHolder(private val binding: FragmentPhotoItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(photoPath: String) {
             binding.photoImageView.load(photoPath)
-            Log.d("PhotoAdapter", "Carregando imagem: $photoPath")
+            Log.d("PhotoAdapter", "Loading image: $photoPath")
         }
     }
 
-    companion object DiffCallback : DiffUtil.ItemCallback<String>() {
+    private val PhotoDiffCallback = object : DiffUtil.ItemCallback<String>() {
         override fun areItemsTheSame(oldItem: String, newItem: String) = oldItem == newItem
+
         override fun areContentsTheSame(oldItem: String, newItem: String) = oldItem == newItem
     }
 }

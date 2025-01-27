@@ -20,10 +20,17 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    /**
+     * On destroy
+     * Override of the `onDestroy` method, executed when the fragment is destroyed.
+     * This method handles cleaning up the user's session and stored preferences based on
+     * the "keep_logged_in" setting. It also logs relevant details for debugging purposes
+     *
+     */
     override fun onDestroy() {
         super.onDestroy()
         Log.d("destroy", "destroying ${UserSession.loggedInBarber!!.barberId}")
-        // Limpa a sessão ao fechar o aplicativo
+
         val sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE)
         val isKeepLoggedIn = sharedPreferences.getBoolean("keep_logged_in", false)
 
