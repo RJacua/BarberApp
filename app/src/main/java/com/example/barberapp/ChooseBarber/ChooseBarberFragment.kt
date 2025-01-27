@@ -26,14 +26,13 @@ class ChooseBarberFragment : Fragment() {
 
     private var selectedPosition: Int = RecyclerView.NO_POSITION
 
-    // Variável temporária para armazenar a barbeiro selecionada
+    // temp variable to store selected barber
     private var selectedBarber: Barber? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Configurar o View Binding para o fragmento
         binding = FragmentBarberBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -41,7 +40,6 @@ class ChooseBarberFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Configurar RecyclerView
         binding.barberList.layoutManager = LinearLayoutManager(requireContext())
         val adapter = object : ListAdapter<Barber, BarberViewHolder>(barberDiffer) {
             override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BarberViewHolder {
@@ -59,15 +57,13 @@ class ChooseBarberFragment : Fragment() {
 
         }
 
-        // Certifique-se de que o adapter é atribuído imediatamente
         binding.barberList.adapter = adapter
 
-        // Observar os dados do ViewModel
         viewModel.barbers.observe(viewLifecycleOwner) { barbers ->
-            // Verificar se há um ID de barbeiro previamente selecionado
+            // verify if a barber was already selected
             val savedId = UserSession.selectedBarberId
             if (savedId != null) {
-                // Encontrar a posição correspondente
+                // find corresponding position
                 selectedPosition = barbers.indexOfFirst { it.barberId == savedId }
                 if (selectedPosition != RecyclerView.NO_POSITION) {
                     selectedBarber = barbers[selectedPosition]
@@ -78,9 +74,10 @@ class ChooseBarberFragment : Fragment() {
 
         binding.savebtn.setOnClickListener {
             if (selectedBarber != null) {
-                // Salvar no UserSession
+                // save to UserSession
                 UserSession.selectedBarberId = selectedBarber?.barberId
-                // Retornar ao fragmento anterior
+
+                // set all next ids as null
                 UserSession.selectedServiceIds.clear()
                 UserSession.selectedAppointmentTime = null
                 parentFragmentManager.popBackStack()
@@ -88,19 +85,19 @@ class ChooseBarberFragment : Fragment() {
             else{
                 Toast.makeText(
                     requireContext(),
-                    "Selecione um barbeiro antes de salvar.",
+                    "Please select a barber.",
                     Toast.LENGTH_SHORT
                 ).show()
             }
         }
 
         binding.backBtn.setOnClickListener{
-            findNavController().navigateUp() // Volta para o fragmento anterior
+            findNavController().navigateUp()
         }
 
     }
 
-    // ViewHolder interno
+
     inner class BarberViewHolder(private val binding: FragmentBarberItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
@@ -108,17 +105,16 @@ class ChooseBarberFragment : Fragment() {
             binding.barberName.text = barber.name
             Log.d("BarberViewHolder", "barberName set to: ${barber.name}")
 
-            // Atualiza a seleção visual
+            // update visual selection
             binding.itemContainerBarber.isSelected = isSelected
 
             binding.root.setOnClickListener {
                 val previousPosition = selectedPosition
                 selectedPosition = bindingAdapterPosition
 
-                // Atualiza o barbeiro selecionada
+                // update selected barber
                 selectedBarber = barber
 
-                // Notificar alterações visuais
                 val adapter = binding.root.parent as? RecyclerView
                 if (previousPosition != RecyclerView.NO_POSITION) {
                     adapter?.adapter?.notifyItemChanged(previousPosition)
@@ -130,7 +126,6 @@ class ChooseBarberFragment : Fragment() {
         }
     }
 
-    // DiffUtil para melhor desempenho
     private val barberDiffer = object : DiffUtil.ItemCallback<Barber>() {
         override fun areItemsTheSame(oldItem: Barber, newItem: Barber) = oldItem.barberId == newItem.barberId
         override fun areContentsTheSame(oldItem: Barber, newItem: Barber) = oldItem == newItem

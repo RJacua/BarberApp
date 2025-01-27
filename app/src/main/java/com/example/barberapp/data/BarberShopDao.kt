@@ -9,14 +9,29 @@ import androidx.room.Query
 @Dao
 interface BarberShopDao {
 
-    // Consulta para obter todas as barbearias
+    /**
+     * Get all barbershops
+     *
+     * @return
+     */
     @Query("SELECT * FROM barbershops")
     fun getAllBarbershops(): LiveData<List<Barbershop>>
 
-    // Função para inserir uma lista de barbearias
+
+    /**
+     * Insert all
+     *
+     * @param barbershops
+     */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(barbershops: List<Barbershop>)
 
+    /**
+     * Get barbershop by id
+     *
+     * @param id
+     * @return
+     */
     @Query("SELECT * FROM barbershops WHERE barbershopId = :id")
     fun getBarbershopById(id: Int): LiveData<Barbershop?>
 }

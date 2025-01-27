@@ -5,23 +5,24 @@ import kotlinx.datetime.LocalDateTime
 import java.sql.Time
 
 class LocalDateConverter {
-    @TypeConverter
-    fun toLocalDate(value: String): LocalDateTime {
-        return LocalDateTime.parse(value)
-    }
 
-    @TypeConverter
-    fun toTimestamp(date: LocalDateTime): String {
-        return date.toString()
-    }
-
-    // Converter de Time para Long (milissegundos)
+    /**
+     * From time
+     *
+     * @param time
+     * @return
+     */
     @TypeConverter
     fun fromTime(time: Time?): Long? {
-        return time?.time // Transforma Time em milissegundos
+        return time?.time
     }
 
-    // Converter de Long (milissegundos) para Time
+    /**
+     * To time
+     *
+     * @param milliseconds
+     * @return
+     */
     @TypeConverter
     fun toTime(milliseconds: Long?): Time? {
         return milliseconds?.let { Time(it) }

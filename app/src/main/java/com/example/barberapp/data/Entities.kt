@@ -3,7 +3,7 @@ package com.example.barberapp.data
 import androidx.room.*
 import java.sql.Time
 
-// Tabela Barbershop
+// Barbershop table
 @Entity(
     tableName = "barbershops",
     indices = [Index(value = ["name"], unique = true)]
@@ -17,7 +17,7 @@ data class Barbershop(
     val rating: Float
 )
 
-// Tabela Barber
+// Barber table
 @Entity(
     tableName = "barbers",
     foreignKeys = [
@@ -39,7 +39,7 @@ data class Barber(
 
 )
 
-// Tabela Service
+// Service table
 @Entity(tableName = "services")
 data class Service(
     @PrimaryKey(autoGenerate = false) val serviceId: Int,
@@ -47,7 +47,7 @@ data class Service(
     val description: String
 )
 
-// Tabela BarberService (conexão entre Barber e Service)
+// BarberService table (conection between barber and Service)
 @Entity(
     tableName = "barber_services",
     foreignKeys = [
@@ -65,7 +65,7 @@ data class Service(
         )
     ]
 )
-// Serviços por barbeiro
+// Services by Barber
 data class BarberService(
     @PrimaryKey(autoGenerate = true) val barberServiceId: Int = 0,
     val barberId: Int,
@@ -75,7 +75,7 @@ data class BarberService(
     val isActive: Boolean
 )
 
-// Tabela BarberSchedule
+// BarberSchedule table
 @Entity(
     tableName = "barber_schedules",
     foreignKeys = [
@@ -94,7 +94,7 @@ data class BarberSchedule(
     val hours: String
 )
 
-// Tabela Client
+// Client table
 @Entity(tableName = "clients")
 data class Client(
     @PrimaryKey(autoGenerate = true) val clientId: Int = 0,
@@ -104,7 +104,7 @@ data class Client(
     val phone: String
 )
 
-// Tabela Appointment (Marcação)
+// Appointmenttable
 @Entity(
     tableName = "appointments",
     foreignKeys = [
@@ -118,29 +118,16 @@ data class Client(
             entity = BarberService::class,
             parentColumns = ["barberServiceId"],
             childColumns = ["barberServiceId"],
-            //onDelete = ForeignKey.CASCADE
         )
-        /*,ForeignKey(
-            entity = Barber::class,
-            parentColumns = ["id"],
-            childColumns = ["barberId"],
-            onDelete = ForeignKey.CASCADE
-        ),*/
-        /*ForeignKey(
-            entity = Service::class,
-            parentColumns = ["id"],
-            childColumns = ["serviceId"],
-            onDelete = ForeignKey.CASCADE
-        )*/
     ]
 )
 data class Appointment(
     @PrimaryKey(autoGenerate = true) val AppointmentId: Int = 0,
     val clientId: Int,
     val barberServiceId: Int,
-    val date: String, // formato: YYYY-MM-DD
-    val time: String, // formato: HH:MM
-    val status: String // "Ativo", "Concluído", "Cancelado"
+    val date: String, // format: YYYY-MM-DD
+    val time: String, // format: HH:MM
+    val status: String // "Active", "Missed", "Canceled", "Completed".
 )
 
 

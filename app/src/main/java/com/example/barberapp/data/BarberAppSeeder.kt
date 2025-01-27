@@ -17,18 +17,14 @@ class BarberAppSeeder : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        // Obter o DAO usando o AppDatabase
         val barbershopDao = AppDatabase.invoke(this).barbershopDao()
-
-        // Carregar os dados do JSON
-        val barbershopList = loadBarbershopsFromJson()
-
         val serviceDao = AppDatabase.invoke(this).serviceDao()
 
-        // Carregar os dados do JSON
+        // load data from JSON
+        val barbershopList = loadBarbershopsFromJson()
         val serviceList = loadServicesFromJson()
 
-
+        // insert dadt from JSON
         GlobalScope.launch(Dispatchers.IO) {
             barbershopDao.insertAll(barbershopList)
             serviceDao.insertAll(serviceList)
@@ -43,6 +39,11 @@ class BarberAppSeeder : Application() {
         }
     }
 
+    /**
+     * Load barbershops from json
+     *
+     * @return
+     */
     private fun loadBarbershopsFromJson(): List<Barbershop> {
         return try {
             val inputStream = resources.openRawResource(R.raw.barber_shop_list)
@@ -52,10 +53,15 @@ class BarberAppSeeder : Application() {
             Gson().fromJson(json, type)
         } catch (e: Exception) {
             e.printStackTrace()
-            emptyList() // Retorna uma lista vazia em caso de erro
+            emptyList() // returns empty list in case of error
         }
     }
 
+    /**
+     * Load services from json
+     *
+     * @return
+     */
     private fun loadServicesFromJson(): List<Service> {
         return try {
             val inputStream = resources.openRawResource(R.raw.service_list)
@@ -65,7 +71,7 @@ class BarberAppSeeder : Application() {
             Gson().fromJson(json, type)
         } catch (e: Exception) {
             e.printStackTrace()
-            emptyList() // Retorna uma lista vazia em caso de erro
+            emptyList() // returns empty list in case of error
         }
     }
 }

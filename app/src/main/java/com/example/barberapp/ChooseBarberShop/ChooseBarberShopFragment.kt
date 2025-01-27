@@ -26,7 +26,7 @@ class ChooseBarberShopFragment : Fragment() {
 
     private var selectedPosition: Int = RecyclerView.NO_POSITION
 
-    // Variável temporária para armazenar a barbearia selecionada
+    // temp variable to store selected barbershop
     private var selectedBarbershop: Barbershop? = null
 
     override fun onCreateView(
@@ -40,7 +40,6 @@ class ChooseBarberShopFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Configurar o RecyclerView
         binding.barberShopList.layoutManager = LinearLayoutManager(requireContext())
         val adapter = object : ListAdapter<Barbershop, BarberShopViewHolder>(barbershopDiffer) {
             override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BarberShopViewHolder {
@@ -58,12 +57,11 @@ class ChooseBarberShopFragment : Fragment() {
         }
         binding.barberShopList.adapter = adapter
 
-        // Observar os dados do ViewModel e atualizá-los no RecyclerView
         viewModel.barbershops.observe(viewLifecycleOwner) { barbershops ->
-            // Verificar se há um ID de barbearia previamente selecionado
+            // verify if a barbershop was already selected
             val savedId = UserSession.selectedBarberShopId
             if (savedId != null) {
-                // Encontrar a posição correspondente
+                // find corresponding position
                 selectedPosition = barbershops.indexOfFirst { it.barbershopId == savedId }
                 if (selectedPosition != RecyclerView.NO_POSITION) {
                     selectedBarbershop = barbershops[selectedPosition]
@@ -74,39 +72,29 @@ class ChooseBarberShopFragment : Fragment() {
 
         binding.savebtn.setOnClickListener {
             if (selectedBarbershop != null) {
-                // Salvar no UserSession
+                // save to UserSession
                 UserSession.selectedBarberShopId = selectedBarbershop?.barbershopId
-//                Log.d(
-//                    "BarberShopFragment",
-//                    "Barbearia salva: ${selectedBarbershop?.barbershopId} - ${selectedBarbershop?.name}"
-//                )
-//                Toast.makeText(
-//                    requireContext(),
-//                    "Barbearia salva: ${selectedBarbershop?.name}",
-//                    Toast.LENGTH_SHORT
-//                ).show()
 
-                // Retornar ao fragmento anterior
+                // set all next ids as null
                 UserSession.selectedBarberId = null
                 UserSession.selectedServiceIds.clear()
                 UserSession.selectedAppointmentTime = null
                 parentFragmentManager.popBackStack()
             } else {
-                // Avisar que nenhuma barbearia foi selecionada
                 Toast.makeText(
                     requireContext(),
-                    "Selecione uma barbearia antes de salvar.",
+                    "Please select a barbershop.",
                     Toast.LENGTH_SHORT
                 ).show()
             }
         }
 
         binding.backBtn.setOnClickListener{
-            findNavController().navigateUp() // Volta para o fragmento anterior
+            findNavController().navigateUp()
         }
     }
 
-    // ViewHolder interno
+
     inner class BarberShopViewHolder(private val binding: FragmentBarberShopItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
@@ -115,17 +103,16 @@ class ChooseBarberShopFragment : Fragment() {
             binding.barberShopAddress.text = barbershop.address
             binding.idText.text = barbershop.barbershopId.toString()
 
-            // Atualiza a seleção visual
+            // update visual selection
             binding.itemContainer.isSelected = isSelected
 
             binding.root.setOnClickListener {
                 val previousPosition = selectedPosition
                 selectedPosition = bindingAdapterPosition
 
-                // Atualiza a barbearia selecionada
+                // update selected barbershop
                 selectedBarbershop = barbershop
 
-                // Notificar alterações visuais
                 val adapter = binding.root.parent as? RecyclerView
                 if (previousPosition != RecyclerView.NO_POSITION) {
                     adapter?.adapter?.notifyItemChanged(previousPosition)
@@ -137,7 +124,6 @@ class ChooseBarberShopFragment : Fragment() {
         }
     }
 
-    // DiffUtil para melhor desempenho
     private val barbershopDiffer = object : DiffUtil.ItemCallback<Barbershop>() {
         override fun areItemsTheSame(oldItem: Barbershop, newItem: Barbershop) =
             oldItem.barbershopId == newItem.barbershopId

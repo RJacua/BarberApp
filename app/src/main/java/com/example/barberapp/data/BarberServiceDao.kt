@@ -8,6 +8,12 @@ import com.example.barberapp.UtilityClasses.BarberServiceDetail
 @Dao
 interface BarberServiceDao : BaseDao<BarberService> {
 
+    /**
+     * Get services by barber id
+     *
+     * @param barberId
+     * @return
+     */
     @Query(
         """
         SELECT * FROM services 
@@ -18,6 +24,12 @@ interface BarberServiceDao : BaseDao<BarberService> {
     )
     fun getServicesByBarber(barberId: Int): List<Service>
 
+    /**
+     * Get barbers by service id
+     *
+     * @param serviceId
+     * @return
+     */
     @Query(
         """
         SELECT * FROM barbers 
@@ -28,12 +40,27 @@ interface BarberServiceDao : BaseDao<BarberService> {
     )
     fun getBarbersByService(serviceId: Int): List<Barber>
 
+    /**
+     * Delete services by barber id
+     *
+     * @param barberId
+     */
     @Query("DELETE FROM barber_services WHERE barberId = :barberId")
     fun deleteServicesByBarber(barberId: Int)
 
+    /**
+     * Delete barbers by service id
+     *
+     * @param serviceId
+     */
     @Query("DELETE FROM barber_services WHERE serviceId = :serviceId")
     fun deleteBarbersByService(serviceId: Int)
 
+    /**
+     * Get all barber services
+     *
+     * @return
+     */
     @Query(
         """
         SELECT * FROM barber_services
@@ -41,6 +68,12 @@ interface BarberServiceDao : BaseDao<BarberService> {
     )
     fun getAllBarberServices(): List<BarberService>
 
+    /**
+     * Get detailed services by barber id
+     *
+     * @param barberId
+     * @return
+     */
     @Query(
         """
         SELECT 
@@ -58,10 +91,21 @@ interface BarberServiceDao : BaseDao<BarberService> {
     )
     fun getDetailedServicesByBarber(barberId: Int): List<BarberServiceDetail>
 
-    // Método para inserir múltiplos registros com anotação válida do Room
+    /**
+     * Insert all
+     *
+     * @param barberServices
+     */
     @Insert
     fun insertAll(barberServices: List<BarberService>)
 
+    /**
+     * Get barber service by id
+     *
+     * @param barberId
+     * @param serviceId
+     * @return
+     */
     @Query(
         """
     SELECT * FROM barber_services

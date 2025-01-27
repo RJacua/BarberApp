@@ -12,15 +12,7 @@ class ChooseBarberViewModel(application: Application) : AndroidViewModel(applica
 
     private val barberDao = AppDatabase(application).barberDao()
 
-    // LiveData para observar os barbeiros disponíveis
     val barbers: LiveData<List<Barber>> = barberDao.getBarbersByBarbershopId(UserSession.selectedBarberShopId!!)
-
-    private val _selectedBarber = MutableLiveData<Barber?>()
-    val selectedBarber: LiveData<Barber?> = _selectedBarber
-
-    fun selectBarber(barber: Barber) {
-        _selectedBarber.value = barber
-    }
 
     /**
      * Get barber by id

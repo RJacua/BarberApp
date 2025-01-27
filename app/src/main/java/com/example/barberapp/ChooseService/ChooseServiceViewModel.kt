@@ -13,17 +13,14 @@ class ChooseServiceViewModel(application: Application) : AndroidViewModel(applic
 
     private val serviceDao = AppDatabase(application).serviceDao()
 
-    // LiveData para observar os serviços disponíveis
     val services: LiveData<List<Service>> = serviceDao.getAllServices()
 
-    fun getServiceById(id: Int): LiveData<Service?> {
-        val result = MutableLiveData<Service?>()
-        viewModelScope.launch {
-            result.postValue(serviceDao.getServiceById(id))
-        }
-        return result
-    }
-
+    /**
+     * Get services by ids
+     *
+     * @param ids
+     * @return
+     */
     fun getServicesByIds(ids: List<Int>): LiveData<List<Service>> {
         return serviceDao.getServicesByIds(ids)
     }
