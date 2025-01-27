@@ -39,30 +39,35 @@ class ChooseAppointmentFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val barberId = UserSession.selectedBarberId!!
 
+        // Get the current date
         val today = Calendar.getInstance()
         val todayYear = today.get(Calendar.YEAR)
         val todayMonth = today.get(Calendar.MONTH)
         val todayDay = today.get(Calendar.DAY_OF_MONTH)
 
+        // Format the current date
         val formattedTodayDate = "${todayYear}-${todayMonth + 1}-${todayDay}"
-        tempSelectedDate = formattedTodayDate // Salvar o dia de hoje como selecionado
+        tempSelectedDate = formattedTodayDate // Save today's date as selected
 
-        binding.calendarView.minDate = today.timeInMillis // Desabilita dias anteriores
+        // Disable past dates in the calendar
+        binding.calendarView.minDate = today.timeInMillis
 
-        // Observers para slots
+        // Observe changes in morning slots
         viewModel.morningSlots.observe(viewLifecycleOwner) { slots ->
             renderSlots(slots, binding.morningContainer)
         }
+        // Observe changes in afternoon slots
         viewModel.afternoonSlots.observe(viewLifecycleOwner) { slots ->
             renderSlots(slots, binding.afternoonContainer)
         }
 
-        // Unificado: Listener do calendário com lógica de dias passados
+        // Handle date selection in the calendar
         binding.calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
             val selectedDate = Calendar.getInstance().apply {
                 set(year, month, dayOfMonth)
             }
 
+            // Check if the selected date is in the past
             val isPastDate = selectedDate.before(today.apply {
                 set(Calendar.HOUR_OF_DAY, 0)
                 set(Calendar.MINUTE, 0)
@@ -71,50 +76,64 @@ class ChooseAppointmentFragment : Fragment() {
             })
 
             if (isPastDate) {
-                Toast.makeText(context, "Este dia já passou", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "This date has already passed", Toast.LENGTH_SHORT).show()
                 return@setOnDateChangeListener
             }
 
-            // Formatar e salvar a data selecionada
+            // Format and save the selected date
             val formattedDate = "${year}-${month + 1}-${dayOfMonth}"
             tempSelectedDate = formattedDate
 
-            // Limpar os slots antes de carregar os novos horários
+            // Clear current time slots before loading new ones
             clearSlots()
+
             val dayOfWeek = selectedDate.get(Calendar.DAY_OF_WEEK) - 2
             viewModel.loadSchedules(barberId, dayOfWeek, formattedDate)
         }
 
-        // Inicializar com o dia de hoje
+        // Initialize the schedule for today
         initializeTodaySchedule(today, barberId)
 
-        // Configurar botões de "Morning" e "Afternoon"
+        // Configure "Morning" and "Afternoon" buttons
         configureTimeOfDayButtons()
 
-        // Configurar o botão de salvar
         binding.saveBtn.setOnClickListener {
             saveSelectedTimeAndDate()
         }
 
-        // Configurar o botão de voltar
         binding.backBtn.setOnClickListener {
             findNavController().navigateUp()
         }
     }
 
+    /**
+     * Initialize today schedule
+     * Initialize the calendar with today's date
+     *
+     * @param today
+     * @param barberId
+     */
     @RequiresApi(Build.VERSION_CODES.O)
     private fun initializeTodaySchedule(today: Calendar, barberId: Int) {
+        // Initialize the calendar with today's date
         val todayYear = today.get(Calendar.YEAR)
         val todayMonth = today.get(Calendar.MONTH)
         val todayDay = today.get(Calendar.DAY_OF_MONTH)
-        binding.calendarView.date = today.timeInMillis // Define a data atual no calendário
+        binding.calendarView.date = today.timeInMillis
 
+        // Clear current time slots
         clearSlots()
+
         val todayDayOfWeek = today.get(Calendar.DAY_OF_WEEK) - 2
         val formattedDate = "${todayYear}-${todayMonth + 1}-${todayDay}"
         viewModel.loadSchedules(barberId, todayDayOfWeek, formattedDate)
     }
 
+    /**
+     * Configure time of day buttons
+     * Configure buttons to switch between "Morning" and "Afternoon"
+     *
+     */
     private fun configureTimeOfDayButtons() {
         updateButtonStates(binding.morningLabel, binding.afternoonLabel)
 
@@ -131,6 +150,11 @@ class ChooseAppointmentFragment : Fragment() {
         }
     }
 
+    /**
+     * Save selected time and date
+     * Save the selected time and date chosen by the client
+     *
+     */
     private fun saveSelectedTimeAndDate() {
         val selectedTime = tempSelectedTime
         val selectedDate = tempSelectedDate
@@ -139,30 +163,49 @@ class ChooseAppointmentFragment : Fragment() {
             UserSession.selectedAppointmentDate = selectedDate
             parentFragmentManager.popBackStack()
         } else {
-            Toast.makeText(context, "Selecione um horário e uma data antes de salvar.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Select a time and date before saving.", Toast.LENGTH_SHORT).show()
         }
     }
 
+    /**
+     * Update button states
+     *
+     * @param activeButton
+     * @param inactiveButton
+     */
     private fun updateButtonStates(activeButton: Button, inactiveButton: Button) {
         activeButton.alpha = 1f
         inactiveButton.alpha = 0.5f
     }
 
+
+    /**
+     * Render slots
+     * Renders the available time slots in a layout container.
+     * For each slot, creates an interactive button allowing the client to select a time.
+     * Blocked (inactive) slots are ignored.
+     *
+     * @param slots
+     * @param container
+     */
     private fun renderSlots(slots: List<String>, container: GridLayout) {
+        // Render available time slots
         container.removeAllViews()
         slots.forEach { slot ->
-            val isBlocked = slot.endsWith("*")
+            val isBlocked = slot.endsWith("*") // Check if the time slot is blocked
             var actualSlot = slot.removeSuffix("*")
             if (isBlocked) return@forEach
 
             actualSlot = actualSlot.replaceFirst(":00", "")
 
+            // Create a button for each available time slot
             val button = Button(requireContext()).apply {
                 text = actualSlot
                 setBackgroundColor(if (isBlocked) Color.LTGRAY else Color.GRAY)
                 isEnabled = !isBlocked
 
                 setOnClickListener {
+                    // Logic to select/deselect a time slot
                     if (isSelected) {
                         isSelected = false
                         setBackgroundColor(Color.GRAY)
@@ -184,6 +227,7 @@ class ChooseAppointmentFragment : Fragment() {
                 }
             }
 
+            // Set margins and layout for the button
             val params = GridLayout.LayoutParams().apply {
                 width = 0
                 height = GridLayout.LayoutParams.WRAP_CONTENT
@@ -196,6 +240,11 @@ class ChooseAppointmentFragment : Fragment() {
         }
     }
 
+    /**
+     * Clear slots
+     * Clear the displayed time slots
+     *
+     */
     private fun clearSlots() {
         binding.morningContainer.removeAllViews()
         binding.afternoonContainer.removeAllViews()

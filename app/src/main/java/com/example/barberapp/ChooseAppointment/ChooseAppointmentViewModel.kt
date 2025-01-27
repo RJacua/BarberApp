@@ -22,81 +22,99 @@ class ChooseAppointmentViewModel(application: Application) : AndroidViewModel(ap
     private val _afternoonSlots = MutableLiveData<List<String>>()
     val afternoonSlots: LiveData<List<String>> = _afternoonSlots
 
+    /**
+     * Load schedules
+     * Load schedules and filter available time slots.
+     *
+     * @param barberId
+     * @param dayOfWeek
+     * @param date
+     */
     @RequiresApi(Build.VERSION_CODES.O)
     fun loadSchedules(barberId: Int, dayOfWeek: Int, date: String) {
+        // Retrieve schedules and appointments from the database
         val schedules = scheduleDao.getSchedulesByDay(barberId, dayOfWeek)
         val appointments = appointmentDao.getAppointmentsWithDurationByBarber(barberId, date)
-        Log.d("Horario", "Horários encontrados: $schedules")
-        Log.d("Horario", "Marcações encontradas: $appointments")
+        Log.d("Horario", "Schedules found: $schedules")
+        Log.d("Horario", "Appointments found: $appointments")
 
         if (schedules.isNotEmpty()) {
+            // Extract working hours
             val hours = schedules.first().hours
-            Log.d("Horario", "Horários de trabalho: $hours")
+            Log.d("Horario", "Working hours: $hours")
 
+            // Filter available slots
             val availableSlots = filterAvailableSlots(hours, appointments, date)
-
             val (morning, afternoon) = partitionSlots(availableSlots)
+
+            // Update LiveData for morning and afternoon slots
             _morningSlots.value = morning
             _afternoonSlots.value = afternoon
-
-            Log.d("Horario", "Manhã: $morning, Tarde: $afternoon")
+            Log.d("Horario", "Morning: $morning, Afternoon: $afternoon")
         }
     }
 
+    /**
+     * Filter available slots
+     * Filter the list of available time slots by removing already booked ones
+     *
+     * @param hours
+     * @param appointments
+     * @param selectedDate
+     * @return
+     */
     @RequiresApi(Build.VERSION_CODES.O)
     private fun filterAvailableSlots(
-        hours: String,
-        appointments: List<AppointmentWithDuration>,
-        selectedDate: String
+        hours: String, appointments: List<AppointmentWithDuration>, selectedDate: String
     ): List<String> {
+        // Generate all possible time slots
         val allSlots = hours.split(",").flatMap { generateSlots(it.toInt()) }
+        Log.d("Horario", "Todos os Horarios: $allSlots")
 
-        Log.d("Horario", "Todos os horários: $allSlots")
-
-        // Obtém a hora atual arredondada para o próximo bloco de 15 minutos
         val now = getRoundedCurrentTime()
-        Log.d("Horario", "Hora atual arredondada: $now")
-
-        // Obtém a data de hoje automaticamente
         val todayDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-M-d"))
-        Log.d("Horario", "data atual: $todayDate")
-        Log.d("Horario", "data atual: $selectedDate")
 
-        // Se a data selecionada for hoje, aplica a lógica de restrição de horário
+        // Filter slots based on the selected date
         val filteredSlots = if (selectedDate == todayDate) {
             allSlots.filter { parseTime(it) >= now }
         } else {
             allSlots
         }
 
-        // Identifica os horários bloqueados por marcações existentes
-        val blockedSlots = mutableSetOf<String>()
-        appointments.forEach { appointment ->
+        // Calculate blocked slots from existing appointments
+        val blockedSlots = appointments.flatMap { appointment ->
             val startTime = parseTime(appointment.time)
             val durationInMinutes = appointment.duration.hours * 60 + appointment.duration.minutes
             val endTime = startTime.plusMinutes(durationInMinutes.toLong())
 
-            var current = startTime
-            while (!current.isAfter(endTime.minusMinutes(15))) {
-                blockedSlots.add(formatTime(current))
-                current = current.plusMinutes(15)
-            }
-        }
+            generateSequence(startTime) { it.plusMinutes(15) }.takeWhile {
+                    !it.isAfter(
+                        endTime.minusMinutes(
+                            15
+                        )
+                    )
+                }.map { formatTime(it) }.toList()
+        }.toSet()
 
-        Log.d("Horario", "Horários bloqueados: $blockedSlots")
+        Log.d("Horario", "Horarios Bloqueados: $blockedSlots")
 
-        // Filtra horários disponíveis removendo os já bloqueados
+        // Remove blocked slots from the list of all slots
         val availableSlots = filteredSlots.filter { it !in blockedSlots }
-        Log.d("Horario", "Horários disponíveis: $availableSlots")
+        Log.d("Horario", "Horarios Disponiveis: $availableSlots")
 
         return availableSlots
     }
 
+    /**
+     * Get rounded current time
+     * Get the current time and round it to the next 15-minute block
+     *
+     * @return
+     */
     @RequiresApi(Build.VERSION_CODES.O)
     private fun getRoundedCurrentTime(): LocalTime {
         val now = LocalTime.now()
-        val minutes = now.minute
-        val roundedMinutes = ((minutes / 15) + 1) * 15
+        val roundedMinutes = ((now.minute / 15) + 1) * 15
 
         return if (roundedMinutes >= 60) {
             now.plusHours(1).withMinute(0).withSecond(0)
@@ -105,6 +123,13 @@ class ChooseAppointmentViewModel(application: Application) : AndroidViewModel(ap
         }
     }
 
+    /**
+     * Partition slots
+     * Partition slots into morning and afternoon categories
+     *
+     * @param slots
+     * @return
+     */
     @RequiresApi(Build.VERSION_CODES.O)
     private fun partitionSlots(slots: List<String>): Pair<List<String>, List<String>> {
         val morning = slots.filter { parseTime(it) < LocalTime.of(12, 0) }
@@ -112,32 +137,42 @@ class ChooseAppointmentViewModel(application: Application) : AndroidViewModel(ap
         return Pair(morning, afternoon)
     }
 
+    /**
+     * Generate slots
+     * Generate 15-minute intervals for a given hour
+     *
+     * @param hour
+     * @return
+     */
     private fun generateSlots(hour: Int): List<String> {
-        val slots = mutableListOf<String>()
-        val minutes = listOf("00", "15", "30", "45")
-        if (hour == 9) {
-            for (minute in minutes) {
-                slots.add("0$hour:$minute:00") // Adicionando segundos
-            }
-        } else {
-            for (minute in minutes) {
-                slots.add("$hour:$minute:00") // Adicionando segundos
-            }
+        return (0..45 step 15).map { minute ->
+            String.format("%02d:%02d:00", hour, minute)
         }
-        return slots
     }
 
+    /**
+     * Parse time
+     * Parse a time string into a LocalTime object, adding leading zeroes if necessary
+     *
+     * @param time
+     * @return
+     */
     @RequiresApi(Build.VERSION_CODES.O)
     private fun parseTime(time: String): LocalTime {
         val formattedTime = if (time.length == 7) "0$time" else time
         val timeWithSeconds = if (formattedTime.length == 5) "$formattedTime:00" else formattedTime
-
-        val formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
-        return LocalTime.parse(timeWithSeconds, formatter)
+        return LocalTime.parse(timeWithSeconds, DateTimeFormatter.ofPattern("HH:mm:ss"))
     }
 
+    /**
+     * Format time
+     * Format a LocalTime object into a string with HH:mm:ss format
+     *
+     * @param time
+     * @return
+     */
     @RequiresApi(Build.VERSION_CODES.O)
     private fun formatTime(time: LocalTime): String {
-        return String.format("%02d:%02d:%02d", time.hour, time.minute, time.second)
+        return time.format(DateTimeFormatter.ofPattern("HH:mm:ss"))
     }
 }
