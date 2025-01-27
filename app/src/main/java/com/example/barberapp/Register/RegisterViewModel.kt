@@ -19,9 +19,18 @@ import java.sql.Time
 class RegisterViewModel(application: Application) : AndroidViewModel(application) {
     private val database = AppDatabase(getApplication())
 
-    // Obter todas as barbearias como LiveData
     val barbershops: LiveData<List<Barbershop>> = database.barbershopDao().getAllBarbershops()
 
+    /**
+     * Register client
+     *
+     * @param name
+     * @param email
+     * @param password
+     * @param phone
+     * @param callback
+     * @receiver
+     */
     fun registerClient(
         name: String,
         email: String,
@@ -40,21 +49,32 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
             )
             logAllClients()
 
-            // Limpa a sessão antes de logar
+            // clean session before login
             UserSession.clearSession()
 
-            // Realizar login automaticamente após o registro
+            // automatic login after afet sign up
             val client = database.clientDao().getAllClients().find { it.email == email && it.password == password }
             if (client != null) {
-                UserSession.loggedInClient = client // Atualiza o UserSession com o novo cliente
+                UserSession.loggedInClient = client // update UserSession with the new client info
             }
 
             withContext(Dispatchers.Main) {
-                callback(client != null) // Sucesso se o cliente foi encontrado
+                callback(client != null) // success if new client is found
             }
         }
     }
 
+    /**
+     * Register barber
+     *
+     * @param name
+     * @param email
+     * @param password
+     * @param bio
+     * @param barbershopId
+     * @param callback
+     * @receiver
+     */
     fun registerBarber(
         name: String,
         email: String,
@@ -75,24 +95,27 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
             )
             logAllBarbers()
 
-            // Limpa a sessão antes de logar
+            // clean session before login
             UserSession.clearSession()
 
-            // Criar os serviços default e realizar login
+            // create default services and login
             val barber = database.barberDao().getAllBarbersList()
                 .find { it.email == email && it.password == password }
             if (barber != null) {
-                //createDefaultServicesForBarber(barber.barberId)
-                UserSession.loggedInBarber = barber // Atualiza o UserSession com o novo barbeiro
+                UserSession.loggedInBarber = barber // update UserSession with new barber info
             }
 
             withContext(Dispatchers.Main) {
-                callback(barber != null) // Sucesso se o barbeiro foi encontrado
+                callback(barber != null) // success if barber is found
             }
         }
     }
 
-    // Criar serviços padrão
+    /**
+     * Create default services for barber
+     *
+     * @param barberId
+     */
      fun createDefaultServicesForBarber(barberId: Int) {
         val services = listOf(
             1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 // IDs dos serviços
@@ -102,15 +125,19 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
             BarberService(
                 barberId = barberId,
                 serviceId = serviceId,
-                duration = Time.valueOf("00:00:00"), // Duração padrão como null
-                price = 0.0, // Preço padrão como 0.0
-                isActive = false // Inativo por padrão
+                duration = Time.valueOf("00:00:00"), // default duration is null
+                price = 0.0, // defaul price is null
+                isActive = false // default status as not active
             )
         }
 
         database.barberserviceDao().insertAll(barberServices)
     }
 
+    /**
+     * Log all clients
+     *
+     */
     private fun logAllClients() {
         viewModelScope.launch(Dispatchers.IO) {
             val clients = database.clientDao().getAllClients()
@@ -120,6 +147,10 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
+    /**
+     * Log all barbers
+     *
+     */
     private fun logAllBarbers() {
         viewModelScope.launch(Dispatchers.IO) {
             val barbers = database.barberDao().getAllBarbersList()

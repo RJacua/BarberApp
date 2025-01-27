@@ -17,7 +17,6 @@ class HomeBarberFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBarberBinding
 
-    // Usar activityViewModels para compartilhar o estado entre os fragments
     private val loginViewModel: LoginViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -28,52 +27,51 @@ class HomeBarberFragment : Fragment() {
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Acessar informações do barbeiro logado pelo LoginViewModel
         val barberId = UserSession.loggedInBarber?.barberId;
 
         if (barberId != null) {
             val barber = UserSession.loggedInBarber
             if (barber != null) {
-//                binding.barberTitle.text = "Welcome ${barber.name}"
                 val welcomeText = getString(R.string.user_title, barber.name)
                 binding.barberTitle.text = welcomeText
             } else {
-                // Redireciona para o login se não houver barber na sessão
+                // redirect to login if no barber is logged
                 findNavController().navigate(HomeBarberFragmentDirections.actionHomeBarberFragmentToLoginFragment())
                 return
             }
         } else {
-            // Redireciona para o login caso não haja barberId
+            // redirect to login of no barber id is found
             findNavController().navigate(HomeBarberFragmentDirections.actionHomeBarberFragmentToLoginFragment())
             return
         }
 
-        // Botão para gerenciar serviços
+        // button to set up services
         binding.btnYourServices.setOnClickListener {
             findNavController().navigate(HomeBarberFragmentDirections.actionHomeBarberFragmentToBarberServiceFragment())
         }
 
-        // Botão para gerenciar agenda
+        // button to set up schedule
         binding.btnYourSchedule.setOnClickListener {
             findNavController().navigate(HomeBarberFragmentDirections.actionHomeBarberFragmentToScheduleFragment())
         }
 
 
-        //Botão para Camera
+        //button to go my gallery (access to camera and photos)
         binding.btnYourGallery.setOnClickListener{
             findNavController().navigate(HomeBarberFragmentDirections.actionHomeBarberFragmentToGalleryFragment())
         }
 
-        // Botão para logout
+        // logou button
         binding.btnBarberLogout.setOnClickListener {
-            loginViewModel.logout() // Limpa o estado global e SharedPreferences
+            loginViewModel.logout() //clean user session and SharedPreferences
             findNavController().navigate(HomeBarberFragmentDirections.actionHomeBarberFragmentToLoginFragment())
         }
 
-        //Botão para meus appoinments
+        //button to my appointments
         binding.btnAppointments.setOnClickListener {
             findNavController().navigate(HomeBarberFragmentDirections.actionHomeBarberFragmentToBarberAppointmentsFragment())
         }

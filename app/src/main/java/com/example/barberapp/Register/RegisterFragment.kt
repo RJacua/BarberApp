@@ -28,10 +28,10 @@ class RegisterFragment : Fragment() {
     ): View {
         binding = FragmentRegisterBinding.inflate(inflater, container, false)
 
-        // Configurar o Spinner com as barbearias
+        // set up dropdown with barbershops
         setupSpinner()
 
-        // Tornar o Spinner visível apenas se o Switch estiver ativo
+        // make dropdown visible only if switch is active
         binding.registerSwitch.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 binding.registerBarberShopId.visibility = View.VISIBLE
@@ -45,35 +45,38 @@ class RegisterFragment : Fragment() {
         }
 
         binding.backlogin.setOnClickListener {
-            findNavController().navigateUp() // Volta para o fragmento anterior
+            findNavController().navigateUp()
         }
 
         return binding.root
     }
 
+    /**
+     * Setup spinner
+     *
+     */
     private fun setupSpinner() {
-        // Inicializar o adaptador com uma lista vazia para evitar problemas visuais
+
         val adapter = ArrayAdapter(
             requireContext(),
             R.layout.simple_spinner_item,
-            mutableListOf<String>() // Lista vazia inicial
+            mutableListOf<String>() // initial list is empty
         )
         adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
         binding.registerBarberShopId.adapter = adapter
 
-        // Observar os dados do ViewModel
         viewModel.barbershops.observe(viewLifecycleOwner) { barbershops ->
             if (!barbershops.isNullOrEmpty()) {
-                val barberShopNames = barbershops.map { it.name } // Obter os nomes
+                val barberShopNames = barbershops.map { it.name } // get names of the barbershops
                 adapter.clear()
-                adapter.addAll(barberShopNames) // Adicionar os nomes ao adaptador
+                adapter.addAll(barberShopNames) // add names to adpter
                 adapter.notifyDataSetChanged()
             } else {
-                Toast.makeText(requireContext(), "Nenhuma barbearia encontrada", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "No barbershops found", Toast.LENGTH_SHORT).show()
             }
         }
 
-        // Configurar seleção
+        // set up selection
         binding.registerBarberShopId.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 selectedBarbershopId = viewModel.barbershops.value?.get(position)?.barbershopId
@@ -86,6 +89,10 @@ class RegisterFragment : Fragment() {
     }
 
 
+    /**
+     * Register user
+     *
+     */
     private fun registerUser() {
         val name = binding.registerName.text.toString()
         val email = binding.registerEmail.text.toString()
@@ -94,31 +101,31 @@ class RegisterFragment : Fragment() {
         val isBarber = binding.registerSwitch.isChecked
 
         if (name.isBlank() || email.isBlank() || password.isBlank()) {
-            Toast.makeText(requireContext(), "Por favor, preencha todos os campos", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Please fill up all fields", Toast.LENGTH_SHORT).show()
             return
         }
 
         if (isBarber) {
-            // Registro de barbeiro com callback
-            viewModel.registerBarber(name, email, password, "algo", barbershopIdDrop!!) { isLoggedIn ->
+            // barber sign up
+            viewModel.registerBarber(name, email, password, "I'm a barber", barbershopIdDrop!!) { isLoggedIn ->
                 if (isLoggedIn) {
-                    // Sucesso no login e registro, navega para o HomeBarberFragment
+                    // success on login  and sign up, navegate to HomeBarberFragment
                     viewModel.createDefaultServicesForBarber(UserSession.loggedInBarber!!.barberId)
                     findNavController().navigate(RegisterFragmentDirections.actionRegisterFragmentToHomeBarberFragment())
                 } else {
-                    // Falha no login
-                    Toast.makeText(requireContext(), "Falha no registro/login do barbeiro.", Toast.LENGTH_SHORT).show()
+                    // login failed
+                    Toast.makeText(requireContext(), "Barber Login/Sign up in failed.", Toast.LENGTH_SHORT).show()
                 }
             }
         } else {
-            // Registro de cliente com callback
+            // client sign up
             viewModel.registerClient(name, email, password) { isLoggedIn ->
                 if (isLoggedIn) {
-                    // Sucesso no login e registro, navega para o HomeClientFragment
+                    // success on login  and sign up, navegate to HomeClientFragment
                     findNavController().navigate(RegisterFragmentDirections.actionRegisterFragmentToHomeClientFragment())
                 } else {
-                    // Falha no login
-                    Toast.makeText(requireContext(), "Falha no registro/login do cliente.", Toast.LENGTH_SHORT).show()
+                    // login failed
+                    Toast.makeText(requireContext(), "Client Login/Sign up in failed.", Toast.LENGTH_SHORT).show()
                 }
             }
         }

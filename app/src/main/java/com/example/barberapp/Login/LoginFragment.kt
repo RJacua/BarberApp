@@ -30,7 +30,7 @@ class LoginFragment : Fragment() {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
 
         val sharedPreferences = requireContext().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
-        val isKeepLoggedIn = sharedPreferences.getBoolean("keep_logged_in", false) // Correção
+        val isKeepLoggedIn = sharedPreferences.getBoolean("keep_logged_in", false)
 
         if (!isKeepLoggedIn) {
             sharedPreferences.edit().clear().apply()
@@ -45,7 +45,6 @@ class LoginFragment : Fragment() {
 
         binding.checkboxKeepLogged.isChecked = UserSession.isKeepLoggedIn // Restaura o estado
 
-        // Inicializar ViewModel
         viewModel = ViewModelProvider(
             this,
             ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
@@ -53,18 +52,18 @@ class LoginFragment : Fragment() {
 
         Log.d("Login", "O user assim q entra no app: ${UserSession.loggedInBarber?.barberId}")
 
-        // Redirecionar para Home se o usuário já estiver logado
+        // redirect to Home if user is logged
         if(UserSession.loggedInBarber != null || UserSession.loggedInClient != null){
             redirectToHome()
         }
 
-        // Configurar o botão de login
+        // login button set up
         binding.loginbtn.setOnClickListener {
             val email = binding.loginEmail.text.toString().trim()
             val password = binding.loginPassword.text.toString().trim()
 
             if (email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(context, "Preencha todos os campos!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Please fill up all fields.", Toast.LENGTH_SHORT).show()
             } else {
                 authenticateUser(email, password)
             }
@@ -75,7 +74,7 @@ class LoginFragment : Fragment() {
         }
 
         binding.checkboxKeepLogged.setOnCheckedChangeListener { _, isChecked ->
-            UserSession.isKeepLoggedIn = isChecked // Atualiza o estado global
+            UserSession.isKeepLoggedIn = isChecked // update user session
             val sharedPreferences = requireContext().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
             sharedPreferences.edit().putBoolean("keep_logged_in", isChecked).apply()
         }
@@ -83,6 +82,10 @@ class LoginFragment : Fragment() {
 
     }
 
+    /**
+     * Redirect to home
+     *
+     */
     private fun redirectToHome() {
         Log.d("LoginFragment", "Entrando em redirectToHome")
         val barber = UserSession.loggedInBarber
@@ -99,6 +102,12 @@ class LoginFragment : Fragment() {
         }
     }
 
+    /**
+     * Authenticate user
+     *
+     * @param email
+     * @param password
+     */
     private fun authenticateUser(email: String, password: String) {
         lifecycleScope.launch {
             try {

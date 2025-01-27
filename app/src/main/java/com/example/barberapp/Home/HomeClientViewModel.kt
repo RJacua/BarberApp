@@ -12,6 +12,11 @@ class HomeClientViewModel(application: Application) : AndroidViewModel(applicati
     private val barberserviceDao = AppDatabase(application).barberserviceDao()
     private val appointmentDao = AppDatabase(application).appointmentDao()
 
+    /**
+     * Create appointments
+     *
+     * @return
+     */
     suspend fun createAppointments(): Result<Boolean> {
         val client = UserSession.loggedInClient
         val barberId = UserSession.selectedBarberId
@@ -24,7 +29,7 @@ class HomeClientViewModel(application: Application) : AndroidViewModel(applicati
         }
 
         try {
-            // Itera pelos serviços selecionados e cria um Appointment para cada um
+            // iterate over selected services and make an insert into appointment table for each service
             for (serviceId in selectedServices) {
                 val barberService = barberserviceDao.getBarberServiceById(barberId, serviceId)
                 if (barberService == null) {
@@ -41,7 +46,7 @@ class HomeClientViewModel(application: Application) : AndroidViewModel(applicati
 
                 appointmentDao.insert(appointment)
 
-                // Calcula a hora do próximo serviço
+                // calculate the time for the next service
                 val serviceDuration = barberService.duration.toString() // "HH:MM:SS"
                 val durationParts = serviceDuration.split(":").map { it.toInt() }
                 val hours = durationParts[0]

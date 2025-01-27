@@ -20,8 +20,8 @@ import kotlinx.coroutines.launch
 class HomeClientFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeClientBinding
-    private val viewModelBarberShop by viewModels<BarbershopViewModel>() // ViewModel para acessar o banco de dados BarberShor
-    private val viewModelBarber by viewModels<ChooseBarberViewModel>() // ViewModel para acessar o banco de dados Barber
+    private val viewModelBarberShop by viewModels<BarbershopViewModel>()
+    private val viewModelBarber by viewModels<ChooseBarberViewModel>()
     private val viewModelChooseService by viewModels<ChooseServiceViewModel>()
     private val viewModelHomeClient by viewModels<HomeClientViewModel>()
 
@@ -41,14 +41,14 @@ class HomeClientFragment : Fragment() {
         val welcomeText = getString(R.string.user_title, clientName)
         binding.clientTitle.text = welcomeText
 
-        // Verificar se há uma barbearia selecionada
+        // verify if a barbershop is selected
         if (UserSession.selectedBarberShopId != null) {
             val selectedId = UserSession.selectedBarberShopId
-            // Consultar o nome da barbearia com base no ID
+            // check barbershop name based on id
             viewModelBarberShop.getBarbershopById(selectedId!!)
                 .observe(viewLifecycleOwner) { barbershop ->
                     if (barbershop != null) {
-                        binding.btnBarberShop.text = barbershop.name // Exibir o nome
+                        binding.btnBarberShop.text = barbershop.name // change button name to selected barbershop
                     } else {
                         binding.btnBarberShop.text = getString(R.string.barbershop)
                     }
@@ -57,13 +57,13 @@ class HomeClientFragment : Fragment() {
             binding.btnBarberShop.text = getString(R.string.barbershop)
         }
 
-        // Verificar se há um barbeiro selecionado
+        // verify if a barber is selected
         if (UserSession.selectedBarberId != null) {
             val selectedId = UserSession.selectedBarberId
-            // Consultar o nome do barbeiro com base no ID
+            // check barber name based on id
             viewModelBarber.getBarberById(selectedId!!).observe(viewLifecycleOwner) { barber ->
                 if (barber != null) {
-                    binding.btnBarber.text = barber.name // Exibir o nome
+                    binding.btnBarber.text = barber.name // change button name to selected barber
                 } else {
                     binding.btnBarber.text = getString(R.string.barber)
                 }
@@ -72,13 +72,14 @@ class HomeClientFragment : Fragment() {
             binding.btnBarber.text = getString(R.string.barber)
         }
 
-        // Verificar se há serviços selecionados
+        // verify if any services are selected
         if (UserSession.selectedServiceIds.isNotEmpty()) {
+            // check services name based on ids
             viewModelChooseService.getServicesByIds(UserSession.selectedServiceIds)
                 .observe(viewLifecycleOwner) { services ->
                     if (services.isNotEmpty()) {
                         val serviceNames = services.joinToString(", ") { it.name }
-                        binding.btnServices.text = serviceNames
+                        binding.btnServices.text = serviceNames // change button name to selected services
                     } else {
                         binding.btnServices.text = getString(R.string.services)
                     }
@@ -87,15 +88,14 @@ class HomeClientFragment : Fragment() {
             binding.btnServices.text = getString(R.string.services)
         }
 
-        // Verificar se há um horário selecionado
+        //verify if an date and time are selected
         if (UserSession.selectedAppointmentTime != null) {
             val selectedTime = UserSession.selectedAppointmentTime
             val selectedDate = UserSession.selectedAppointmentDate
-            // Exibir o horário selecionado no botão
+
             binding.btnAppointment.text = selectedDate + " - " +
-                selectedTime // Alterar o texto do botão para o horário selecionado
+                selectedTime // change button name to selected date and time
         } else {
-            // Caso não haja horário selecionado, exibir o texto padrão
             binding.btnAppointment.text = getString(R.string.setAppointments)
         }
 
@@ -164,7 +164,6 @@ class HomeClientFragment : Fragment() {
             lifecycleScope.launch {
                 val result = viewModelHomeClient.createAppointments()
                 result.onSuccess {
-//                    Toast.makeText(context, "Marcações criadas com sucesso!", Toast.LENGTH_SHORT).show()
                     findNavController().navigate(HomeClientFragmentDirections.actionHomeClientFragmentToAppointmentsFragment())
                 }.onFailure { exception ->
                     Toast.makeText(context, "Erro: ${exception.message}", Toast.LENGTH_LONG).show()
