@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.example.barberapp.R
 import com.example.barberapp.SetBarberService.BarberServiceViewModel
 import com.example.barberapp.UserSession
 import com.example.barberapp.UtilityClasses.BarberServiceDetail
@@ -160,8 +161,11 @@ class ChooseServiceFragment : Fragment() {
 
             // Atualizar a interface com os valores processados
             binding.serviceNameText.text = serviceDetail.name
-            binding.servicePriceText.text = "Price: €$stringPrice"
-            binding.durationText.text = "Duration: $duration"
+            val priceText = getString(R.string.price_text, stringPrice)
+            val durationText = getString(R.string.duration_text, duration)
+
+            binding.servicePriceText.text = priceText
+            binding.durationText.text = durationText
 
             // Define se o item está ativo ou inativo com base nos valores de preço e duração
             binding.root.isEnabled = isAvailable

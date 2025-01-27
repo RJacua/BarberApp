@@ -2,7 +2,7 @@
 <resources>
     <string name="user_title">Bem-vindo  %1$s</string>
     <string name="barbershop">Selecione a Barbearia</string>
-    <string name="barber">Selecione o barbeiro</string>
+    <string name="barber">Selecione o Barbeiro</string>
     <string name="services">Selecione os Serviços</string>
     <string name="setAppointments">Slececione o Horário</string>
     <string name="save">Salvar</string>
@@ -24,4 +24,6 @@
     <string name="takePicture">Tirar Foto</string>
     <string name="gallery">Galeria</string>
     <string name="edit">Editar</string>
+    <string name="price_text">Preço : €%1$s</string>
+    <string name="duration_text">Duração:   %1$s</string>
 </resources>

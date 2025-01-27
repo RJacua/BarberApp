@@ -26,6 +26,8 @@
     <string name="takePicture">Take Picture</string>
     <string name="gallery">Gallery</string>
     <string name="edit">Edit</string>
+    <string name="price_text">Price: €%1$s</string>
+    <string name="duration_text">Duration: %1$s</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 

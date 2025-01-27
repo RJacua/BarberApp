@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.barberapp.R
 import com.example.barberapp.UserSession
 import com.example.barberapp.UtilityClasses.BarberServiceDetail
 import com.example.barberapp.databinding.FragmentBarberServiceBinding
@@ -109,8 +110,11 @@ class BarberServiceFragment : Fragment() {
 
             // Define os textos dos serviços
             binding.serviceNameText.text = serviceDetail.name
-            binding.servicePriceText.text = "Price: €$stringPrice"
-            binding.durationText.text = "Duration: $duration"
+            val priceText = getString(R.string.price_text, stringPrice)
+            val durationText = getString(R.string.duration_text, duration)
+
+            binding.servicePriceText.text = priceText
+            binding.durationText.text = durationText
 
             // Configura o botão Edit (sempre igual para ativos e inativos)
             binding.btnEditService.setOnClickListener {
