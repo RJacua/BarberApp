@@ -90,36 +90,13 @@ class BarberAppointmentsFragment : Fragment() {
             // Aplicando aparência condicional com base no status
             when (details.status.lowercase()) {
                 "active" -> {
-                    binding.root.setBackgroundColor(
-                        binding.root.context.getColor(android.R.color.transparent) // Sem cor de fundo
-                    )
-                    binding.textViewClientName.setTypeface(null, android.graphics.Typeface.BOLD) // Texto em negrito
+                    binding.textViewClientName.setTypeface(null, android.graphics.Typeface.BOLD)
                     binding.textViewService.setTypeface(null, android.graphics.Typeface.BOLD)
                     binding.textViewPrice.setTypeface(null, android.graphics.Typeface.BOLD)
                     binding.textViewDate.setTypeface(null, android.graphics.Typeface.BOLD)
                     binding.textViewTime.setTypeface(null, android.graphics.Typeface.BOLD)
-
-                    binding.textViewClientName.setTextColor(
-                        binding.root.context.getColor(android.R.color.black)
-                    )
-                    binding.textViewService.setTextColor(
-                        binding.root.context.getColor(android.R.color.black)
-                    )
-                    binding.textViewPrice.setTextColor(
-                        binding.root.context.getColor(android.R.color.black)
-                    )
-                    binding.textViewDate.setTextColor(
-                        binding.root.context.getColor(android.R.color.black)
-                    )
-                    binding.textViewTime.setTextColor(
-                        binding.root.context.getColor(android.R.color.black)
-                    )
                 }
-
                 "completed", "missed", "canceled" -> {
-                    binding.root.setBackgroundColor(
-                        binding.root.context.getColor(android.R.color.darker_gray) // Fundo cinza para itens inativos
-                    )
                     binding.textViewClientName.setTypeface(null, android.graphics.Typeface.NORMAL) // Texto normal
                     binding.textViewService.setTypeface(null, android.graphics.Typeface.NORMAL)
                     binding.textViewPrice.setTypeface(null, android.graphics.Typeface.NORMAL)
@@ -127,20 +104,21 @@ class BarberAppointmentsFragment : Fragment() {
                     binding.textViewTime.setTypeface(null, android.graphics.Typeface.NORMAL)
 
                     binding.textViewClientName.setTextColor(
-                        binding.root.context.getColor(android.R.color.darker_gray)
+                        binding.root.context.getColor(android.R.color.black)
                     )
                     binding.textViewService.setTextColor(
-                        binding.root.context.getColor(android.R.color.darker_gray)
+                        binding.root.context.getColor(android.R.color.black)
                     )
                     binding.textViewPrice.setTextColor(
-                        binding.root.context.getColor(android.R.color.darker_gray)
+                        binding.root.context.getColor(android.R.color.black)
                     )
                     binding.textViewDate.setTextColor(
-                        binding.root.context.getColor(android.R.color.darker_gray)
+                        binding.root.context.getColor(android.R.color.black)
                     )
                     binding.textViewTime.setTextColor(
-                        binding.root.context.getColor(android.R.color.darker_gray)
+                        binding.root.context.getColor(android.R.color.black)
                     )
+
                 }
 
                 else -> {

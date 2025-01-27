@@ -9,26 +9,14 @@
     android:layout_margin="10dp"
     app:cardElevation="6dp"
     app:cardCornerRadius="8dp"
-    app:cardBackgroundColor="@android:color/transparent">
+    app:cardBackgroundColor="@android:color/transparent"> <!-- Transparente para mostrar o seletor -->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:background="@drawable/item_background"
+        android:background="@drawable/item_default_background"
         android:elevation="4dp"
         android:padding="10dp">
-
-        <!-- Nome do cliente -->
-
-        <!-- Serviço -->
-
-        <!-- Data -->
-
-        <!-- Hora -->
-
-        <!-- Preço -->
-
-        <!-- Botão para editar status -->
 
         <TextView
             android:id="@+id/textViewClientName"
@@ -41,7 +29,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.3" />
+            app:layout_constraintVertical_bias="0.3"
+            style="@style/TextStyle.Body"/>
 
         <TextView
             android:id="@+id/textViewDate"
@@ -50,7 +39,8 @@
             android:layout_marginStart="16dp"
             android:text="Date"
             app:layout_constraintStart_toEndOf="@+id/textViewClientName"
-            tools:layout_editor_absoluteY="16dp" />
+            tools:layout_editor_absoluteY="16dp"
+            style="@style/TextStyle.Body"/>
 
         <TextView
             android:id="@+id/textViewTime"
@@ -60,7 +50,8 @@
             android:layout_marginBottom="4dp"
             android:text="Time"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textViewService" />
+            app:layout_constraintStart_toEndOf="@+id/textViewService"
+            style="@style/TextStyle.Body"/>
 
         <TextView
             android:id="@+id/textViewService"
@@ -71,7 +62,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewClientName"
-            app:layout_constraintVertical_bias="0.714" />
+            app:layout_constraintVertical_bias="0.714"
+            style="@style/TextStyle.Body"/>
 
         <TextView
             android:id="@+id/textViewPrice"
@@ -84,17 +76,20 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/textViewTime"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.907" />
+            app:layout_constraintVertical_bias="0.907"
+            style="@style/TextStyle.Body"/>
 
         <Button
             android:id="@+id/btnEditStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
-            android:text="Edit Status"
+            android:text="@string/edit"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            style="@style/ButtonStyle"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

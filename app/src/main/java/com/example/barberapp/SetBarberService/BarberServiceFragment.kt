@@ -98,24 +98,13 @@ class BarberServiceFragment : Fragment() {
             val stringPrice = decimalFormat.format(price)
 
             // Define estilos com base em "isActive"
-            if (serviceDetail.isActive) {
-                // Ativo: texto negrito e fundo amarelado
-                binding.root.setBackgroundColor(Color.parseColor("#FFF9C4")) // Amarelo claro (Light Yellow)
+            if (!serviceDetail.isActive) {
                 binding.serviceNameText.setTextColor(Color.BLACK)
                 binding.serviceNameText.setTypeface(null, Typeface.BOLD)
                 binding.servicePriceText.setTextColor(Color.BLACK)
                 binding.servicePriceText.setTypeface(null, Typeface.BOLD)
                 binding.durationText.setTextColor(Color.BLACK)
                 binding.durationText.setTypeface(null, Typeface.BOLD)
-            } else {
-                // Inativo: texto acinzentado e fundo desbotado
-                binding.root.setBackgroundColor(Color.parseColor("#E0E0E0")) // Cinza claro (Light Gray)
-                binding.serviceNameText.setTextColor(Color.GRAY)
-                binding.serviceNameText.setTypeface(null, Typeface.NORMAL)
-                binding.servicePriceText.setTextColor(Color.GRAY)
-                binding.servicePriceText.setTypeface(null, Typeface.NORMAL)
-                binding.durationText.setTextColor(Color.GRAY)
-                binding.durationText.setTypeface(null, Typeface.NORMAL)
             }
 
             // Define os textos dos serviços

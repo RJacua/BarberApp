@@ -13,66 +13,62 @@
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/item_container_service"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:padding="18dp"
-    android:background="@drawable/item_default_background">
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="15dp"
-        tools:srcCompat="@tools:sample/avatars" />
+     android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:background="@drawable/item_background"
+    android:elevation="4dp"
+    android:padding="10dp">
 
     <TextView
         android:id="@+id/serviceNameText"
+        style="@style/TextStyle.Body"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Nome do Serviço"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.055"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintHorizontal_bias="0.153"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.495"
-        style="@style/TextStyle.Body"/>
-
-    <TextView
-        android:id="@+id/servicePriceText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="€50,00"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/serviceNameText"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.495"
-        style="@style/TextStyle.Body"/>
+        app:layout_constraintVertical_bias="0.098" />
 
     <TextView
         android:id="@+id/durationText"
+        style="@style/TextStyle.Body"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="10min"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.039"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintHorizontal_bias="0.12"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/serviceNameText"
-        style="@style/TextStyle.Body"/>
+        app:layout_constraintVertical_bias="0.166" />
+
+    <TextView
+        android:id="@+id/servicePriceText"
+        style="@style/TextStyle.Body"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="€50,00"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.121"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.901" />
 
     <Button
         android:id="@+id/btnEditService"
+        style="@style/ButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Edit"
+        android:text="@string/edit"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        style="@style/ButtonStyle"/>
+        app:layout_constraintHorizontal_bias="0.978"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

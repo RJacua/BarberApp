@@ -50,11 +50,11 @@ class HomeClientFragment : Fragment() {
                     if (barbershop != null) {
                         binding.btnBarberShop.text = barbershop.name // Exibir o nome
                     } else {
-                        binding.btnBarberShop.text = "Select Barber Shop"
+                        binding.btnBarberShop.text = getString(R.string.barbershop)
                     }
                 }
         } else {
-            binding.btnBarberShop.text = "Select Barber Shop"
+            binding.btnBarberShop.text = getString(R.string.barbershop)
         }
 
         // Verificar se há um barbeiro selecionado
@@ -65,11 +65,11 @@ class HomeClientFragment : Fragment() {
                 if (barber != null) {
                     binding.btnBarber.text = barber.name // Exibir o nome
                 } else {
-                    binding.btnBarber.text = "Select Barber"
+                    binding.btnBarber.text = getString(R.string.barber)
                 }
             }
         } else {
-            binding.btnBarber.text = "Select Barber"
+            binding.btnBarber.text = getString(R.string.barber)
         }
 
         // Verificar se há serviços selecionados
@@ -80,11 +80,11 @@ class HomeClientFragment : Fragment() {
                         val serviceNames = services.joinToString(", ") { it.name }
                         binding.btnServices.text = serviceNames
                     } else {
-                        binding.btnServices.text = "Select Services"
+                        binding.btnServices.text = getString(R.string.services)
                     }
                 }
         } else {
-            binding.btnServices.text = "Select Services"
+            binding.btnServices.text = getString(R.string.services)
         }
 
         // Verificar se há um horário selecionado
@@ -96,7 +96,7 @@ class HomeClientFragment : Fragment() {
                 selectedTime // Alterar o texto do botão para o horário selecionado
         } else {
             // Caso não haja horário selecionado, exibir o texto padrão
-            binding.btnAppointment.text = "Select Appointment"
+            binding.btnAppointment.text = getString(R.string.setAppointments)
         }
 
         binding.btnBarberShop.setOnClickListener {
@@ -164,7 +164,7 @@ class HomeClientFragment : Fragment() {
             lifecycleScope.launch {
                 val result = viewModelHomeClient.createAppointments()
                 result.onSuccess {
-                    Toast.makeText(context, "Marcações criadas com sucesso!", Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(context, "Marcações criadas com sucesso!", Toast.LENGTH_SHORT).show()
                     findNavController().navigate(HomeClientFragmentDirections.actionHomeClientFragmentToAppointmentsFragment())
                 }.onFailure { exception ->
                     Toast.makeText(context, "Erro: ${exception.message}", Toast.LENGTH_LONG).show()

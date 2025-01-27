@@ -3,20 +3,20 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="user_title">Welcome  %1$s</string>
-    <string name="barbershop">Barbershop</string>
-    <string name="barber">Barber</string>
-    <string name="services">Services</string>
-    <string name="setAppointments">Appointments</string>
+    <string name="barbershop">Select Barber Shop</string>
+    <string name="barber">Select Barber</string>
+    <string name="services">Select Services</string>
+    <string name="setAppointments">Select Appointments</string>
     <string name="save">Save</string>
     <string name="back">Back</string>
     <string name="appointments">My Appointments</string>
-    <string name="yourServices">Your Services</string>
-    <string name="yourSchedule">Your Schedule</string>
+    <string name="myServices">My Services</string>
+    <string name="mySchedule">My Schedule</string>
     <string name="yourGallery">Your Gallery</string>
     <string name="appointmentDate">Appointment Date</string>
     <string name="morning">Morning</string>
     <string name="afternoon">Afternoon</string>
-    <string name="selectAppointments">Select your Appointment</string>
+    <string name="selectAppointments">Select Appointment</string>
     <string name="cancel">Cancel</string>
     <string name="serviceName">Service Name</string>
     <string name="duration">Duration</string>
@@ -24,6 +24,9 @@
     <string name="defineWorkSchedule">Define Work Schedule</string>
     <string name="myGallery">My Gallery</string>
     <string name="takePicture">Take Picture</string>
+    <string name="gallery">Gallery</string>
+    <string name="edit">Edit</string>
+
     <!-- TODO: Remove or change this placeholder text -->
 
 </resources>

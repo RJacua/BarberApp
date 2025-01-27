@@ -78,19 +78,35 @@ class ClientAppointmentsFragment : Fragment() {
                 binding.textViewTime.text = details.time
 
                 // Verificar o estado e aplicar cor cinza se não for "ativo"
-                if (details.status != "Active") {
-                    binding.root.alpha = 0.5f // Tornar o item semi-transparente
-                    binding.root.setBackgroundColor(
-                        binding.root.context.getColor(android.R.color.darker_gray) // Cor cinza
-                    )
+                if (details.status == "Active") {
+                    binding.textViewBarberShop.setTypeface(null, android.graphics.Typeface.BOLD)
+                    binding.textViewBarber.setTypeface(null, android.graphics.Typeface.BOLD)
+                    binding.textViewService.setTypeface(null, android.graphics.Typeface.BOLD)
+                    binding.textViewPrice.setTypeface(null, android.graphics.Typeface.BOLD)
+                    binding.textViewDate.setTypeface(null, android.graphics.Typeface.BOLD)
+                    binding.textViewTime.setTypeface(null, android.graphics.Typeface.BOLD)
                 } else {
-                    binding.root.alpha = 1f // Totalmente opaco
-                    binding.root.setBackgroundColor(
-                        binding.root.context.getColor(android.R.color.transparent) // Sem cor de fundo
+                    binding.textViewBarberShop.setTextColor(
+                        binding.root.context.getColor(android.R.color.black)
                     )
+                    binding.textViewBarber.setTextColor(
+                        binding.root.context.getColor(android.R.color.black)
+                    )
+                    binding.textViewService.setTextColor(
+                        binding.root.context.getColor(android.R.color.black)
+                    )
+                    binding.textViewPrice.setTextColor(
+                        binding.root.context.getColor(android.R.color.black)
+                    )
+                    binding.textViewDate.setTextColor(
+                        binding.root.context.getColor(android.R.color.black)
+                    )
+                    binding.textViewTime.setTextColor(
+                        binding.root.context.getColor(android.R.color.black)
+                    )
+
                 }
             }
-
 
         }
 

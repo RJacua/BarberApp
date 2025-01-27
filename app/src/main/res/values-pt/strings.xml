@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="user_title">Bem-vindo  %1$s</string>
-    <string name="barbershop">Barbearia</string>
-    <string name="barber">Barbeiro</string>
-    <string name="services">Serviços</string>
-    <string name="setAppointments">Fazer Marcações</string>
+    <string name="barbershop">Selecione a Barbearia</string>
+    <string name="barber">Selecione o barbeiro</string>
+    <string name="services">Selecione os Serviços</string>
+    <string name="setAppointments">Slececione o Horário</string>
     <string name="save">Salvar</string>
     <string name="back">Voltar</string>
     <string name="appointments">Minhas Marcações</string>
-    <string name="yourServices">Seus Serviços</string>
-    <string name="yourSchedule">Seus Horários</string>
+    <string name="myServices">Meus Serviços</string>
+    <string name="mySchedule">Meus Horários</string>
     <string name="yourGallery">Sua Galeria</string>
     <string name="appointmentDate">Data das Marcações</string>
     <string name="morning">Manhã</string>
@@ -22,4 +22,6 @@
     <string name="defineWorkSchedule">Defina seu Horário de Trabalho</string>
     <string name="myGallery">Minha Galeria</string>
     <string name="takePicture">Tirar Foto</string>
+    <string name="gallery">Galeria</string>
+    <string name="edit">Editar</string>
 </resources>
