@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.barberapp.data.AppDatabase
 import com.example.barberapp.UtilityClasses.AppointmentWithDuration
+import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
@@ -32,7 +33,7 @@ class ChooseAppointmentViewModel(application: Application) : AndroidViewModel(ap
             val hours = schedules.first().hours
             Log.d("Horario", "Horários de trabalho: $hours")
 
-            val availableSlots = filterAvailableSlots(hours, appointments)
+            val availableSlots = filterAvailableSlots(hours, appointments, date)
 
             val (morning, afternoon) = partitionSlots(availableSlots)
             _morningSlots.value = morning
@@ -45,7 +46,8 @@ class ChooseAppointmentViewModel(application: Application) : AndroidViewModel(ap
     @RequiresApi(Build.VERSION_CODES.O)
     private fun filterAvailableSlots(
         hours: String,
-        appointments: List<AppointmentWithDuration>
+        appointments: List<AppointmentWithDuration>,
+        selectedDate: String
     ): List<String> {
         val allSlots = hours.split(",").flatMap { generateSlots(it.toInt()) }
 
@@ -55,12 +57,22 @@ class ChooseAppointmentViewModel(application: Application) : AndroidViewModel(ap
         val now = getRoundedCurrentTime()
         Log.d("Horario", "Hora atual arredondada: $now")
 
-        // Identifica os horários bloqueados por marcações
+        // Obtém a data de hoje automaticamente
+        val todayDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-M-d"))
+        Log.d("Horario", "data atual: $todayDate")
+        Log.d("Horario", "data atual: $selectedDate")
+
+        // Se a data selecionada for hoje, aplica a lógica de restrição de horário
+        val filteredSlots = if (selectedDate == todayDate) {
+            allSlots.filter { parseTime(it) >= now }
+        } else {
+            allSlots
+        }
+
+        // Identifica os horários bloqueados por marcações existentes
         val blockedSlots = mutableSetOf<String>()
         appointments.forEach { appointment ->
             val startTime = parseTime(appointment.time)
-
-            // Obtém a duração em minutos, considerando horas completas
             val durationInMinutes = appointment.duration.hours * 60 + appointment.duration.minutes
             val endTime = startTime.plusMinutes(durationInMinutes.toLong())
 
@@ -73,8 +85,8 @@ class ChooseAppointmentViewModel(application: Application) : AndroidViewModel(ap
 
         Log.d("Horario", "Horários bloqueados: $blockedSlots")
 
-        // Filtra horários disponíveis removendo os já passados e os bloqueados
-        val availableSlots = allSlots.filter { it !in blockedSlots && parseTime(it) >= now }
+        // Filtra horários disponíveis removendo os já bloqueados
+        val availableSlots = filteredSlots.filter { it !in blockedSlots }
         Log.d("Horario", "Horários disponíveis: $availableSlots")
 
         return availableSlots
@@ -93,8 +105,6 @@ class ChooseAppointmentViewModel(application: Application) : AndroidViewModel(ap
         }
     }
 
-
-
     @RequiresApi(Build.VERSION_CODES.O)
     private fun partitionSlots(slots: List<String>): Pair<List<String>, List<String>> {
         val morning = slots.filter { parseTime(it) < LocalTime.of(12, 0) }
@@ -105,14 +115,13 @@ class ChooseAppointmentViewModel(application: Application) : AndroidViewModel(ap
     private fun generateSlots(hour: Int): List<String> {
         val slots = mutableListOf<String>()
         val minutes = listOf("00", "15", "30", "45")
-        if(hour == 9){
+        if (hour == 9) {
             for (minute in minutes) {
-                slots.add("0$hour:$minute:00") // Alterado para adicionar segundos
+                slots.add("0$hour:$minute:00") // Adicionando segundos
             }
-        }
-        else {
+        } else {
             for (minute in minutes) {
-                slots.add("$hour:$minute:00") // Alterado para adicionar segundos
+                slots.add("$hour:$minute:00") // Adicionando segundos
             }
         }
         return slots
@@ -120,10 +129,7 @@ class ChooseAppointmentViewModel(application: Application) : AndroidViewModel(ap
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun parseTime(time: String): LocalTime {
-        // Garante que a hora tenha dois dígitos, adicionando um zero à esquerda se necessário
         val formattedTime = if (time.length == 7) "0$time" else time
-
-        // Garante que a string esteja no formato HH:mm:ss
         val timeWithSeconds = if (formattedTime.length == 5) "$formattedTime:00" else formattedTime
 
         val formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
@@ -132,6 +138,6 @@ class ChooseAppointmentViewModel(application: Application) : AndroidViewModel(ap
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun formatTime(time: LocalTime): String {
-        return String.format("%02d:%02d:%02d", time.hour, time.minute, time.second) // Adicionando segundos
+        return String.format("%02d:%02d:%02d", time.hour, time.minute, time.second)
     }
 }
