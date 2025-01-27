@@ -17,13 +17,18 @@ class BarberAppointmentsViewModel(application: Application) : AndroidViewModel(a
     private val _appointments = MutableLiveData<List<AppointmentDetails>>()
     val appointments: LiveData<List<AppointmentDetails>> get() = _appointments
 
-    fun loadAppointments(clientId: Int) {
+    /**
+     * Load appointment information based on the clientId
+     *
+     * @param barberId
+     */
+    fun loadAppointments(barberId: Int) {
         viewModelScope.launch {
             try {
-                val details = appointmentDao.getAppointmentDetailsForClient(clientId)
+                val details = appointmentDao.getAppointmentsForBarber(barberId)
                 _appointments.postValue(details)
             } catch (e: Exception) {
-                Log.e("AppointmentViewModel", "Erro ao carregar marcações: ${e.message}")
+                Log.e("AppointmentViewModel", "Error while loading the appointment: ${e.message}")
             }
         }
     }

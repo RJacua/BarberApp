@@ -10,7 +10,6 @@ import com.example.barberapp.data.AppDatabase
 import com.example.barberapp.UtilityClasses.AppointmentDetails
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class AppointmentDetailsViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -19,7 +18,12 @@ class AppointmentDetailsViewModel(application: Application) : AndroidViewModel(a
     private val _appointment = MutableLiveData<AppointmentDetails?>()
     val appointment: LiveData<AppointmentDetails?> get() = _appointment
 
-    // Carregar os dados do appointment
+
+    /**
+     * Load appointment information
+     *
+     * @param appointmentId
+     */
     fun loadAppointment(appointmentId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
@@ -32,7 +36,13 @@ class AppointmentDetailsViewModel(application: Application) : AndroidViewModel(a
         }
     }
 
-    // Atualizar o status do appointment
+
+    /**
+     * Changes the appointment status based on the dropdown selection
+     *
+     * @param appointmentId
+     * @param status
+     */
     fun updateAppointmentStatus(appointmentId: Int, status: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {

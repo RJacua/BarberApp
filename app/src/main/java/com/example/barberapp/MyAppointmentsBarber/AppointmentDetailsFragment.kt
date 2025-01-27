@@ -11,14 +11,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.barberapp.MyAppointmentsBarber.AppointmentDetailsFragmentArgs
 import com.example.barberapp.databinding.FragmentAppointmentDetailsBinding
 
 class AppointmentDetailsFragment : Fragment() {
 
     private lateinit var binding: FragmentAppointmentDetailsBinding
     private val viewModel: AppointmentDetailsViewModel by viewModels()
-    private val args: AppointmentDetailsFragmentArgs by navArgs() // SafeArgs para receber o appointmentId
+    private val args: AppointmentDetailsFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,17 +30,15 @@ class AppointmentDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Obter o appointmentId passado via SafeArgs
         val appointmentId = args.appointmentId
 
-        // Carregar os dados do appointment
         viewModel.loadAppointment(appointmentId)
         observeAppointmentData()
 
-        // Configurar o dropdown para os status
+
         setupStatusDropdown()
 
-        // Botão para salvar as alterações
+        //Button to save
         binding.btnSave.setOnClickListener {
             val selectedStatus = binding.dropdownStatus.selectedItem.toString()
             viewModel.updateAppointmentStatus(appointmentId, selectedStatus)
@@ -50,12 +47,17 @@ class AppointmentDetailsFragment : Fragment() {
             findNavController().navigateUp()
         }
 
-        // Botão para voltar
+        //Button to go back to Appointment List
         binding.btnCancel.setOnClickListener {
             findNavController().navigateUp()
         }
     }
 
+
+    /**
+     * Creates the Status Dropdown for the Appointment Details Fragment
+     *
+     */
     private fun setupStatusDropdown() {
         val statusOptions = listOf("Active", "Completed", "Missed", "Canceled")
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, statusOptions)
@@ -66,7 +68,6 @@ class AppointmentDetailsFragment : Fragment() {
     private fun observeAppointmentData() {
         viewModel.appointment.observe(viewLifecycleOwner) { appointment ->
             if (appointment != null) {
-                // Preencher os campos com as informações do appointment
                 binding.textClientName.text = appointment.clientName
                 binding.textServiceName.text = appointment.serviceName
                 binding.textAppointmentDate.text = appointment.date
@@ -84,6 +85,13 @@ class AppointmentDetailsFragment : Fragment() {
         }
     }
 
+
+    /**
+     * Basically a "dictionary" that converts the dropdown index to a status
+     *
+     * @param status
+     * @return
+     */
     private fun getStatusIndex(status: String): Int {
         return when (status) {
             "Active" -> 0

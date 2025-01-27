@@ -32,19 +32,39 @@ class CreateBarberServiceFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Recuperar o argumento serviceId
         val args = CreateBarberServiceFragmentArgs.fromBundle(requireArguments())
         val serviceId = args.serviceId
 
-        // Recuperar o barberId do barbeiro logado
         val barberId = UserSession.loggedInBarber!!.barberId
 
         if (barberId != null) {
-            // Carregar informações do serviço para edição
+            // Load the service information in the view to be edited
             viewModel.loadService(barberId, serviceId)
-            observeServiceData(serviceId)
+            viewModel.loadServiceName(serviceId)
+
+            viewModel.serviceName.observe(viewLifecycleOwner) { serviceName ->
+                binding.textServiceName.text = serviceName ?: "Unknown Service"
+            }
+
+            viewModel.service.observe(viewLifecycleOwner) { barberService ->
+                if (barberService != null) {
+
+                    binding.pickerHours.value = barberService.duration.hours
+                    binding.pickerMinutes.value =
+                        barberService.duration.minutes / 15 // Ajusta para os valores do NumberPicker
+                    binding.priceInput.setText(barberService.price.toString())
+                    binding.tglActiveService.isChecked = barberService.isActive
+
+                    setupSaveButton(barberService.barberId, barberService.serviceId)
+                } else {
+                    Log.e("CreateBarberService", "Service not found!")
+                    Toast.makeText(
+                        requireContext(), "Error loading the service's info.", Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
         } else {
-            Log.e("CreateBarberService", "Nenhum barbeiro logado!")
+            Log.e("CreateBarberService", "No user found!")
             findNavController().navigate(
                 CreateBarberServiceFragmentDirections.actionCreateBarberServiceFragmentToLoginFragment()
             )
@@ -57,6 +77,10 @@ class CreateBarberServiceFragment : Fragment() {
         }
     }
 
+    /**
+     * Setup and starts the number picker
+     *
+     */
     private fun setupNumberPickers() {
         binding.pickerHours.apply {
             minValue = 0
@@ -70,36 +94,12 @@ class CreateBarberServiceFragment : Fragment() {
         }
     }
 
-    private fun observeServiceData(serviceId: Int) {
-        viewModel.loadServiceName(serviceId)
-
-
-        viewModel.serviceName.observe(viewLifecycleOwner) { serviceName ->
-            binding.textServiceName.text = serviceName ?: "Unknown Service"
-        }
-
-
-        // Observar os dados do serviço do barbeiro
-        viewModel.service.observe(viewLifecycleOwner) { barberService ->
-            if (barberService != null) {
-                // Preencher os campos com as informações do serviço
-                binding.pickerHours.value = barberService.duration.hours
-                binding.pickerMinutes.value =
-                    barberService.duration.minutes / 15 // Ajusta para os valores do NumberPicker
-                binding.priceInput.setText(barberService.price.toString())
-                binding.tglActiveService.isChecked = barberService.isActive
-
-                // Configurar botão de salvar
-                setupSaveButton(barberService.barberId, barberService.serviceId)
-            } else {
-                Log.e("CreateBarberService", "Serviço não encontrado!")
-                Toast.makeText(
-                    requireContext(), "Erro ao carregar informações do serviço.", Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
-    }
-
+    /**
+     * Setup the save button's logic
+     *
+     * @param barberId
+     * @param serviceId
+     */
     private fun setupSaveButton(barberId: Int, serviceId: Int) {
         binding.btnCreateBarberService.setOnClickListener {
             val hours = binding.pickerHours.value
@@ -108,10 +108,9 @@ class CreateBarberServiceFragment : Fragment() {
             val price = binding.priceInput.text.toString().toDoubleOrNull() ?: 0.0
             val isActive = binding.tglActiveService.isChecked
 
-            // Atualizar serviço existente
             viewModel.updateBarberService(barberId, serviceId, duration, price, isActive)
             Toast.makeText(
-                requireContext(), "Serviço atualizado com sucesso!", Toast.LENGTH_SHORT
+                requireContext(), "Service updated!", Toast.LENGTH_SHORT
             ).show()
             findNavController().navigateUp()
         }

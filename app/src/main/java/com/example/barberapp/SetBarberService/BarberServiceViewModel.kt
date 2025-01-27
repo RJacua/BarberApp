@@ -14,11 +14,15 @@ class BarberServiceViewModel(application: Application) : AndroidViewModel(applic
 
     private val barberServiceDao = AppDatabase(application).barberserviceDao()
 
-    // LiveData para armazenar os serviços do barbeiro
     private val _services = MutableLiveData<List<BarberServiceDetail>>()
     val services: LiveData<List<BarberServiceDetail>> get() = _services
 
-    // Função para carregar os serviços pelo ID do barbeiro
+    /**
+     * Load barber services and save the information in the _services LiveData.
+     * Function created to make possible to use the id.
+     *
+     * @param barberId
+     */
     fun loadBarberServices(barberId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             val serviceList = barberServiceDao.getDetailedServicesByBarber(barberId)

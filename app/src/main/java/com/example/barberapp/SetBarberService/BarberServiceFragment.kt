@@ -38,11 +38,10 @@ class BarberServiceFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        // Obtém o barberId
         val barberId = UserSession.loggedInBarber?.barberId;
         Log.d("Barber Login", barberId.toString())
 
-        // Carrega os serviços do barbeiro
+        // Load Services
         viewModel.loadBarberServices(barberId!!)
 
         binding.barberServiceList.layoutManager = LinearLayoutManager(requireContext())
@@ -61,10 +60,8 @@ class BarberServiceFragment : Fragment() {
             }
         }
 
-        // Certifique-se de que o adapter é atribuído imediatamente
         binding.barberServiceList.adapter = adapter
 
-        // Observar os dados do ViewModel
         viewModel.services.observe(viewLifecycleOwner) { services ->
             Log.d("ServiceFragment", "Services loaded: ${services.size}")
             adapter.submitList(services)
@@ -75,7 +72,7 @@ class BarberServiceFragment : Fragment() {
         }
     }
 
-    // ViewHolder interno
+
     inner class BarberServiceViewHolder(private val binding: FragmentBarberServiceItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
@@ -95,10 +92,10 @@ class BarberServiceFragment : Fragment() {
             val duration = "$h $n $m"
 
             val price = serviceDetail.price
-            val decimalFormat = DecimalFormat("#.00") // Garante duas casas decimais
+            val decimalFormat = DecimalFormat("#.00") // Guarantees two decimals
             val stringPrice = decimalFormat.format(price)
 
-            // Define estilos com base em "isActive"
+            // Changes the style if the Service is set as active or not
             if (!serviceDetail.isActive) {
                 binding.serviceNameText.setTextColor(Color.BLACK)
                 binding.serviceNameText.setTypeface(null, Typeface.BOLD)
@@ -108,7 +105,6 @@ class BarberServiceFragment : Fragment() {
                 binding.durationText.setTypeface(null, Typeface.BOLD)
             }
 
-            // Define os textos dos serviços
             binding.serviceNameText.text = serviceDetail.name
             val priceText = getString(R.string.price_text, stringPrice)
             val durationText = getString(R.string.duration_text, duration)
@@ -116,7 +112,7 @@ class BarberServiceFragment : Fragment() {
             binding.servicePriceText.text = priceText
             binding.durationText.text = durationText
 
-            // Configura o botão Edit (sempre igual para ativos e inativos)
+            // Set the edit button to be always the same appearance
             binding.btnEditService.setOnClickListener {
                 val action = BarberServiceFragmentDirections
                     .actionBarberServiceFragmentToCreateBarberServiceFragment(
@@ -126,8 +122,6 @@ class BarberServiceFragment : Fragment() {
             }
         }
     }
-
-
 
     private val barberServiceDiffer = object : DiffUtil.ItemCallback<BarberServiceDetail>() {
         override fun areItemsTheSame(oldItem: BarberServiceDetail, newItem: BarberServiceDetail) = oldItem.serviceId == newItem.serviceId

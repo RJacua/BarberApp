@@ -33,7 +33,6 @@ class BarberAppointmentsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Configurar o RecyclerView
         binding.appointmentsList.layoutManager = LinearLayoutManager(requireContext())
         val adapter =
             object :
@@ -57,22 +56,20 @@ class BarberAppointmentsFragment : Fragment() {
             }
         binding.appointmentsList.adapter = adapter
 
-        // Observar os dados do ViewModel
         viewModel.appointments.observe(viewLifecycleOwner) { appointments ->
             adapter.submitList(appointments)
         }
 
-        // Carregar as marcações para o barbeiro logado
         val barberId = UserSession.loggedInBarber?.barberId
         if (barberId != null) {
             viewModel.loadAppointments(barberId)
         } else {
-            Toast.makeText(requireContext(), "Barbeiro não encontrado.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Barber not found.", Toast.LENGTH_SHORT).show()
         }
 
-        // Configuração do botão de voltar
+        // Button to go back
         binding.btnBack.setOnClickListener {
-            findNavController().navigateUp() // Volta para o fragmento anterior
+            findNavController().navigateUp()
         }
     }
 
@@ -80,14 +77,14 @@ class BarberAppointmentsFragment : Fragment() {
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(details: AppointmentDetails) {
-            // Preenchendo os dados do item
+
             binding.textViewClientName.text = details.barberName
             binding.textViewService.text = details.serviceName
             binding.textViewPrice.text = "€${details.price}"
             binding.textViewDate.text = details.date
             binding.textViewTime.text = details.time
 
-            // Aplicando aparência condicional com base no status
+            //Changing the appearance based on the appointment status
             when (details.status.lowercase()) {
                 "active" -> {
                     binding.textViewClientName.setTypeface(null, android.graphics.Typeface.BOLD)
@@ -97,7 +94,7 @@ class BarberAppointmentsFragment : Fragment() {
                     binding.textViewTime.setTypeface(null, android.graphics.Typeface.BOLD)
                 }
                 "completed", "missed", "canceled" -> {
-                    binding.textViewClientName.setTypeface(null, android.graphics.Typeface.NORMAL) // Texto normal
+                    binding.textViewClientName.setTypeface(null, android.graphics.Typeface.NORMAL)
                     binding.textViewService.setTypeface(null, android.graphics.Typeface.NORMAL)
                     binding.textViewPrice.setTypeface(null, android.graphics.Typeface.NORMAL)
                     binding.textViewDate.setTypeface(null, android.graphics.Typeface.NORMAL)
@@ -122,17 +119,16 @@ class BarberAppointmentsFragment : Fragment() {
                 }
 
                 else -> {
-                    // Status desconhecido - fallback
                     binding.root.setBackgroundColor(
                         binding.root.context.getColor(android.R.color.darker_gray)
                     )
                 }
             }
 
-            // Configurando o botão "Edit Status" sempre ativo
+            // Setting the Edit button to be always enabled in logic and appearance
             binding.btnEditStatus.apply {
-                isEnabled = true // Sempre habilitado
-                alpha = 1f // Sempre opaco
+                isEnabled = true
+                alpha = 1f
                 setOnClickListener {
                     val action = BarberAppointmentsFragmentDirections
                         .actionBarberAppointmentsFragmentToAppointmentDetailsFragment(
@@ -143,9 +139,6 @@ class BarberAppointmentsFragment : Fragment() {
             }
         }
     }
-
-
-
 
     private val appointmentDiffer = object : DiffUtil.ItemCallback<AppointmentDetails>() {
         override fun areItemsTheSame(oldItem: AppointmentDetails, newItem: AppointmentDetails) =
