@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.safeargs)
     id("com.google.devtools.ksp")
+    id("org.jetbrains.dokka") // Adiciona o Dokka
 }
 
 android {
@@ -79,3 +80,19 @@ dependencies {
 
     implementation(libs.gson)
 }
+
+// Configuração do Dokka
+tasks.dokkaHtml {
+    outputDirectory.set(file("$buildDir/dokka"))
+    dokkaSourceSets {
+        named("main") {
+            // Configuração do Dokka para o sourceSet principal
+            includeNonPublic.set(false) // Opcional: Inclui apenas membros públicos
+            skipDeprecated.set(true) // Opcional: Ignora membros marcados como @Deprecated
+            suppressInheritedMembers.set(true) // Ignora métodos herdados
+            reportUndocumented.set(true) // Gera aviso para membros não documentados
+            skipEmptyPackages.set(true) // Ignora pacotes sem classes documentadas
+        }
+    }
+}
+

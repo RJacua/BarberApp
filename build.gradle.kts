@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.ksp) apply false
+    id("org.jetbrains.dokka") version "1.8.10" apply false // Adiciona o Dokka
+
 }
 
 

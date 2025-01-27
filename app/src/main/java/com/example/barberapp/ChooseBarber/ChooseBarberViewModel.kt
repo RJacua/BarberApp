@@ -22,6 +22,12 @@ class ChooseBarberViewModel(application: Application) : AndroidViewModel(applica
         _selectedBarber.value = barber
     }
 
+    /**
+     * Get barber by id
+     *
+     * @param id
+     * @return
+     */
     fun getBarberById(id: Int): LiveData<Barber?> {
         return barberDao.getBarberById(id)
     }
