@@ -14,19 +14,20 @@ class ScheduleViewModel(application: Application) : AndroidViewModel(application
     private val database = AppDatabase(application)
 
     /**
-     * Salva os horários do barbeiro na base de dados.
-     * Substitui todos os horários existentes por novos.
+     * Save the barber schedules in the data base. Always replaces the existing schedule.
+     * @param barberId
+     * @param scheduleMap
      */
     fun saveBarberSchedule(barberId: Int, scheduleMap: Map<Int, List<Int>>) {
         viewModelScope.launch(Dispatchers.IO) {
             val barberScheduleDao = database.barberscheduleDao()
 
-            // Apagar todos os horários existentes para o barbeiro
+            // Erase the whole schedule to avoid conflicts, lazy but effective
             barberScheduleDao.deleteSchedulesForBarber(barberId)
 
-            // Inserir os novos horários
+            // Insert the new schedule
             scheduleMap.forEach { (dayOfWeek, hoursList) ->
-                val hoursString = hoursList.joinToString(",") // Converter a lista para String
+                val hoursString = hoursList.joinToString(",") // Converts the list to String
                 val barberSchedule = BarberSchedule(
                     barberId = barberId,
                     dayOfWeek = dayOfWeek,
@@ -38,7 +39,11 @@ class ScheduleViewModel(application: Application) : AndroidViewModel(application
     }
 
     /**
-     * Recupera os horários do barbeiro.
+     * Get barber schedules
+     *
+     * @param barberId
+     * @param callback
+     * @receiver
      */
     fun getBarberSchedules(barberId: Int, callback: (Map<Int, List<Int>>) -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -46,7 +51,7 @@ class ScheduleViewModel(application: Application) : AndroidViewModel(application
             val scheduleMap = schedules.associate { schedule ->
                 schedule.dayOfWeek to schedule.hours.split(",").map { it.toInt() }
             }
-            // Garanta que o callback seja executado na thread principal
+            // Guarantees that the callback will be executed in the main thread
             withContext(Dispatchers.Main) {
                 callback(scheduleMap)
             }

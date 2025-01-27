@@ -21,10 +21,7 @@ class BarberScheduleFragment : Fragment() {
 
     private lateinit var binding: FragmentBarberScheduleBinding
 
-    // Usar LoginViewModel para gerenciar o estado global
-    private val loginViewModel: LoginViewModel by activityViewModels()
-
-    private val viewModel by activityViewModels<ScheduleViewModel>() // ViewModel para gerenciar os dados
+    private val viewModel by activityViewModels<ScheduleViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,31 +34,37 @@ class BarberScheduleFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Verifica se o barbeiro está logado
+        // Check if the barber is logged...
         val barberId = UserSession.loggedInBarber?.barberId;
         if (barberId == null) {
-            // Redireciona para a tela de login se o barbeiro não estiver logado
+            // And redirect the user to the login page if it is not
             findNavController().navigate(BarberScheduleFragmentDirections.actionScheduleFragmentToLoginFragment())
             return
         }
 
-        // Carregar os horários do barbeiro e criar a tabela
+        // Populate the schedule table created by the createScheduleTable() function based on the logged barber's schedule
         viewModel.getBarberSchedules(barberId) { scheduleMap ->
             createScheduleTable(scheduleMap)
         }
 
-        // Botão para voltar à página inicial
+        // Back to home button
         binding.btnBackScheduleBackToHome.setOnClickListener {
             findNavController().navigate(BarberScheduleFragmentDirections.actionScheduleFragmentToHomeBarberFragment())
         }
 
-        // Botão para salvar os horários
+        // Save schedule changes button
         binding.btnSaveSchedule.setOnClickListener {
             saveBarberSchedule(barberId)
             findNavController().navigate(BarberScheduleFragmentDirections.actionScheduleFragmentToHomeBarberFragment())
         }
     }
 
+
+    /**
+     * Create the view for the schedule table and its functionalities
+     *
+     * @param scheduleMap
+     */
     private fun createScheduleTable(scheduleMap: Map<Int, List<Int>>) {
         val daysOfWeek = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat")
         val hours = listOf(
@@ -71,11 +74,11 @@ class BarberScheduleFragment : Fragment() {
         )
 
         val tableLayout = binding.tableLayoutSchedule
-        tableLayout.removeAllViews() // Limpar a tabela antes de recriá-la
+        tableLayout.removeAllViews()
 
         val backgroundColors = listOf("#FAFAFA", "#EEEEEE")
 
-        // Cabeçalho
+        // Header
         val headerRow = TableRow(requireContext())
         for ((index, day) in daysOfWeek.withIndex()) {
             val dayCell = TextView(requireContext()).apply {
@@ -90,7 +93,7 @@ class BarberScheduleFragment : Fragment() {
         }
         tableLayout.addView(headerRow)
 
-        // Linhas de horários com botões
+        // Lines with buttons
         for (hourIndex in hours.indices) {
             val row = TableRow(requireContext())
             for ((dayIndex, day) in daysOfWeek.withIndex()) {
@@ -101,7 +104,6 @@ class BarberScheduleFragment : Fragment() {
                     setTextColor(Color.BLACK)
                     isAllCaps = false
 
-                    // Marcar se estiver salvo no banco
                     val hour = hourIndex + 9
                     if (scheduleMap[dayIndex]?.contains(hour) == true) {
                         setBackgroundColor(Color.parseColor("#FF9800"))
@@ -121,6 +123,13 @@ class BarberScheduleFragment : Fragment() {
         }
     }
 
+
+    /**
+     * Toggle state of the schedule table's button (based on the button pressed)
+     *
+     * @param button
+     * @param originalColor
+     */
     private fun toggleButtonState(button: Button, originalColor: String) {
         if (button.tag == "selected") {
             button.tag = "unselected"
@@ -133,6 +142,12 @@ class BarberScheduleFragment : Fragment() {
         }
     }
 
+
+    /**
+     * Save barber schedule based on the buttons selected in the schedule table
+     *
+     * @param barberId
+     */
     private fun saveBarberSchedule(barberId: Int) {
         val scheduleMap = mutableMapOf<Int, MutableList<Int>>()
 
