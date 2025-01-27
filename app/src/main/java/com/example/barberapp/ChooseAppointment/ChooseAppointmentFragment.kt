@@ -4,6 +4,7 @@ import ChooseAppointmentViewModel
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -192,17 +193,13 @@ class ChooseAppointmentFragment : Fragment() {
         // Render available time slots
         container.removeAllViews()
         slots.forEach { slot ->
-            val isBlocked = slot.endsWith("*") // Check if the time slot is blocked
-            var actualSlot = slot.removeSuffix("*")
-            if (isBlocked) return@forEach
-
-            actualSlot = actualSlot.replaceFirst(":00", "")
+            var actualSlot = slot.replaceFirst(":00", "")
 
             // Create a button for each available time slot
             val button = Button(requireContext()).apply {
                 text = actualSlot
-                setBackgroundColor(if (isBlocked) Color.LTGRAY else Color.GRAY)
-                isEnabled = !isBlocked
+                setBackgroundColor(if (false) Color.LTGRAY else Color.GRAY)
+                isEnabled = true
 
                 setOnClickListener {
                     // Logic to select/deselect a time slot
