@@ -13,83 +13,83 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="160dp"
         android:background="@drawable/item_default_background"
         android:elevation="4dp"
         android:padding="10dp">
 
         <TextView
             android:id="@+id/textViewClientName"
+            style="@style/TextStyle.Body"
             android:layout_width="78dp"
             android:layout_height="30dp"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="12dp"
             android:text="Client"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.3"
-            style="@style/TextStyle.Body"/>
+            app:layout_constraintVertical_bias="0.136" />
 
         <TextView
             android:id="@+id/textViewDate"
+            style="@style/TextStyle.Body"
             android:layout_width="85dp"
             android:layout_height="29dp"
             android:layout_marginStart="16dp"
             android:text="Date"
             app:layout_constraintStart_toEndOf="@+id/textViewClientName"
-            tools:layout_editor_absoluteY="16dp"
-            style="@style/TextStyle.Body"/>
+            tools:layout_editor_absoluteY="16dp" />
 
         <TextView
             android:id="@+id/textViewTime"
+            style="@style/TextStyle.Body"
             android:layout_width="79dp"
             android:layout_height="29dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginBottom="4dp"
+            android:layout_marginStart="12dp"
             android:text="Time"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textViewService"
-            style="@style/TextStyle.Body"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.945" />
 
         <TextView
             android:id="@+id/textViewService"
-            android:layout_width="88dp"
-            android:layout_height="29dp"
-            android:layout_marginStart="4dp"
+            style="@style/TextStyle.Body"
+            android:layout_width="246dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="12dp"
             android:text="Service"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textViewClientName"
-            app:layout_constraintVertical_bias="0.714"
-            style="@style/TextStyle.Body"/>
+            app:layout_constraintVertical_bias="0.303" />
 
         <TextView
             android:id="@+id/textViewPrice"
+            style="@style/TextStyle.Body"
             android:layout_width="55dp"
             android:layout_height="26dp"
-            android:layout_marginEnd="136dp"
             android:text="Price"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/textViewTime"
+            app:layout_constraintHorizontal_bias="0.911"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.907"
-            style="@style/TextStyle.Body"/>
+            app:layout_constraintVertical_bias="0.947" />
 
         <Button
             android:id="@+id/btnEditStatus"
+            style="@style/ButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="4dp"
+            android:layout_marginEnd="12dp"
             android:text="@string/edit"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            style="@style/ButtonStyle"
-            />
+            app:layout_constraintVertical_bias="0.163" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
