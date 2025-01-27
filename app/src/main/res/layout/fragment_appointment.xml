@@ -9,6 +9,7 @@
 
     <TextView
         android:id="@+id/appointmentTitle"
+        style="@style/TextStyle.Subtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/appointmentDate"
@@ -17,21 +18,22 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.038"
-        style="@style/TextStyle.Subtitle"/>
+        app:layout_constraintVertical_bias="0.038" />
 
     <CalendarView
         android:id="@+id/calendarView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:dateTextAppearance="@style/CalendarDateStyle"
+        android:focusedMonthDateColor="@color/colorText"
+        android:selectedDateVerticalBar="@color/colorHighlight"
         android:weekDayTextAppearance="@style/CalendarWeekDayStyle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.15" />
+        app:layout_constraintVertical_bias="0.15"/>
 
 
     <TextView
@@ -49,6 +51,7 @@
 
     <Button
         android:id="@+id/saveBtn"
+        style="@style/ButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/save"
@@ -57,11 +60,11 @@
         app:layout_constraintHorizontal_bias="0.337"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.976"
-        style="@style/ButtonStyle"/>
+        app:layout_constraintVertical_bias="0.976" />
 
     <Button
         android:id="@+id/backBtn"
+        style="@style/ButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/back"
@@ -70,8 +73,7 @@
         app:layout_constraintHorizontal_bias="0.662"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.976"
-        style="@style/ButtonStyle"/>
+        app:layout_constraintVertical_bias="0.976" />
 
     <ScrollView
         android:id="@+id/scrollView"
@@ -97,15 +99,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:columnCount="3"
-                android:visibility="visible"
-                />
+                android:visibility="visible" />
 
             <GridLayout
                 android:id="@+id/afternoonContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:columnCount="3"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
         </LinearLayout>
     </ScrollView>

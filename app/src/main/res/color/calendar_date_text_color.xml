@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:color="@color/colorHighlight" android:state_active="true"/>
+    <!-- Cor para dias passados -->
+    <item android:color="@color/colorButtonDisabledText" android:state_enabled="false" />
+    <!-- Cor para o dia selecionado -->
+    <item android:color="@color/colorButtonBackground" android:state_selected="true" />
+    <!-- Cor padrão para dias futuros -->
+    <item android:color="@color/colorHighlight" />
+
+
+</selector>

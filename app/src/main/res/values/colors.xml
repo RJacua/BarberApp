@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!-- Cor de fundo preta -->
     <color name="colorBackground">#000000</color>
 
@@ -20,4 +19,17 @@
 
     <!-- Cor do texto dos botões desativados -->
     <color name="colorButtonDisabledText">#B0B0B0</color> <!-- Texto de botão inativo (cinza claro) -->
+
+    <color name="colorSwitchOn">#F6BE00</color>
+    <color name="colorSwitchOff">#A1A1A1</color>
+    <color name="colorHighlight">#F6BE00</color>
+
+    <!-- Cor do fundo do dia selecionado -->
+    <color name="colorSelectedDate">#F6BE00</color>
+    <!-- Cor do texto do dia selecionado -->
+    <color name="colorSelectedText">#000000</color>
+    <!-- Cor do texto dos dias não selecionados -->
+    <color name="colorDefaultText">#FFFFFF</color>
+    <color name="white">#FFFFFF</color>
+
 </resources>

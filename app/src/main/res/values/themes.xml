@@ -43,13 +43,13 @@
 
 
     <!-- Estilo personalizado para Switch -->
+    <!-- Estilo personalizado para Switch -->
     <style name="SwitchStyle" parent="Widget.Material3.CompoundButton.Switch">
-        <item name="android:thumbTint">@color/colorButtonBackground
-        </item> <!-- Cor do botão deslizante -->
-        <item name="android:trackTint">@color/colorButtonDisabledBackground
-        </item> <!-- Cor do trilho -->
+        <item name="android:thumbTint">@color/colorButtonBackground</item> <!-- Cor do botão deslizante -->
+        <item name="android:trackTint">@color/switch_track_tint</item> <!-- Referência ao seletor -->
         <item name="android:textColor">@color/colorText</item> <!-- Cor do texto -->
     </style>
+
 
     <style name="TextStyle.Title" parent="TextAppearance.Material3.HeadlineLarge">
         <item name="android:textColor">@color/colorText</item> <!-- Cor amarela -->
@@ -72,7 +72,8 @@
     <!-- Estilo para os dias do calendário -->
     <style name="CalendarDateStyle" parent="TextAppearance.Material3.BodyMedium">
         <item name="android:textSize">18sp</item> <!-- Tamanho da fonte -->
-        <item name="android:textColor">@color/colorText</item> <!-- Cor do texto -->
+        <item name="android:textColor">@color/calendar_date_text_color</item> <!-- Seletor de cor -->
+
     </style>
 
     <!-- Estilo para os dias da semana (segunda, terça, etc.) -->
@@ -81,7 +82,14 @@
         <item name="android:textColor">@color/colorText</item> <!-- Cor do texto -->
     </style>
 
+    <style name="CalendarDateTodayStyle" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textColor">@color/colorHighlight</item> <!-- Cor destacada -->
+        <item name="android:textStyle">bold</item> <!-- Texto em negrito -->
+    </style>
+
 
     <!-- Tema principal que herda do Base -->
     <style name="Theme.BarberApp" parent="Base.Theme.BarberApp" />
+
+
 </resources>

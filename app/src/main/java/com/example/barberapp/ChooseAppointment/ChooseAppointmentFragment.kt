@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.example.barberapp.R
 import com.example.barberapp.UserSession
 import com.example.barberapp.databinding.FragmentAppointmentBinding
 import java.util.Calendar
@@ -40,8 +41,10 @@ class ChooseAppointmentFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         val barberId = UserSession.selectedBarberId!!
         val today = Calendar.getInstance()
+        binding.calendarView.minDate = today.timeInMillis // Desabilita dias anteriores
 
         // Observers para slots
         viewModel.morningSlots.observe(viewLifecycleOwner) { slots ->
@@ -52,7 +55,6 @@ class ChooseAppointmentFragment : Fragment() {
         }
 
         // Listener do calendário
-        binding.calendarView.minDate = today.timeInMillis // Desabilita dias anteriores
         binding.calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
             val selectedDate = Calendar.getInstance().apply {
                 set(year, month, dayOfMonth)
@@ -67,6 +69,7 @@ class ChooseAppointmentFragment : Fragment() {
 
             // Carregar os horários do novo dia
             viewModel.loadSchedules(barberId, dayOfWeek, formattedDate)
+
         }
 
 
@@ -108,7 +111,7 @@ class ChooseAppointmentFragment : Fragment() {
                 // Salvar no UserSession
                 UserSession.selectedAppointmentTime = selectedTime
                 UserSession.selectedAppointmentDate = selectedDate
-                Toast.makeText(context, "Horário salvo: $selectedTime em $selectedDate\"", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(context, "Horário salvo: $selectedTime em $selectedDate\"", Toast.LENGTH_SHORT).show()
                 parentFragmentManager.popBackStack()
             } else {
                 Toast.makeText(context, "Selecione um horário e uma data antes de salvar.", Toast.LENGTH_SHORT).show()
@@ -118,6 +121,12 @@ class ChooseAppointmentFragment : Fragment() {
         // Botão "Back"
         binding.backBtn.setOnClickListener {
             findNavController().navigateUp() // Volta para o fragmento anterior
+        }
+
+        binding.calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
+            val selectedDate = Calendar.getInstance().apply {
+                set(year, month, dayOfMonth)
+            }
         }
     }
 
