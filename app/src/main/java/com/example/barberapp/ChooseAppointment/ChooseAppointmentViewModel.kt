@@ -51,14 +51,17 @@ class ChooseAppointmentViewModel(application: Application) : AndroidViewModel(ap
 
         Log.d("Horario", "Todos os horários: $allSlots")
 
-        // Identifica os horários bloqueados
+        // Obtém a hora atual arredondada para o próximo bloco de 15 minutos
+        val now = getRoundedCurrentTime()
+        Log.d("Horario", "Hora atual arredondada: $now")
+
+        // Identifica os horários bloqueados por marcações
         val blockedSlots = mutableSetOf<String>()
         appointments.forEach { appointment ->
             val startTime = parseTime(appointment.time)
 
             // Obtém a duração em minutos, considerando horas completas
             val durationInMinutes = appointment.duration.hours * 60 + appointment.duration.minutes
-
             val endTime = startTime.plusMinutes(durationInMinutes.toLong())
 
             var current = startTime
@@ -70,10 +73,24 @@ class ChooseAppointmentViewModel(application: Application) : AndroidViewModel(ap
 
         Log.d("Horario", "Horários bloqueados: $blockedSlots")
 
-        // Retorna apenas os horários disponíveis
-        val availableSlots = allSlots.filter { it !in blockedSlots }
+        // Filtra horários disponíveis removendo os já passados e os bloqueados
+        val availableSlots = allSlots.filter { it !in blockedSlots && parseTime(it) >= now }
         Log.d("Horario", "Horários disponíveis: $availableSlots")
+
         return availableSlots
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun getRoundedCurrentTime(): LocalTime {
+        val now = LocalTime.now()
+        val minutes = now.minute
+        val roundedMinutes = ((minutes / 15) + 1) * 15
+
+        return if (roundedMinutes >= 60) {
+            now.plusHours(1).withMinute(0).withSecond(0)
+        } else {
+            now.withMinute(roundedMinutes).withSecond(0)
+        }
     }
 
 
