@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.barberapp.data.AppDatabase
 import com.example.barberapp.UtilityClasses.AppointmentDetails
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class AppointmentViewModel(application: Application) : AndroidViewModel(application) {
@@ -16,6 +17,9 @@ class AppointmentViewModel(application: Application) : AndroidViewModel(applicat
 
     private val _appointments = MutableLiveData<List<AppointmentDetails>>()
     val appointments: LiveData<List<AppointmentDetails>> get() = _appointments
+
+    private val _appointment = MutableLiveData<AppointmentDetails?>()
+    val appointment: LiveData<AppointmentDetails?> get() = _appointment
 
     /**
      * Load appointments to Live Data
@@ -32,4 +36,29 @@ class AppointmentViewModel(application: Application) : AndroidViewModel(applicat
             }
         }
     }
+
+    /**
+     * Cancel client appointment
+     *
+     * @param appointmentId
+     */
+    fun cancelAppointment(appointmentId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                // update appointment status on the data base
+                appointmentDao.updateAppointmentStatus(appointmentId, "Canceled")
+
+                // update list on LiveData
+                val updatedList = _appointments.value?.map {
+                    if (it.appointmentId == appointmentId) it.copy(status = "Canceled") else it
+                }
+                updatedList?.let {
+                    _appointments.postValue(it)
+                }
+            } catch (e: Exception) {
+                Log.e("AppointmentViewModel", "Erro ao cancelar marcação: ${e.message}")
+            }
+        }
+    }
+
 }

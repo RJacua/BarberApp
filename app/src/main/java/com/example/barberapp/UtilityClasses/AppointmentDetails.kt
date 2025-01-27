@@ -18,7 +18,7 @@ data class AppointmentDetails(
     val appointmentId: Int,
     val date: String,
     val time: String,
-    val status: String,
+    var status: String,
     val barbershopName: String,
     val barberName: String,
     val serviceName: String,

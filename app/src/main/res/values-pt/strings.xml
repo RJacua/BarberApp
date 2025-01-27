@@ -26,4 +26,5 @@
     <string name="edit">Editar</string>
     <string name="price_text">Preço : €%1$s</string>
     <string name="duration_text">Duração:   %1$s</string>
+    <string name="canceled">Cancelado</string>
 </resources>

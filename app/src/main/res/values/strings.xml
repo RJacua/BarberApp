@@ -28,6 +28,7 @@
     <string name="edit">Edit</string>
     <string name="price_text">Price: €%1$s</string>
     <string name="duration_text">Duration: %1$s</string>
+    <string name="canceled">Canceled</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 

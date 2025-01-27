@@ -7,10 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.barberapp.MyAppointmentsBarber.AppointmentDetailsFragmentArgs
+import com.example.barberapp.R
 import com.example.barberapp.UserSession
 import com.example.barberapp.UtilityClasses.AppointmentDetails
 import com.example.barberapp.databinding.FragmentAppointmentsBinding
@@ -59,12 +62,12 @@ class ClientAppointmentsFragment : Fragment() {
         binding.btnback.setOnClickListener{
             findNavController().navigateUp()
         }
+
     }
 
 
     inner class AppointmentsViewHolder(private val binding: FragmentAppointmentsItemBinding) :
             RecyclerView.ViewHolder(binding.root) {
-
             fun bind(details: AppointmentDetails) {
                 binding.textViewBarberShop.text = details.barbershopName
                 binding.textViewBarber.text = details.barberName
@@ -72,6 +75,29 @@ class ClientAppointmentsFragment : Fragment() {
                 binding.textViewPrice.text = "€${details.price}"
                 binding.textViewDate.text = details.date
                 binding.textViewTime.text = details.time
+
+                if (details.status == "Active"){
+                    binding.btnStatus.text = getString(R.string.cancel)
+                    binding.btnStatus.isEnabled = true
+                }
+                else {
+                    binding.btnStatus.text = getString(R.string.canceled)
+                    binding.btnStatus.alpha = 0.5f
+                    binding.btnStatus.isEnabled = false
+                }
+
+                binding.btnStatus.setOnClickListener {
+                    // update status locally
+                    details.status = "Canceled"
+                    binding.btnStatus.text = getString(R.string.canceled)
+                    binding.btnStatus.isEnabled = false
+
+                    // notify ViewModel to update the data base
+                    viewModel.cancelAppointment(details.appointmentId)
+
+                    // update the specific item on the list
+                    bindingAdapter?.notifyItemChanged(bindingAdapterPosition)
+                }
 
                 // verify the state of the appointment and adjust design accordingly
                 if (details.status == "Active") {
