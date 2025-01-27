@@ -28,8 +28,7 @@ class ClientGalleryFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    ): View {
         binding = FragmentGalleryClientBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -37,7 +36,6 @@ class ClientGalleryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Configuração do RecyclerView
         binding.galleryRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         val adapter = object : ListAdapter<Pair<String, String>, GalleryViewHolder>(photosDiffer) {
             override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GalleryViewHolder {
@@ -56,14 +54,11 @@ class ClientGalleryFragment : Fragment() {
 
         binding.galleryRecyclerView.adapter = adapter
 
-        // Configurar o spinner
+        // set up drop down
         setupSpinner()
 
-        // Observar as fotos no ViewModel
-        // Observar as fotos no ViewModel
         viewModel.photos.observe(viewLifecycleOwner) { photos ->
             Log.d("ClientGalleryFragment", "Fotos carregadas: ${photos.size} fotos.")
-            // Atualiza o RecyclerView quando as fotos são carregadas
             adapter.submitList(photos)
         }
 
@@ -76,37 +71,39 @@ class ClientGalleryFragment : Fragment() {
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(photo: Pair<String, String>) {
-            // Carregar a imagem
+            // load image
             binding.photoImageView.load(photo.first)
-            // Definir o nome do barbeiro
-            binding.textBarber.text = photo.second // Assumindo que você tenha um TextView para o nome
+            // define barber name
+            binding.textBarber.text = photo.second
         }
     }
 
-
-    // Função para carregar as fotos filtrando pelo barbershopId
+    /**
+     * Load photos filtered by barbershop id
+     *
+     */
     private fun loadPhotos() {
         val barbershopId = selectedBarbershopId
         if (barbershopId != null) {
             Log.d("ClientGalleryFragment", "Carregando fotos para a barbearia ID: $barbershopId")
 
             val photos = requireContext().filesDir.listFiles()?.filter { file ->
-                // Filtra as fotos com base no barbershopId
+                // filter photos based on barbershop id
                 val matches = file.nameWithoutExtension.matches(Regex("${barbershopId}_\\d+_\\w+"))
                 if (matches) {
                     Log.d("ClientGalleryFragment", "Foto encontrada: ${file.name}")
                 }
                 matches
             }?.map { file ->
-                // Extrair o idBarber do nome do arquivo
+                // get barber id from file name
                 val fileNameParts = file.nameWithoutExtension.split("_")
                 val barberId = fileNameParts.getOrNull(1)?.toIntOrNull()
 
-                // Verifica se o idBarber foi encontrado
+                // verify if barber id was found
                 if (barberId != null) {
-                    // Buscar o nome do barbeiro no banco de dados
+                    // get barber name from the data base
                     val barberName = "Barber Name: " + viewModel.getBarberNameById(barberId)
-                    // Retornar o caminho da foto e o nome do barbeiro
+                    // return file path and barber name
                     Pair(file.absolutePath, barberName)
                 } else {
                     null
@@ -120,37 +117,53 @@ class ClientGalleryFragment : Fragment() {
         }
     }
 
+    /**
+     * Setup spinner with barbershops
+     *
+     */
     private fun setupSpinner() {
         val adapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_item,
-            mutableListOf<String>() // Lista vazia inicial
+            mutableListOf<String>() // initial empty list
         )
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.BarberShopList.adapter = adapter
 
-        // Observar os dados das barbearias no ViewModel
         viewModel.barbershops.observe(viewLifecycleOwner) { barbershops ->
             if (!barbershops.isNullOrEmpty()) {
-                val barberShopNames = barbershops.map { it.name } // Obter os nomes
+                val barberShopNames = barbershops.map { it.name } // get barbershop names
                 adapter.clear()
                 adapter.addAll(barberShopNames)
                 adapter.notifyDataSetChanged()
             } else {
-                Toast.makeText(requireContext(), "Nenhuma barbearia encontrada", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "No barbershop found", Toast.LENGTH_SHORT).show()
             }
         }
 
-        // Quando uma barbearia for selecionada, filtrar as fotos
+        // filter photos on barbershop select
         binding.BarberShopList.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            /**
+             * On item selected
+             *
+             * @param parent
+             * @param view
+             * @param position
+             * @param id
+             */
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 selectedBarbershopId = viewModel.barbershops.value?.get(position)?.barbershopId
-                loadPhotos() // Carregar as fotos para a barbearia selecionada
+                loadPhotos() // load filtered photos for selected barbershop
             }
 
+            /**
+             * On nothing selected
+             *
+             * @param parent
+             */
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 selectedBarbershopId = null
-                viewModel.setPhotos(emptyList()) // Limpar as fotos se nenhuma barbearia for selecionada
+                viewModel.setPhotos(emptyList()) // clean photos if no barbershop was selected
             }
         }
     }

@@ -16,7 +16,6 @@ import com.example.barberapp.UtilityClasses.AppointmentDetails
 import com.example.barberapp.databinding.FragmentAppointmentsBinding
 import com.example.barberapp.databinding.FragmentAppointmentsItemBinding
 
-
 class ClientAppointmentsFragment : Fragment() {
 
     private val viewModel by viewModels<AppointmentViewModel>()
@@ -26,7 +25,6 @@ class ClientAppointmentsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         binding = FragmentAppointmentsBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -34,7 +32,6 @@ class ClientAppointmentsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Configurar o RecyclerView
         binding.appointmentsList.layoutManager = LinearLayoutManager(requireContext())
         val adapter = object : ListAdapter<AppointmentDetails, AppointmentsViewHolder>(appointmentDiffer) {
             override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AppointmentsViewHolder {
@@ -52,16 +49,15 @@ class ClientAppointmentsFragment : Fragment() {
         }
         binding.appointmentsList.adapter = adapter
 
-        // Observar os dados do ViewModel
         viewModel.appointments.observe(viewLifecycleOwner) { appointments ->
             adapter.submitList(appointments)
         }
 
-        // Carregar as marcações
+        // load appointments
         viewModel.loadAppointments(UserSession.loggedInClient!!.clientId)
 
         binding.btnback.setOnClickListener{
-            findNavController().navigateUp() // Volta para o fragmento anterior
+            findNavController().navigateUp()
         }
     }
 
@@ -77,7 +73,7 @@ class ClientAppointmentsFragment : Fragment() {
                 binding.textViewDate.text = details.date
                 binding.textViewTime.text = details.time
 
-                // Verificar o estado e aplicar cor cinza se não for "ativo"
+                // verify the state of the appointment and adjust design accordingly
                 if (details.status == "Active") {
                     binding.textViewBarberShop.setTypeface(null, android.graphics.Typeface.BOLD)
                     binding.textViewBarber.setTypeface(null, android.graphics.Typeface.BOLD)
@@ -104,7 +100,6 @@ class ClientAppointmentsFragment : Fragment() {
                     binding.textViewTime.setTextColor(
                         binding.root.context.getColor(android.R.color.black)
                     )
-
                 }
             }
 

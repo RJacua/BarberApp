@@ -10,19 +10,29 @@ import com.example.barberapp.data.Barbershop
 class ClientGalleryViewModel(application: Application) : AndroidViewModel(application) {
     private val database = AppDatabase(getApplication())
 
-    // Obter todas as barbearias como LiveData
     val barbershops: LiveData<List<Barbershop>> = database.barbershopDao().getAllBarbershops()
 
     private val _photos = MutableLiveData<List<Pair<String, String>>>()
     val photos: LiveData<List<Pair<String, String>>> get() = _photos
 
+    /**
+     * Set photos
+     *
+     * @param photoList
+     */
     fun setPhotos(photoList: List<Pair<String, String>>) {
         _photos.value = photoList
     }
 
+    /**
+     * Get barber name by id
+     *
+     * @param barberId
+     * @return
+     */
     fun getBarberNameById(barberId: Int): String {
-        val barber =  database.barberDao().getBarberByIdLogin(barberId) // Assume que você tem um DAO para acessar o banco
-        return barber?.name ?: "Uncknow" // Se não encontrar, retorna "Desconhecido"
+        val barber =  database.barberDao().getBarberByIdLogin(barberId)
+        return barber?.name ?: "Unknow" // returns "Unknow" if barber not found
     }
 
 }

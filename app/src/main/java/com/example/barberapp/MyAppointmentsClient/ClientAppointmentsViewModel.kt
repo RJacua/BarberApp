@@ -17,6 +17,11 @@ class AppointmentViewModel(application: Application) : AndroidViewModel(applicat
     private val _appointments = MutableLiveData<List<AppointmentDetails>>()
     val appointments: LiveData<List<AppointmentDetails>> get() = _appointments
 
+    /**
+     * Load appointments to Live Data
+     *
+     * @param clientId
+     */
     fun loadAppointments(clientId: Int) {
         viewModelScope.launch {
             try {
