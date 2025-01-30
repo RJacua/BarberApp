@@ -26,7 +26,7 @@ class BarberServiceViewModel(application: Application) : AndroidViewModel(applic
     fun loadBarberServices(barberId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             val serviceList = barberServiceDao.getDetailedServicesByBarber(barberId)
-            _services.postValue(serviceList) // Atualiza o LiveData com os dados
+            _services.postValue(serviceList)
 
         }
     }

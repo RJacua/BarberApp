@@ -6,6 +6,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.barberapp.data.AppDatabase
 import com.example.barberapp.data.Barbershop
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class ClientGalleryViewModel(application: Application) : AndroidViewModel(application) {
     private val database = AppDatabase(getApplication())
@@ -30,9 +32,11 @@ class ClientGalleryViewModel(application: Application) : AndroidViewModel(applic
      * @param barberId
      * @return
      */
-    fun getBarberNameById(barberId: Int): String {
-        val barber =  database.barberDao().getBarberByIdLogin(barberId)
-        return barber?.name ?: "Unknow" // returns "Unknow" if barber not found
+    suspend fun getBarberNameById(barberId: Int): String {
+        return withContext(Dispatchers.IO) {
+            val barber = database.barberDao().getBarberByIdLogin(barberId)
+            barber?.name ?: "Unknown" // Corrigindo "Unknow" para "Unknown"
+        }
     }
 
 }

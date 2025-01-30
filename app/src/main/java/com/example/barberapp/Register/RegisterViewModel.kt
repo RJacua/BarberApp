@@ -53,6 +53,7 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
             UserSession.clearSession()
 
             // automatic login after afet sign up
+            // val client = database.clientDao().getClientByEmail(email)
             val client = database.clientDao().getAllClients().find { it.email == email && it.password == password }
             if (client != null) {
                 UserSession.loggedInClient = client // update UserSession with the new client info
@@ -117,22 +118,24 @@ class RegisterViewModel(application: Application) : AndroidViewModel(application
      * @param barberId
      */
      fun createDefaultServicesForBarber(barberId: Int) {
-        val services = listOf(
-            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 // IDs dos serviços
-        )
-
-        val barberServices = services.map { serviceId ->
-            BarberService(
-                barberId = barberId,
-                serviceId = serviceId,
-                duration = Time.valueOf("00:00:00"), // default duration is null
-                price = 0.0, // defaul price is null
-                isActive = false // default status as not active
+        viewModelScope.launch(Dispatchers.IO) {
+            val services = listOf(
+                1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 // IDs dos serviços
             )
-        }
 
-        database.barberserviceDao().insertAll(barberServices)
+            val barberServices = services.map { serviceId ->
+                BarberService(
+                    barberId = barberId,
+                    serviceId = serviceId,
+                    duration = Time.valueOf("00:00:00"), // default duration is null
+                    price = 0.0, // default price is null
+                    isActive = false // default status as not active
+                )
+            }
+            database.barberserviceDao().insertAll(barberServices)
+        }
     }
+
 
     /**
      * Log all clients

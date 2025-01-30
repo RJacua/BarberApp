@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.barberapp.data.AppDatabase
 import com.example.barberapp.UtilityClasses.AppointmentDetails
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class BarberAppointmentsViewModel(application: Application) : AndroidViewModel(application) {
@@ -23,10 +24,12 @@ class BarberAppointmentsViewModel(application: Application) : AndroidViewModel(a
      * @param barberId
      */
     fun loadAppointments(barberId: Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 val details = appointmentDao.getAppointmentsForBarber(barberId)
-                _appointments.postValue(details)
+                if (_appointments.value != details) {
+                    _appointments.postValue(details)
+                }
             } catch (e: Exception) {
                 Log.e("AppointmentViewModel", "Error while loading the appointment: ${e.message}")
             }

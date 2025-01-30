@@ -104,6 +104,7 @@ class CreateBarberServiceViewModel(application: Application) : AndroidViewModel(
 
                 val updatedServiceFromDb =
                     database.barberserviceDao().getBarberServiceById(barberId, serviceId)
+                    _service.postValue(updatedServiceFromDb)
                 Log.d("CreateBarberServiceVM", "Service updated in the database: $updatedServiceFromDb")
             } else {
                 Log.e(

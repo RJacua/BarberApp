@@ -44,20 +44,36 @@ class AppointmentDetailsViewModel(application: Application) : AndroidViewModel(a
      * @param status
      */
     fun updateAppointmentStatus(appointmentId: Int, status: String) {
+
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 appointmentDao.updateAppointmentStatus(appointmentId, status)
                 Log.d("AppointmentDetailsVM", "Status atualizado para: $status")
-                try {
-                    val appointment = appointmentDao.getAppointmentDetailsById(appointmentId)
-                    _appointment.postValue(appointment)
-                    Log.d("AppointmentDetailsVM", "Appointment carregado: $appointment")
-                } catch (e: Exception) {
-                    Log.e("AppointmentDetailsVM", "Erro ao carregar appointment: ${e.message}")
-                }
+
+                // Em vez de duplicar a lógica, chamamos loadAppointment() para atualizar os dados
+                loadAppointment(appointmentId)
+
             } catch (e: Exception) {
                 Log.e("AppointmentDetailsVM", "Erro ao atualizar status: ${e.message}")
+                e.printStackTrace()
             }
         }
+
+//        viewModelScope.launch(Dispatchers.IO) {
+//            try {
+//                appointmentDao.updateAppointmentStatus(appointmentId, status)
+//                Log.d("AppointmentDetailsVM", "Status atualizado para: $status")
+//                try {
+//                    val appointment = appointmentDao.getAppointmentDetailsById(appointmentId)
+//                    _appointment.postValue(appointment)
+//                    Log.d("AppointmentDetailsVM", "Appointment carregado: $appointment")
+//                } catch (e: Exception) {
+//                    Log.e("AppointmentDetailsVM", "Erro ao carregar appointment: ${e.message}")
+//                }
+//            } catch (e: Exception) {
+//                Log.e("AppointmentDetailsVM", "Erro ao atualizar status: ${e.message}")
+//            }
+//        }
+
     }
 }

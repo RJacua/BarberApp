@@ -27,10 +27,12 @@ class AppointmentViewModel(application: Application) : AndroidViewModel(applicat
      * @param clientId
      */
     fun loadAppointments(clientId: Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 val details = appointmentDao.getAppointmentDetailsForClient(clientId)
-                _appointments.postValue(details)
+                if (_appointments.value != details) {
+                    _appointments.postValue(details)
+                }
             } catch (e: Exception) {
                 Log.e("AppointmentViewModel", "Erro ao carregar marcações: ${e.message}")
             }

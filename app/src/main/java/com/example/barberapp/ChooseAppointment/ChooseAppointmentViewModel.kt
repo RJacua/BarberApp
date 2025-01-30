@@ -5,8 +5,12 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.barberapp.data.AppDatabase
 import com.example.barberapp.UtilityClasses.AppointmentWithDuration
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -32,6 +36,7 @@ class ChooseAppointmentViewModel(application: Application) : AndroidViewModel(ap
      */
     @RequiresApi(Build.VERSION_CODES.O)
     fun loadSchedules(barberId: Int, dayOfWeek: Int, date: String) {
+        viewModelScope.launch(Dispatchers.IO) {
         // Retrieve schedules and appointments from the database
         val schedules = scheduleDao.getSchedulesByDay(barberId, dayOfWeek)
         val appointments = appointmentDao.getAppointmentsWithDurationByBarber(barberId, date)
@@ -48,12 +53,21 @@ class ChooseAppointmentViewModel(application: Application) : AndroidViewModel(ap
             val (morning, afternoon) = partitionSlots(availableSlots)
 
             // Update LiveData for morning and afternoon slots
-            _morningSlots.value = morning
-            _afternoonSlots.value = afternoon
+            // 🔹 Update LiveData on the Main Thread
+            withContext(Dispatchers.Main) {
+                _morningSlots.value = morning
+                _afternoonSlots.value = afternoon
+            }
+//            _morningSlots.value = morning
+//            _afternoonSlots.value = afternoon
             Log.d("Horario", "Morning: $morning, Afternoon: $afternoon")
+
+//            // Atualiza o LiveData na Main Thread
+//            _morningSlots.postValue(morning)
+//            _afternoonSlots.postValue(afternoon)
+        }
         }
     }
-
     /**
      * Filter available slots
      * Filter the list of available time slots by removing already booked ones

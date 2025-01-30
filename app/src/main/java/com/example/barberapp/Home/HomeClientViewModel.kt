@@ -6,6 +6,8 @@ import androidx.lifecycle.AndroidViewModel
 import com.example.barberapp.UserSession
 import com.example.barberapp.data.AppDatabase
 import com.example.barberapp.data.Appointment
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class HomeClientViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -17,7 +19,7 @@ class HomeClientViewModel(application: Application) : AndroidViewModel(applicati
      *
      * @return
      */
-    suspend fun createAppointments(): Result<Boolean> {
+    suspend fun createAppointments(): Result<Boolean> = withContext(Dispatchers.IO){
         val client = UserSession.loggedInClient
         val barberId = UserSession.selectedBarberId
         val selectedServices = UserSession.selectedServiceIds
@@ -25,7 +27,7 @@ class HomeClientViewModel(application: Application) : AndroidViewModel(applicati
         var appointmentTime = UserSession.selectedAppointmentTime
 
         if (client == null || barberId == null || appointmentDate == null || appointmentTime == null || selectedServices.isEmpty()) {
-            return Result.failure(Exception("Informações incompletas para criar a marcação."))
+            return@withContext Result.failure(Exception("Informações incompletas para criar a marcação."))
         }
 
         try {
@@ -33,7 +35,7 @@ class HomeClientViewModel(application: Application) : AndroidViewModel(applicati
             for (serviceId in selectedServices) {
                 val barberService = barberserviceDao.getBarberServiceById(barberId, serviceId)
                 if (barberService == null) {
-                    return Result.failure(Exception("Serviço não encontrado para BarberID: $barberId e ServiceID: $serviceId"))
+                    return@withContext Result.failure(Exception("Serviço não encontrado para BarberID: $barberId e ServiceID: $serviceId"))
                 }
 
                 val appointment = Appointment(
@@ -60,10 +62,10 @@ class HomeClientViewModel(application: Application) : AndroidViewModel(applicati
 
             UserSession.selectedAppointmentDate = null
             UserSession.selectedAppointmentTime = null
-            return Result.success(true)
+            return@withContext Result.success(true)
         } catch (e: Exception) {
             Log.e("CreateAppointment", "Erro ao criar marcações: ${e.message}")
-            return Result.failure(e)
+            return@withContext Result.failure(e)
         }
     }
 

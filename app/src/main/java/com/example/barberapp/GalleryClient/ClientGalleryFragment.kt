@@ -10,6 +10,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +19,9 @@ import androidx.recyclerview.widget.RecyclerView
 import coil3.load
 import com.example.barberapp.databinding.FragmentGalleryClientBinding
 import com.example.barberapp.databinding.FragmentPhotoItemBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ClientGalleryFragment : Fragment() {
 
@@ -87,31 +91,34 @@ class ClientGalleryFragment : Fragment() {
         if (barbershopId != null) {
             Log.d("ClientGalleryFragment", "Carregando fotos para a barbearia ID: $barbershopId")
 
-            val photos = requireContext().filesDir.listFiles()?.filter { file ->
-                // filter photos based on barbershop id
+            val files = requireContext().filesDir.listFiles()?.filter { file ->
+                // Filter photos based on barbershop ID
                 val matches = file.nameWithoutExtension.matches(Regex("${barbershopId}_\\d+_\\w+"))
                 if (matches) {
                     Log.d("ClientGalleryFragment", "Foto encontrada: ${file.name}")
                 }
                 matches
-            }?.map { file ->
-                // get barber id from file name
-                val fileNameParts = file.nameWithoutExtension.split("_")
-                val barberId = fileNameParts.getOrNull(1)?.toIntOrNull()
+            } ?: emptyList()
 
-                // verify if barber id was found
-                if (barberId != null) {
-                    // get barber name from the data base
-                    val barberName = "Barber Name: " + viewModel.getBarberNameById(barberId)
-                    // return file path and barber name
-                    Pair(file.absolutePath, barberName)
-                } else {
-                    null
+            // Criando a lista de fotos com nomes de barbeiros
+            lifecycleScope.launch {
+                val photos = files.mapNotNull { file ->
+                    val fileNameParts = file.nameWithoutExtension.split("_")
+                    val barberId = fileNameParts.getOrNull(1)?.toIntOrNull()
+
+                    if (barberId != null) {
+                        val barberName = withContext(Dispatchers.IO) {
+                            viewModel.getBarberNameById(barberId)
+                        }
+                        Pair(file.absolutePath, "Barber Name: $barberName")
+                    } else {
+                        null
+                    }
                 }
-            }?.filterNotNull() ?: emptyList()
 
-            Log.d("ClientGalleryFragment", "Número de fotos encontradas: ${photos.size}")
-            viewModel.setPhotos(photos)
+                Log.d("ClientGalleryFragment", "Número de fotos encontradas: ${photos.size}")
+                viewModel.setPhotos(photos)
+            }
         } else {
             Log.d("ClientGalleryFragment", "Nenhuma barbearia selecionada.")
         }
