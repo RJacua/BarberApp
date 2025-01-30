@@ -12,7 +12,7 @@ interface ClientDao: BaseDao<Client> {
      * @return
      */
     @Query("SELECT * FROM clients")
-    fun getAllClients(): List<Client>
+    suspend fun getAllClients(): List<Client>
 
     /**
      * Get client by id
@@ -21,7 +21,7 @@ interface ClientDao: BaseDao<Client> {
      * @return
      */
     @Query("SELECT * FROM clients WHERE clientId = :id")
-    fun getClientById(id: Int): Client?
+    suspend fun getClientById(id: Int): Client?
 
     /**
      * Get client by email
@@ -30,5 +30,5 @@ interface ClientDao: BaseDao<Client> {
      * @return
      */
     @Query("SELECT * FROM clients WHERE email = :email")
-    fun getClientByEmail(email: String): Client?
+    suspend fun getClientByEmail(email: String): Client?
 }

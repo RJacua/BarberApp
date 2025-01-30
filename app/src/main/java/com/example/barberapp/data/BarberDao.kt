@@ -22,7 +22,7 @@ interface BarberDao: BaseDao<Barber> {
      * @return
      */
     @Query("SELECT * FROM barbers WHERE barberId = :id")
-    fun getBarberByIdLogin(id: Int): Barber?
+    suspend fun getBarberByIdLogin(id: Int): Barber?
 
     /**
      * Get all barbers
@@ -48,7 +48,7 @@ interface BarberDao: BaseDao<Barber> {
      * @return
      */
     @Query("SELECT * FROM barbers WHERE email = :email")
-    fun getBarberByEmail(email: String): Barber?
+    suspend fun getBarberByEmail(email: String): Barber?
 
     /**
      * Get barbers by barbershop id

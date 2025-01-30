@@ -33,7 +33,7 @@ interface AppointmentDao: BaseDao<Appointment> {
         INNER JOIN barber_services bs ON a.barberServiceId = bs.barberServiceId
         WHERE bs.barberId = :barberId
     """)
-    fun getAppointmentsByBarber(barberId: Int): List<Appointment>
+    suspend fun getAppointmentsByBarber(barberId: Int): List<Appointment>
 
     /**
      * Get appointments with duration by barber id
@@ -48,7 +48,7 @@ interface AppointmentDao: BaseDao<Appointment> {
     INNER JOIN barber_services bs ON a.barberServiceId = bs.barberServiceId
     WHERE bs.barberId = :barberId AND a.date = :date
 """)
-    fun getAppointmentsWithDurationByBarber(barberId: Int, date: String): List<AppointmentWithDuration>
+    suspend fun getAppointmentsWithDurationByBarber(barberId: Int, date: String): List<AppointmentWithDuration>
 
     /**
      * Get appointment details by client id
@@ -75,7 +75,7 @@ interface AppointmentDao: BaseDao<Appointment> {
         WHERE a.clientId = :clientId
         """
         )
-        fun getAppointmentDetailsForClient(clientId: Int): List<AppointmentDetails>
+        suspend fun getAppointmentDetailsForClient(clientId: Int): List<AppointmentDetails>
 
     /**
      * Get appointments by barber id
@@ -104,7 +104,7 @@ interface AppointmentDao: BaseDao<Appointment> {
     WHERE b.barberId = :barberId
     """
     )
-    fun getAppointmentsForBarber(barberId: Int): List<AppointmentDetails>
+    suspend fun getAppointmentsForBarber(barberId: Int): List<AppointmentDetails>
 
     /**
      * Get appointment details by id
@@ -133,7 +133,7 @@ interface AppointmentDao: BaseDao<Appointment> {
     WHERE a.appointmentId = :appointmentId
     """
     )
-    fun getAppointmentDetailsById(appointmentId: Int): AppointmentDetails?
+    suspend fun getAppointmentDetailsById(appointmentId: Int): AppointmentDetails?
 
     /**
      * Update appointment status
@@ -142,7 +142,7 @@ interface AppointmentDao: BaseDao<Appointment> {
      * @param status
      */
     @Query("UPDATE appointments SET status = :status WHERE appointmentId = :appointmentId")
-    fun updateAppointmentStatus(appointmentId: Int, status: String)
+    suspend fun updateAppointmentStatus(appointmentId: Int, status: String)
 
 
 

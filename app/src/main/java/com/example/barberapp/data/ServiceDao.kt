@@ -25,7 +25,7 @@ interface ServiceDao {
      * @return
      */
     @Query("SELECT * FROM services WHERE serviceId = :id")
-    fun getServiceById(id: Int): Service?
+    suspend fun getServiceById(id: Int): Service?
 
     /**
      * Insert all
@@ -33,7 +33,7 @@ interface ServiceDao {
      * @param services
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(services: List<Service>)
+    suspend fun insertAll(services: List<Service>)
 
     /**
      * Get services by ids

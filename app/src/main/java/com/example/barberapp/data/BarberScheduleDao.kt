@@ -29,7 +29,7 @@ interface BarberScheduleDao: BaseDao<BarberService> {
         SELECT * FROM barber_schedules 
         WHERE barberId = :barberId AND dayOfWeek = :dayOfWeek
     """)
-    fun getSchedulesByDay(barberId: Int, dayOfWeek: Int): List<BarberSchedule>
+    suspend fun getSchedulesByDay(barberId: Int, dayOfWeek: Int): List<BarberSchedule>
 
     /**
      * Delete schedules by barber id
@@ -37,7 +37,7 @@ interface BarberScheduleDao: BaseDao<BarberService> {
      * @param barberId
      */
     @Query("DELETE FROM barber_schedules WHERE barberId = :barberId")
-    fun deleteSchedulesByBarber(barberId: Int)
+    suspend fun deleteSchedulesByBarber(barberId: Int)
 
     /**
      * Insert barber schedule
@@ -45,7 +45,7 @@ interface BarberScheduleDao: BaseDao<BarberService> {
      * @param barberSchedule
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(barberSchedule: BarberSchedule)
+    suspend fun insert(barberSchedule: BarberSchedule)
 
     /**
      * Delete schedules by barber id
@@ -53,7 +53,7 @@ interface BarberScheduleDao: BaseDao<BarberService> {
      * @param barberId
      */
     @Query("DELETE FROM barber_schedules WHERE barberId = :barberId")
-    fun deleteSchedulesForBarber(barberId: Int)
+    suspend fun deleteSchedulesForBarber(barberId: Int)
 
     /**
      * Get schedules by barber id
@@ -62,7 +62,7 @@ interface BarberScheduleDao: BaseDao<BarberService> {
      * @return
      */
     @Query("SELECT * FROM barber_schedules WHERE barberId = :barberId")
-    fun getSchedulesForBarber(barberId: Int): List<BarberSchedule>
+    suspend fun getSchedulesForBarber(barberId: Int): List<BarberSchedule>
 
 }
 

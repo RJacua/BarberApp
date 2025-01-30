@@ -22,7 +22,7 @@ interface BarberServiceDao : BaseDao<BarberService> {
         WHERE barber_services.barberId = :barberId
     """
     )
-    fun getServicesByBarber(barberId: Int): List<Service>
+    suspend fun getServicesByBarber(barberId: Int): List<Service>
 
     /**
      * Get barbers by service id
@@ -38,7 +38,7 @@ interface BarberServiceDao : BaseDao<BarberService> {
         WHERE barber_services.serviceId = :serviceId
     """
     )
-    fun getBarbersByService(serviceId: Int): List<Barber>
+    suspend fun getBarbersByService(serviceId: Int): List<Barber>
 
     /**
      * Delete services by barber id
@@ -46,7 +46,7 @@ interface BarberServiceDao : BaseDao<BarberService> {
      * @param barberId
      */
     @Query("DELETE FROM barber_services WHERE barberId = :barberId")
-    fun deleteServicesByBarber(barberId: Int)
+    suspend fun deleteServicesByBarber(barberId: Int)
 
     /**
      * Delete barbers by service id
@@ -54,7 +54,7 @@ interface BarberServiceDao : BaseDao<BarberService> {
      * @param serviceId
      */
     @Query("DELETE FROM barber_services WHERE serviceId = :serviceId")
-    fun deleteBarbersByService(serviceId: Int)
+    suspend fun deleteBarbersByService(serviceId: Int)
 
     /**
      * Get all barber services
@@ -66,7 +66,7 @@ interface BarberServiceDao : BaseDao<BarberService> {
         SELECT * FROM barber_services
     """
     )
-    fun getAllBarberServices(): List<BarberService>
+    suspend fun getAllBarberServices(): List<BarberService>
 
     /**
      * Get detailed services by barber id
@@ -89,7 +89,7 @@ interface BarberServiceDao : BaseDao<BarberService> {
         WHERE barber_services.barberId = :barberId
     """
     )
-    fun getDetailedServicesByBarber(barberId: Int): List<BarberServiceDetail>
+    suspend fun getDetailedServicesByBarber(barberId: Int): List<BarberServiceDetail>
 
     /**
      * Insert all
@@ -97,7 +97,7 @@ interface BarberServiceDao : BaseDao<BarberService> {
      * @param barberServices
      */
     @Insert
-    fun insertAll(barberServices: List<BarberService>)
+    suspend fun insertAll(barberServices: List<BarberService>)
 
     /**
      * Get barber service by id
@@ -113,6 +113,6 @@ interface BarberServiceDao : BaseDao<BarberService> {
     LIMIT 1
     """
     )
-    fun getBarberServiceById(barberId: Int, serviceId: Int): BarberService?
+    suspend fun getBarberServiceById(barberId: Int, serviceId: Int): BarberService?
 
 }

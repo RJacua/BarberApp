@@ -24,7 +24,7 @@ interface BarberShopDao {
      * @param barbershops
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(barbershops: List<Barbershop>)
+    suspend fun insertAll(barbershops: List<Barbershop>)
 
     /**
      * Get barbershop by id
