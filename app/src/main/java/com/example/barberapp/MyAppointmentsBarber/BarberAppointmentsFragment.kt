@@ -71,6 +71,7 @@ class BarberAppointmentsFragment : Fragment() {
         binding.btnBack.setOnClickListener {
             findNavController().navigateUp()
         }
+
     }
 
     inner class BarberAppointmentsViewHolder(private val binding: FragmentBarberAppointmentsItemBinding) :
@@ -101,20 +102,25 @@ class BarberAppointmentsFragment : Fragment() {
                     binding.textViewTime.setTypeface(null, android.graphics.Typeface.NORMAL)
 
                     binding.textViewClientName.setTextColor(
-                        binding.root.context.getColor(android.R.color.black)
+                        binding.root.context.getColor(android.R.color.white)
                     )
+                    binding.textViewClientName.setAlpha(0.5f)
                     binding.textViewService.setTextColor(
-                        binding.root.context.getColor(android.R.color.black)
+                        binding.root.context.getColor(android.R.color.white)
                     )
+                    binding.textViewService.setAlpha(0.5f)
                     binding.textViewPrice.setTextColor(
-                        binding.root.context.getColor(android.R.color.black)
+                        binding.root.context.getColor(android.R.color.white)
                     )
+                    binding.textViewPrice.setAlpha(0.5f)
                     binding.textViewDate.setTextColor(
-                        binding.root.context.getColor(android.R.color.black)
+                        binding.root.context.getColor(android.R.color.white)
                     )
+                    binding.textViewDate.setAlpha(0.5f)
                     binding.textViewTime.setTextColor(
-                        binding.root.context.getColor(android.R.color.black)
+                        binding.root.context.getColor(android.R.color.white)
                     )
+                    binding.textViewTime.setAlpha(0.5f)
 
                 }
 

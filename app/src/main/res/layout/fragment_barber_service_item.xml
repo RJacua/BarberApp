@@ -11,65 +11,77 @@
     app:cardCornerRadius="8dp"
     app:cardBackgroundColor="@android:color/transparent"> <!-- Transparente para mostrar o seletor -->
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:id="@+id/item_container_service"
-     android:layout_width="match_parent"
-    android:layout_height="100dp"
-    android:background="@drawable/item_background"
-    android:elevation="4dp"
-    android:padding="10dp">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/item_container_service"
+        android:layout_width="399dp"
+        android:layout_height="121dp"
+        android:background="@drawable/item_background"
+        android:elevation="4dp"
+        android:padding="10dp">
 
-    <TextView
-        android:id="@+id/serviceNameText"
-        style="@style/TextStyle.Body"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Nome do Serviço"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.153"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.098" />
+        <TextView
+            android:id="@+id/serviceNameText"
+            style="@style/TextStyle.Item"
+            android:layout_width="176dp"
+            android:layout_height="51dp"
+            android:text="Nome do Serviço"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.192"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.02" />
 
-    <TextView
-        android:id="@+id/durationText"
-        style="@style/TextStyle.Body"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="10min"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.12"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/serviceNameText"
-        app:layout_constraintVertical_bias="0.166" />
+        <TextView
+            android:id="@+id/servicePriceText"
+            style="@style/TextStyle.Item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="€50,00"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.116"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
 
-    <TextView
-        android:id="@+id/servicePriceText"
-        style="@style/TextStyle.Body"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="€50,00"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.121"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.901" />
+        <TextView
+            android:id="@+id/durationText"
+            style="@style/TextStyle.Item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10min"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.115"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/serviceNameText"
+            app:layout_constraintVertical_bias="0.333" />
 
-    <Button
-        android:id="@+id/btnEditService"
-        style="@style/ButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/edit"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.978"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <Button
+            android:id="@+id/btnEditService"
+            style="@style/ButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/edit"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.79"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.981" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/activeText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="88dp"
+            android:text="@string/active"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            style="@style/TextStyle.Item"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

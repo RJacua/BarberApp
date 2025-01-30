@@ -70,6 +70,8 @@ class BarberServiceFragment : Fragment() {
         binding.btnBackBarbServToHome.setOnClickListener {
             findNavController().navigate(BarberServiceFragmentDirections.actionBarberServiceFragmentToHomeBarberFragment())
         }
+
+
     }
 
 
@@ -95,14 +97,27 @@ class BarberServiceFragment : Fragment() {
             val decimalFormat = DecimalFormat("#.00") // Guarantees two decimals
             val stringPrice = decimalFormat.format(price)
 
-            // Changes the style if the Service is set as active or not
-            if (!serviceDetail.isActive) {
-                binding.serviceNameText.setTextColor(Color.BLACK)
+            // ✅ Always reset the UI correctly based on `isActive`
+            if (serviceDetail.isActive) {
                 binding.serviceNameText.setTypeface(null, Typeface.BOLD)
-                binding.servicePriceText.setTextColor(Color.BLACK)
+                binding.activeText.setTypeface(null, Typeface.BOLD)
+                binding.activeText.text = getString(R.string.active, "Active")
                 binding.servicePriceText.setTypeface(null, Typeface.BOLD)
-                binding.durationText.setTextColor(Color.BLACK)
                 binding.durationText.setTypeface(null, Typeface.BOLD)
+            } else {
+                binding.serviceNameText.setTextColor(Color.WHITE)
+                binding.serviceNameText.setAlpha(0.5f)
+                binding.serviceNameText.setTypeface(null, Typeface.NORMAL)
+                binding.activeText.setTextColor(Color.WHITE)
+                binding.activeText.setAlpha(0.5f)
+                binding.activeText.text = getString(R.string.active, "Inactive")
+                binding.activeText.setTypeface(null, Typeface.NORMAL)
+                binding.servicePriceText.setTextColor(Color.WHITE)
+                binding.servicePriceText.setAlpha(0.5f)
+                binding.servicePriceText.setTypeface(null, Typeface.NORMAL)
+                binding.durationText.setTextColor(Color.WHITE)
+                binding.durationText.setAlpha(0.5f)
+                binding.durationText.setTypeface(null, Typeface.NORMAL)
             }
 
             binding.serviceNameText.text = serviceDetail.name

@@ -1,5 +1,6 @@
 package com.example.barberapp.MyAppointmentsClient
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -67,71 +68,62 @@ class ClientAppointmentsFragment : Fragment() {
 
 
     inner class AppointmentsViewHolder(private val binding: FragmentAppointmentsItemBinding) :
-            RecyclerView.ViewHolder(binding.root) {
-            fun bind(details: AppointmentDetails) {
-                binding.textViewBarberShop.text = details.barbershopName
-                binding.textViewBarber.text = details.barberName
-                binding.textViewService.text = details.serviceName
-                binding.textViewPrice.text = "€${details.price}"
-                binding.textViewDate.text = details.date
-                binding.textViewTime.text = details.time
+        RecyclerView.ViewHolder(binding.root) {
 
-                if (details.status == "Active"){
-                    binding.btnStatus.text = getString(R.string.cancel)
-                    binding.btnStatus.isEnabled = true
-                }
-                else {
-                    binding.btnStatus.text = getString(R.string.canceled)
-                    binding.btnStatus.alpha = 0.5f
-                    binding.btnStatus.isEnabled = false
-                }
+        fun bind(details: AppointmentDetails) {
+            binding.textViewBarberShop.text = details.barbershopName
+            binding.textViewBarber.text = details.barberName
+            binding.textViewService.text = details.serviceName
+            binding.textViewPrice.text = "€${details.price}"
+            binding.textViewDate.text = details.date
+            binding.textViewTime.text = details.time
 
-                binding.btnStatus.setOnClickListener {
-                    // update status locally
-                    details.status = "Canceled"
-                    binding.btnStatus.text = getString(R.string.canceled)
-                    binding.btnStatus.isEnabled = false
+            // ✅ Sempre redefinir a aparência corretamente antes de definir os estados
+            binding.textViewBarberShop.setTextColor(Color.WHITE)
+            binding.textViewBarberShop.alpha = 1f
+            binding.textViewBarber.setTextColor(Color.WHITE)
+            binding.textViewBarber.alpha = 1f
+            binding.textViewService.setTextColor(Color.WHITE)
+            binding.textViewService.alpha = 1f
+            binding.textViewPrice.setTextColor(Color.WHITE)
+            binding.textViewPrice.alpha = 1f
+            binding.textViewDate.setTextColor(Color.WHITE)
+            binding.textViewDate.alpha = 1f
+            binding.textViewTime.setTextColor(Color.WHITE)
+            binding.textViewTime.alpha = 1f
 
-                    // notify ViewModel to update the data base
-                    viewModel.cancelAppointment(details.appointmentId)
+            if (details.status == "Active") {
+                binding.btnStatus.text = getString(R.string.cancel)
+                binding.btnStatus.isEnabled = true
+                binding.btnStatus.alpha = 1f
+            } else {
+                binding.btnStatus.text = getString(R.string.canceled)
+                binding.btnStatus.isEnabled = false
+                binding.btnStatus.alpha = 0.5f
 
-                    // update the specific item on the list
-                    bindingAdapter?.notifyItemChanged(bindingAdapterPosition)
-                }
-
-                // verify the state of the appointment and adjust design accordingly
-                if (details.status == "Active") {
-                    binding.textViewBarberShop.setTypeface(null, android.graphics.Typeface.BOLD)
-                    binding.textViewBarber.setTypeface(null, android.graphics.Typeface.BOLD)
-                    binding.textViewService.setTypeface(null, android.graphics.Typeface.BOLD)
-                    binding.textViewPrice.setTypeface(null, android.graphics.Typeface.BOLD)
-                    binding.textViewDate.setTypeface(null, android.graphics.Typeface.BOLD)
-                    binding.textViewTime.setTypeface(null, android.graphics.Typeface.BOLD)
-                } else {
-                    binding.textViewBarberShop.setTextColor(
-                        binding.root.context.getColor(android.R.color.black)
-                    )
-                    binding.textViewBarber.setTextColor(
-                        binding.root.context.getColor(android.R.color.black)
-                    )
-                    binding.textViewService.setTextColor(
-                        binding.root.context.getColor(android.R.color.black)
-                    )
-                    binding.textViewPrice.setTextColor(
-                        binding.root.context.getColor(android.R.color.black)
-                    )
-                    binding.textViewDate.setTextColor(
-                        binding.root.context.getColor(android.R.color.black)
-                    )
-                    binding.textViewTime.setTextColor(
-                        binding.root.context.getColor(android.R.color.black)
-                    )
-                }
+                // Aplica estilo de desativado
+                binding.textViewBarberShop.alpha = 0.5f
+                binding.textViewBarber.alpha = 0.5f
+                binding.textViewService.alpha = 0.5f
+                binding.textViewPrice.alpha = 0.5f
+                binding.textViewDate.alpha = 0.5f
+                binding.textViewTime.alpha = 0.5f
             }
 
-        }
+            // ✅ Corrigindo o clique no botão para não modificar diretamente o objeto
+            binding.btnStatus.setOnClickListener {
+                binding.btnStatus.text = getString(R.string.canceled)
+                binding.btnStatus.isEnabled = false
+                binding.btnStatus.alpha = 0.5f
 
-        private val appointmentDiffer = object : DiffUtil.ItemCallback<AppointmentDetails>() {
+                // Atualizar status da lista corretamente
+                viewModel.cancelAppointment(details.appointmentId)
+            }
+        }
+    }
+
+
+    private val appointmentDiffer = object : DiffUtil.ItemCallback<AppointmentDetails>() {
             override fun areItemsTheSame(oldItem: AppointmentDetails, newItem: AppointmentDetails) =
                 oldItem.appointmentId == newItem.appointmentId
 

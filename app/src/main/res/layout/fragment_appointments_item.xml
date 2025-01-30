@@ -22,7 +22,7 @@
 
         <TextView
             android:id="@+id/textViewBarberShop"
-            style="@style/TextStyle.Body"
+            style="@style/TextStyle.Item"
             android:layout_width="160dp"
             android:layout_height="28dp"
             android:text="BarberShop"
@@ -37,7 +37,7 @@
 
         <TextView
             android:id="@+id/textViewBarber"
-            style="@style/TextStyle.Body"
+            style="@style/TextStyle.Item"
             android:layout_width="78dp"
             android:layout_height="30dp"
             android:text="Barber"
@@ -50,7 +50,7 @@
 
         <TextView
             android:id="@+id/textViewService"
-            style="@style/TextStyle.Body"
+            style="@style/TextStyle.Item"
             android:layout_width="206dp"
             android:layout_height="53dp"
             android:text="Service"
@@ -62,7 +62,7 @@
 
         <TextView
             android:id="@+id/textViewDate"
-            style="@style/TextStyle.Body"
+            style="@style/TextStyle.Item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Date"
@@ -75,7 +75,7 @@
 
         <TextView
             android:id="@+id/textViewPrice"
-            style="@style/TextStyle.Body"
+            style="@style/TextStyle.Item"
             android:layout_width="74dp"
             android:layout_height="27dp"
             android:text="Price"
@@ -87,7 +87,7 @@
 
         <TextView
             android:id="@+id/textViewTime"
-            style="@style/TextStyle.Body"
+            style="@style/TextStyle.Item"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Time"

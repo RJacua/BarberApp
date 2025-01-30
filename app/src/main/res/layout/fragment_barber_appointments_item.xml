@@ -20,7 +20,7 @@
 
         <TextView
             android:id="@+id/textViewClientName"
-            style="@style/TextStyle.Body"
+            style="@style/TextStyle.Item"
             android:layout_width="78dp"
             android:layout_height="30dp"
             android:layout_marginStart="12dp"
@@ -34,7 +34,7 @@
 
         <TextView
             android:id="@+id/textViewDate"
-            style="@style/TextStyle.Body"
+            style="@style/TextStyle.Item"
             android:layout_width="85dp"
             android:layout_height="29dp"
             android:layout_marginStart="16dp"
@@ -44,7 +44,7 @@
 
         <TextView
             android:id="@+id/textViewTime"
-            style="@style/TextStyle.Body"
+            style="@style/TextStyle.Item"
             android:layout_width="79dp"
             android:layout_height="29dp"
             android:layout_marginStart="12dp"
@@ -56,7 +56,7 @@
 
         <TextView
             android:id="@+id/textViewService"
-            style="@style/TextStyle.Body"
+            style="@style/TextStyle.Item"
             android:layout_width="246dp"
             android:layout_height="35dp"
             android:layout_marginStart="12dp"
@@ -68,7 +68,7 @@
 
         <TextView
             android:id="@+id/textViewPrice"
-            style="@style/TextStyle.Body"
+            style="@style/TextStyle.Item"
             android:layout_width="55dp"
             android:layout_height="26dp"
             android:text="Price"
