@@ -21,9 +21,17 @@
 
     <!-- Estilo global para botões ativos -->
     <style name="ButtonStyle" parent="Widget.Material3.Button">
-        <item name="android:backgroundTint">@color/colorButtonBackground
-        </item> <!-- Cor de fundo do botão -->
+        <item name="android:backgroundTint">@color/colorButtonBackground</item> <!-- Cor de fundo do botão -->
         <item name="android:textColor">@color/colorButtonText</item> <!-- Cor do texto do botão -->
+        <item name="cornerRadius">5dp</item>
+    </style>
+
+    <style name="ButtonSelectStyle" parent="Widget.Material3.Button">
+        <item name="android:backgroundTint">@color/colorButtonSelectBackground</item> <!-- Cor de fundo do botão -->
+        <item name="android:textSize">18sp</item>
+        <item name="cornerRadius">5dp</item>
+        <item name="android:gravity">start|center_vertical</item>
+        <item name="android:textColor">@color/colorSelectButtonText</item> <!-- Cor do texto do botão -->
     </style>
 
     <!-- Estilo para botões desativados -->

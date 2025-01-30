@@ -13,6 +13,7 @@ import android.widget.Button
 import android.widget.GridLayout
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.barberapp.R
@@ -198,28 +199,27 @@ class ChooseAppointmentFragment : Fragment() {
             // Create a button for each available time slot
             val button = Button(requireContext()).apply {
                 text = actualSlot
-                setBackgroundColor(if (false) Color.LTGRAY else Color.GRAY)
+                background = ContextCompat.getDrawable(requireContext(), R.drawable.btn_time_slot)
                 isEnabled = true
 
                 setOnClickListener {
-                    // Logic to select/deselect a time slot
+                    // Se houver um botão já selecionado, resetar para o estado original
+                    selectedButton?.apply {
+                        isSelected = false
+                        setTextColor(Color.parseColor("#F6BE00")) // 🔹 Volta o texto para amarelo
+                    }
+
+                    // Atualizar o botão atual como selecionado
                     if (isSelected) {
                         isSelected = false
-                        setBackgroundColor(Color.GRAY)
-                        setTextColor(Color.parseColor("#F6BE00"))
                         tempSelectedTime = null
                         selectedButton = null
+                        setTextColor(Color.parseColor("#F6BE00")) // 🔹 Voltar o texto para amarelo
                     } else {
-                        selectedButton?.isSelected = false
-                        selectedButton?.setBackgroundColor(Color.GRAY)
-                        selectedButton?.setTextColor(Color.parseColor("#F6BE00"))
-
-                        isSelected = true
-                        setBackgroundColor(Color.parseColor("#F6BE00"))
-                        setTextColor(Color.BLACK)
-
-                        tempSelectedTime = actualSlot
                         selectedButton = this
+                        isSelected = true
+                        tempSelectedTime = actualSlot
+                        setTextColor(Color.BLACK) // 🔹 Texto preto no botão selecionado
                     }
                 }
             }
@@ -230,7 +230,7 @@ class ChooseAppointmentFragment : Fragment() {
                 height = GridLayout.LayoutParams.WRAP_CONTENT
                 columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f)
                 rowSpec = GridLayout.spec(GridLayout.UNDEFINED)
-                setMargins(4, 4, 4, 4)
+                setMargins(16, 16, 16, 16)
             }
             button.layoutParams = params
             container.addView(button)

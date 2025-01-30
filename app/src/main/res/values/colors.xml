@@ -10,9 +10,13 @@
 
     <!-- Cor de fundo dos botões -->
     <color name="colorButtonBackground">#F6BE00</color>
-
     <!-- Cor do texto dos botões -->
     <color name="colorButtonText">#000000</color> <!-- Texto preto para contraste -->
+
+
+
+    <color name="colorButtonSelectBackground">#212121</color>
+    <color name="colorSelectButtonText">#FFFFFF</color> <!-- Texto preto para contraste -->
 
     <!-- Cor de fundo dos botões desativados -->
     <color name="colorButtonDisabledBackground">#212121</color> <!-- Cor de fundo dos botões inativos (cinza) -->
