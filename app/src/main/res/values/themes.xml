@@ -99,5 +99,11 @@
     <!-- Tema principal que herda do Base -->
     <style name="Theme.BarberApp" parent="Base.Theme.BarberApp" />
 
+    <style name="TextStyle.Item" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textColor">@color/white</item> <!-- Cor cinza claro -->
+        <item name="android:textSize">14sp</item> <!-- Tamanho menor -->
+        <item name="android:textStyle">normal</item> <!-- Texto normal -->
+    </style>
+
 
 </resources>
