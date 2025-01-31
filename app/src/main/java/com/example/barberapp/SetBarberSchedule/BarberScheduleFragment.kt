@@ -76,7 +76,7 @@ class BarberScheduleFragment : Fragment() {
         val tableLayout = binding.tableLayoutSchedule
         tableLayout.removeAllViews()
 
-        val backgroundColors = listOf("#FAFAFA", "#EEEEEE")
+        val backgroundColors = listOf("#55FFFFFF", "#33FFFFFF")
 
         // Header
         val headerRow = TableRow(requireContext())
@@ -87,6 +87,7 @@ class BarberScheduleFragment : Fragment() {
                 gravity = Gravity.CENTER
                 setPadding(16, 8, 16, 8)
                 setBackgroundColor(Color.parseColor(backgroundColors[index % 2]))
+                setTextColor(Color.parseColor("#F6BE00"))
                 layoutParams = TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f)
             }
             headerRow.addView(dayCell)
@@ -101,13 +102,13 @@ class BarberScheduleFragment : Fragment() {
                     text = hours[hourIndex]
                     layoutParams = TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f)
                     setBackgroundColor(Color.parseColor(backgroundColors[dayIndex % 2]))
-                    setTextColor(Color.BLACK)
+                    setTextColor(Color.parseColor("#F6BE00"))
                     isAllCaps = false
 
                     val hour = hourIndex + 9
                     if (scheduleMap[dayIndex]?.contains(hour) == true) {
-                        setBackgroundColor(Color.parseColor("#FF9800"))
-                        setTextColor(Color.WHITE)
+                        setBackgroundColor(Color.parseColor("#F6BE00"))
+                        setTextColor(Color.parseColor("#000000"))
                         tag = "selected"
                     } else {
                         tag = "unselected"
@@ -134,11 +135,11 @@ class BarberScheduleFragment : Fragment() {
         if (button.tag == "selected") {
             button.tag = "unselected"
             button.setBackgroundColor(Color.parseColor(originalColor))
-            button.setTextColor(Color.BLACK)
+            button.setTextColor(Color.parseColor("#F6BE00"))
         } else {
             button.tag = "selected"
-            button.setBackgroundColor(Color.parseColor("#FF9800"))
-            button.setTextColor(Color.WHITE)
+            button.setBackgroundColor(Color.parseColor("#F6BE00"))
+            button.setTextColor(Color.BLACK)
         }
     }
 
