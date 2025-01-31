@@ -29,7 +29,12 @@
     <string name="price_text">Price: €%1$s</string>
     <string name="duration_text">Duration: %1$s</string>
     <string name="canceled">Canceled</string>
-    <string name="active">%1$s</string>
+    <string name="active">Active</string>
+    <string name="missed">Missed</string>
+    <string name="completed">Completed</string>
+    <string name="inactive">Inactive</string>
+    <string name="barberSubTitle">Manage Your Work</string>
+    <string name="clientSubTitle">Make your Appointment</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 

@@ -98,24 +98,29 @@ class BarberServiceFragment : Fragment() {
             val stringPrice = decimalFormat.format(price)
 
             // ✅ Always reset the UI correctly based on `isActive`
+            binding.serviceNameText.setTextColor(Color.WHITE)
+            binding.serviceNameText.setAlpha(1f)
+            binding.activeText.setTextColor(Color.WHITE)
+            binding.activeText.setAlpha(1f)
+            binding.servicePriceText.setTextColor(Color.WHITE)
+            binding.servicePriceText.setAlpha(1f)
+            binding.durationText.setTextColor(Color.WHITE)
+            binding.durationText.setAlpha(1f)
+
             if (serviceDetail.isActive) {
                 binding.serviceNameText.setTypeface(null, Typeface.BOLD)
                 binding.activeText.setTypeface(null, Typeface.BOLD)
-                binding.activeText.text = getString(R.string.active, "Active")
+                binding.activeText.text = getString(R.string.active)
                 binding.servicePriceText.setTypeface(null, Typeface.BOLD)
                 binding.durationText.setTypeface(null, Typeface.BOLD)
             } else {
-                binding.serviceNameText.setTextColor(Color.WHITE)
                 binding.serviceNameText.setAlpha(0.5f)
                 binding.serviceNameText.setTypeface(null, Typeface.NORMAL)
-                binding.activeText.setTextColor(Color.WHITE)
                 binding.activeText.setAlpha(0.5f)
-                binding.activeText.text = getString(R.string.active, "Inactive")
+                binding.activeText.text = getString(R.string.inactive)
                 binding.activeText.setTypeface(null, Typeface.NORMAL)
-                binding.servicePriceText.setTextColor(Color.WHITE)
                 binding.servicePriceText.setAlpha(0.5f)
                 binding.servicePriceText.setTypeface(null, Typeface.NORMAL)
-                binding.durationText.setTextColor(Color.WHITE)
                 binding.durationText.setAlpha(0.5f)
                 binding.durationText.setTypeface(null, Typeface.NORMAL)
             }

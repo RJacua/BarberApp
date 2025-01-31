@@ -96,10 +96,23 @@ class ClientAppointmentsFragment : Fragment() {
                 binding.btnStatus.text = getString(R.string.cancel)
                 binding.btnStatus.isEnabled = true
                 binding.btnStatus.alpha = 1f
+                binding.statusText.alpha = 0f
             } else {
-                binding.btnStatus.text = getString(R.string.canceled)
+                binding.statusText.alpha = 1f
+                if(details.status == "Canceled") {
+                    binding.statusText.text = getString(R.string.canceled)
+                    binding.statusText.setTextColor(Color.RED)
+                }
+                else if(details.status == "Missed"){
+                    binding.statusText.text = getString(R.string.missed)
+                    binding.statusText.setTextColor(Color.RED)
+                }
+                else{
+                    binding.statusText.text = getString(R.string.completed)
+                    binding.statusText.setTextColor(Color.parseColor("#F6BE00"))
+                }
                 binding.btnStatus.isEnabled = false
-                binding.btnStatus.alpha = 0.5f
+                binding.btnStatus.alpha = 0f
 
                 // Aplica estilo de desativado
                 binding.textViewBarberShop.alpha = 0.5f

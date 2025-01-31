@@ -13,12 +13,9 @@
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/item_container_service"
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:padding="18dp"
+    android:padding="10dp"
     android:background="@drawable/item_default_background">
 
     <ImageView

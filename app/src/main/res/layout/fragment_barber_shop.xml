@@ -10,15 +10,13 @@
         android:id="@+id/barberShopList"
         android:layout_width="412dp"
         android:layout_height="529dp"
-
         android:layout_marginBottom="100dp"
         android:padding="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.937"
+        app:layout_constraintVertical_bias="0.949"
         tools:listitem="@layout/fragment_barber_shop_item" />
 
     <TextView
@@ -28,6 +26,7 @@
         android:layout_height="wrap_content"
         android:text="@string/barbershop"
         android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

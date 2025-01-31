@@ -8,20 +8,21 @@
     tools:context=".SetBarberService.BarberServiceFragment">
 
     <!-- Título da seção -->
+
+    <!-- RecyclerView para a lista de serviços -->
     <TextView
         android:id="@+id/textView"
+        style="@style/TextStyle.Subtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:text="@string/myServices"
-        android:textSize="20sp"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        style="@style/TextStyle.Subtitle"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- RecyclerView para a lista de serviços -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/barberServiceList"
         android:layout_width="409dp"

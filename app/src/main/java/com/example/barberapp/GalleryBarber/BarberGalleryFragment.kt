@@ -62,7 +62,7 @@ class GalleryFragment : Fragment() {
         }
 
         binding.btnBack.setOnClickListener {
-            findNavController().popBackStack()
+            findNavController().navigate(GalleryFragmentDirections.actionGalleryFragmentToHomeBarberFragment())
         }
     }
 

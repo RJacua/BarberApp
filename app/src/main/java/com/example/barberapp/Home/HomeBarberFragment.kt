@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.example.barberapp.GalleryBarber.GalleryFragmentDirections
 import com.example.barberapp.Login.LoginViewModel
 import com.example.barberapp.R
 import com.example.barberapp.UserSession
@@ -57,6 +58,10 @@ class HomeBarberFragment : Fragment() {
         // button to set up schedule
         binding.btnYourSchedule.setOnClickListener {
             findNavController().navigate(HomeBarberFragmentDirections.actionHomeBarberFragmentToScheduleFragment())
+        }
+
+        binding.btnTakePic.setOnClickListener{
+            findNavController().navigate(HomeBarberFragmentDirections.actionHomeBarberFragmentToCameraFragment())
         }
 
 

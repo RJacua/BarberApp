@@ -12,7 +12,7 @@
         style="@style/TextStyle.Subtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:textSize="24sp"
         android:textStyle="bold"
         android:text="@string/gallery"
         app:layout_constraintBottom_toBottomOf="parent"

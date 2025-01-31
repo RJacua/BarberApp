@@ -15,7 +15,7 @@
 
 
 
-    <color name="colorButtonSelectBackground">#212121</color>
+    <color name="colorButtonSelectBackground">#0d0d0a</color>
     <color name="colorSelectButtonText">#FFFFFF</color> <!-- Texto preto para contraste -->
 
     <!-- Cor de fundo dos botões desativados -->

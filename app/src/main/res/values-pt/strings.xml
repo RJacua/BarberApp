@@ -27,5 +27,10 @@
     <string name="price_text">Preço : €%1$s</string>
     <string name="duration_text">Duração:   %1$s</string>
     <string name="canceled">Cancelado</string>
-    <string name="active">%1$s</string>
+    <string name="active">Ativo</string>
+    <string name="missed">Perdido</string>
+    <string name="completed">Completado</string>
+    <string name="inactive">Inativo</string>
+    <string name="barberSubTitle">Gerencie seu Trabalho</string>
+    <string name="clientSubTitle">Faça sua Marcação</string>
 </resources>

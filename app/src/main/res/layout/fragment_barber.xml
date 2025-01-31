@@ -11,7 +11,6 @@
         android:id="@+id/barberList"
         android:layout_width="412dp"
         android:layout_height="529dp"
-
         android:layout_marginBottom="100dp"
         android:padding="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -29,6 +28,7 @@
         android:layout_height="wrap_content"
         android:text="@string/barber"
         android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

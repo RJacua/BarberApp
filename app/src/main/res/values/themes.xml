@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.BarberApp" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Cor de fundo do app -->
-        <item name="android:windowBackground">@color/colorBackground</item>
+        <item name="android:windowBackground">@drawable/gradient_bg</item>
 
         <!-- Cor do texto no app -->
         <item name="android:textColorPrimary">@color/colorText
