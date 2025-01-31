@@ -2,6 +2,9 @@ package com.example.barberapp
 
 import android.os.Bundle
 import android.util.Log
+import android.view.MotionEvent
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -47,5 +50,27 @@ class MainActivity : AppCompatActivity() {
         Log.d("destroy", "destroyed ${UserSession.loggedInBarber?.barberId}")
         Log.d("Preferences", "Current after destroy preferences: $prefs")
     }
+
+    /**
+     * Hide keyboard when touching outside EditText
+     */
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        if (currentFocus is EditText) {
+            hideKeyboard()
+            currentFocus?.clearFocus()
+        }
+        return super.dispatchTouchEvent(ev)
+    }
+
+    /**
+     * Function to hide the keyboard
+     */
+    private fun hideKeyboard() {
+        val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        currentFocus?.let {
+            inputMethodManager.hideSoftInputFromWindow(it.windowToken, 0)
+        }
+    }
+
 
 }

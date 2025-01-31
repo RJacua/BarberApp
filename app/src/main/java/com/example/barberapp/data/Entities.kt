@@ -20,6 +20,7 @@ data class Barbershop(
 // Barber table
 @Entity(
     tableName = "barbers",
+    indices = [Index(value = ["email"], unique = true)],
     foreignKeys = [
         ForeignKey(
             entity = Barbershop::class,
@@ -95,7 +96,10 @@ data class BarberSchedule(
 )
 
 // Client table
-@Entity(tableName = "clients")
+@Entity(
+    tableName = "clients",
+    indices = [Index(value = ["email"], unique = true)]
+)
 data class Client(
     @PrimaryKey(autoGenerate = true) val clientId: Int = 0,
     val name: String,

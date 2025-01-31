@@ -14,6 +14,9 @@ import com.example.barberapp.Register.CreateBarberServiceViewModel
 import com.example.barberapp.UserSession
 import com.example.barberapp.databinding.FragmentCreateBarberServiceBinding
 import java.sql.Time
+import java.text.DecimalFormat
+import java.text.NumberFormat
+import java.util.Locale
 
 class CreateBarberServiceFragment : Fragment() {
 
@@ -52,7 +55,11 @@ class CreateBarberServiceFragment : Fragment() {
                     binding.pickerHours.value = barberService.duration.hours
                     binding.pickerMinutes.value =
                         barberService.duration.minutes / 15 // Ajusta para os valores do NumberPicker
-                    binding.priceInput.setText(barberService.price.toString())
+
+                    // 🔹 Formata o preço e atualiza no campo de input assim que o serviço for carregado
+                    val formattedPrice = formatPrice(barberService.price)
+
+                    binding.priceInput.setText(formattedPrice)
                     binding.tglActiveService.isChecked = barberService.isActive
 
                     setupSaveButton(barberService.barberId, barberService.serviceId)
@@ -105,15 +112,38 @@ class CreateBarberServiceFragment : Fragment() {
             val hours = binding.pickerHours.value
             val minutes = binding.pickerMinutes.displayedValues[binding.pickerMinutes.value].toInt()
             val duration = Time.valueOf("$hours:$minutes:00")
-            val price = binding.priceInput.text.toString().toDoubleOrNull() ?: 0.0
+            val price = binding.priceInput.text.toString().toDoubleOrNull() ?: 0.00
             val isActive = binding.tglActiveService.isChecked
 
+            if (price <= 0) {
+                Toast.makeText(requireContext(), "The price must be greater than 0", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (hours == 0 && minutes == 0) {
+                Toast.makeText(requireContext(), "The duration must be greater than 0", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            binding.priceInput.setText(formatPrice(price))
+
             viewModel.updateBarberService(barberId, serviceId, duration, price, isActive)
-            Toast.makeText(
-                requireContext(), "Service updated!", Toast.LENGTH_SHORT
-            ).show()
+            Toast.makeText(requireContext(), "Service updated!", Toast.LENGTH_SHORT).show()
             findNavController().navigateUp()
+
         }
+    }
+
+    /**
+     * Changes the price display to return 2 decimals
+     *
+     * @param price
+     * @return String
+     */
+    private fun formatPrice(price: Double): String {
+        val formatter = NumberFormat.getInstance(Locale.US) as DecimalFormat
+        formatter.applyPattern("0.00") // Garante sempre duas casas decimais
+        return formatter.format(price)
     }
 }
 
