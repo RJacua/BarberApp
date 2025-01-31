@@ -18,6 +18,9 @@ import com.example.barberapp.UserSession
 import com.example.barberapp.UtilityClasses.AppointmentDetails
 import com.example.barberapp.databinding.FragmentBarberAppointmentsBinding
 import com.example.barberapp.databinding.FragmentBarberAppointmentsItemBinding
+import java.text.DecimalFormat
+import java.text.NumberFormat
+import java.util.Locale
 
 class BarberAppointmentsFragment : Fragment() {
 
@@ -81,9 +84,11 @@ class BarberAppointmentsFragment : Fragment() {
 
         fun bind(details: AppointmentDetails) {
 
+            val price = formatPrice(details.price)
+
             binding.textViewClientName.text = details.barberName
             binding.textViewService.text = details.serviceName
-            binding.textViewPrice.text = "€${details.price}"
+            binding.textViewPrice.text = "€${price}"
             binding.textViewDate.text = details.date
             binding.textViewTime.text = details.time
 
@@ -183,6 +188,18 @@ class BarberAppointmentsFragment : Fragment() {
             newItem: AppointmentDetails
         ) =
             oldItem == newItem
+    }
+
+    /**
+     * Changes the price display to return 2 decimals
+     *
+     * @param price
+     * @return String
+     */
+    private fun formatPrice(price: Double): String {
+        val formatter = NumberFormat.getInstance(Locale.US) as DecimalFormat
+        formatter.applyPattern("0.00") // Garante sempre duas casas decimais
+        return formatter.format(price)
     }
 }
 
