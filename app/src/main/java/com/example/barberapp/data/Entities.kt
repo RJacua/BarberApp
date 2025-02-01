@@ -133,7 +133,24 @@ data class Appointment(
     val time: String, // format: HH:MM
     val status: String // "Active", "Missed", "Canceled", "Completed".
 )
-
+@Entity(
+    tableName = "ratings",
+    foreignKeys = [
+        ForeignKey(
+            entity = Client::class,
+            parentColumns = ["clientId"],
+            childColumns = ["clientId"],
+            onDelete = ForeignKey.CASCADE
+        )
+    ]
+)
+data class Rating(
+    @PrimaryKey(autoGenerate = true) val ratingId: Int = 0,
+    val clientId: Int,
+    val photoUrl: String,
+    val rating: Double,
+    val comment: String,
+)
 
 
 

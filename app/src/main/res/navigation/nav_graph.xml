@@ -223,5 +223,29 @@
         android:id="@+id/clientGalleryFragment"
         android:name="com.example.barberapp.GalleryClient.ClientGalleryFragment"
         android:label="fragment_gallery_client"
-        tools:layout="@layout/fragment_gallery_client" />
+        tools:layout="@layout/fragment_gallery_client" >
+        <action
+            android:id="@+id/action_clientGalleryFragment_to_photoDetailsFragment"
+            app:destination="@id/photoDetailsFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/commentFragment"
+        android:name="com.example.barberapp.PhotoComments.CommentFragment"
+        android:label="CommentFragment" >
+        <argument
+            android:name="photoUrl"
+            app:argType="string" />
+    </dialog>
+    <fragment
+        android:id="@+id/photoDetailsFragment"
+        android:name="com.example.barberapp.PhotoComments.PhotoDetailsFragment"
+        android:label="fragment_photo_details"
+        tools:layout="@layout/fragment_photo_details" >
+        <action
+            android:id="@+id/action_photoDetailsFragment_to_commentFragment"
+            app:destination="@id/commentFragment" />
+        <argument
+            android:name="photoUrl"
+            app:argType="string" />
+    </fragment>
 </navigation>

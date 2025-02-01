@@ -13,8 +13,9 @@ import androidx.room.TypeConverters
     Service::class,
     BarberSchedule::class,
     BarberService::class,
-    Appointment::class
-], version = 1 )
+    Appointment::class,
+    Rating::class
+], version = 2 )
 @TypeConverters(LocalDateConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 
@@ -25,6 +26,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun barberscheduleDao(): BarberScheduleDao
     abstract  fun barberserviceDao(): BarberServiceDao
     abstract fun appointmentDao(): AppointmentDao
+    abstract  fun ratingDao(): RatingDao
 
     companion object {
 

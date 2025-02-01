@@ -35,6 +35,8 @@
     <string name="inactive">Inactive</string>
     <string name="barberSubTitle">Manage Your Work</string>
     <string name="clientSubTitle">Make your Appointment</string>
+    <string name="addComment">Add a Comment</string>
+    <string name="writeComment">Write your comment here</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 

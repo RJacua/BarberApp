@@ -33,4 +33,6 @@
     <string name="inactive">Inativo</string>
     <string name="barberSubTitle">Gerencie seu Trabalho</string>
     <string name="clientSubTitle">Faça sua Marcação</string>
+    <string name="addComment">Adicione um Comentário</string>
+    <string name="writeComment">Escreva seu comentário aqui</string>
 </resources>

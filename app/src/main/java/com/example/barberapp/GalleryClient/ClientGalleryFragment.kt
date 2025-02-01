@@ -79,6 +79,10 @@ class ClientGalleryFragment : Fragment() {
             binding.photoImageView.load(photo.first)
             // define barber name
             binding.textBarber.text = photo.second
+
+            binding.root.setOnClickListener {
+                findNavController().navigate(ClientGalleryFragmentDirections.actionClientGalleryFragmentToPhotoDetailsFragment(photo.first))
+            }
         }
     }
 
