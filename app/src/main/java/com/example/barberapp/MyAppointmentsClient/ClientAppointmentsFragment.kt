@@ -1,5 +1,6 @@
 package com.example.barberapp.MyAppointmentsClient
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -21,6 +22,8 @@ import com.example.barberapp.databinding.FragmentAppointmentsBinding
 import com.example.barberapp.databinding.FragmentAppointmentsItemBinding
 import java.text.DecimalFormat
 import java.text.NumberFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 class ClientAppointmentsFragment : Fragment() {
@@ -36,6 +39,7 @@ class ClientAppointmentsFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("NewApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -57,7 +61,18 @@ class ClientAppointmentsFragment : Fragment() {
         binding.appointmentsList.adapter = adapter
 
         viewModel.appointments.observe(viewLifecycleOwner) { appointments ->
-            adapter.submitList(appointments)
+
+
+            val dateFormatter = DateTimeFormatter.ofPattern("yyyy-M-d HH:mm")
+
+            // Ordenar primeiro os "Active" pela data mais próxima e depois os outros pela data mais próxima
+            val sortedAppointments = appointments.sortedWith(
+
+                compareBy<AppointmentDetails> { it.status.lowercase() != "active" }
+                    .thenBy { LocalDate.parse(it.date + " " + it.time, dateFormatter)
+                    }
+            )
+            adapter.submitList(sortedAppointments)
         }
 
         // load appointments
