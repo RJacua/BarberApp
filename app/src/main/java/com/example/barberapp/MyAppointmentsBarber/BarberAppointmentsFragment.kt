@@ -1,5 +1,6 @@
 package com.example.barberapp.MyAppointmentsBarber
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -20,6 +21,8 @@ import com.example.barberapp.databinding.FragmentBarberAppointmentsBinding
 import com.example.barberapp.databinding.FragmentBarberAppointmentsItemBinding
 import java.text.DecimalFormat
 import java.text.NumberFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 class BarberAppointmentsFragment : Fragment() {
@@ -35,6 +38,7 @@ class BarberAppointmentsFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("NewApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -62,7 +66,18 @@ class BarberAppointmentsFragment : Fragment() {
         binding.appointmentsList.adapter = adapter
 
         viewModel.appointments.observe(viewLifecycleOwner) { appointments ->
-            adapter.submitList(appointments)
+
+
+            val dateFormatter = DateTimeFormatter.ofPattern("yyyy-M-d HH:mm")
+
+            // Ordenar primeiro os "Active" pela data mais próxima e depois os outros pela data mais próxima
+            val sortedAppointments = appointments.sortedWith(
+
+                compareBy<AppointmentDetails> { it.status.lowercase() != "active" }
+                    .thenBy { LocalDate.parse(it.date + " " + it.time, dateFormatter)
+                    }
+            )
+            adapter.submitList(sortedAppointments)
         }
 
         val barberId = UserSession.loggedInBarber?.barberId
@@ -86,7 +101,7 @@ class BarberAppointmentsFragment : Fragment() {
 
             val price = formatPrice(details.price)
 
-            binding.textViewClientName.text = details.barberName
+            binding.textViewClientName.text = details.clientName
             binding.textViewService.text = details.serviceName
             binding.textViewPrice.text = "€${price}"
             binding.textViewDate.text = details.date
