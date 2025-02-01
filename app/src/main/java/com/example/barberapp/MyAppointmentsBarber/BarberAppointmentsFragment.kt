@@ -101,7 +101,7 @@ class BarberAppointmentsFragment : Fragment() {
 
             val price = formatPrice(details.price)
 
-            binding.textViewClientName.text = details.barberName
+            binding.textViewClientName.text = details.clientName
             binding.textViewService.text = details.serviceName
             binding.textViewPrice.text = "€${price}"
             binding.textViewDate.text = details.date
