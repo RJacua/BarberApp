@@ -21,7 +21,7 @@ class PhotoDetailsFragment : Fragment() {
 
     private val args by navArgs<PhotoDetailsFragmentArgs>()
     private lateinit var binding: FragmentPhotoDetailsBinding
-    private val viewModel by viewModels<PhotoDetailsViewModel>()  // ViewModel para ratings
+    private val viewModel by viewModels<PhotoDetailsViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,12 +35,10 @@ class PhotoDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val photoUrl = args.photoUrl
-        binding.imageView2.load(photoUrl) // Exibe a imagem recebida
+        binding.imageView2.load(photoUrl)
 
-        // Configuração do layout manager
         binding.commentList.layoutManager = LinearLayoutManager(requireContext())
 
-        // Criando o adapter
         val adapter = object : ListAdapter<Rating, RatingViewHolder>(ratingDiffer) {
             override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RatingViewHolder {
                 val itemBinding = FragmentCommentItemBinding.inflate(
@@ -56,71 +54,51 @@ class PhotoDetailsFragment : Fragment() {
             }
         }
 
-        binding.commentList.adapter = adapter  // Associando o adapter à RecyclerView
+        binding.commentList.adapter = adapter
 
         viewModel.ratings.observe(viewLifecycleOwner) { ratings ->
             ratings?.let {
-                adapter.submitList(it)  // Envia a lista de comentários atualizada para o adapter
-                val averageRating = it.map { rating -> rating.rating }.average().toInt()
+                adapter.submitList(it)
+                val averageRating = if (it.isNotEmpty()) it.map { rating -> rating.rating }.average().toInt() else 0
                 updateStars(averageRating)
             }
         }
 
-
-
-        // Carregar os ratings pela URL da foto
         viewModel.loadRatingsByPhotoUrl(photoUrl)
 
-        // **Escutar a atualização dos comentários**
-        parentFragmentManager.setFragmentResultListener("update_comments", viewLifecycleOwner) { _, bundle ->
-            val photoUrl = args.photoUrl
-            viewModel.loadRatingsByPhotoUrl(photoUrl) // Atualiza os ratings
+        // **Ouvir atualização dos comentários**
+        parentFragmentManager.setFragmentResultListener("update_comments", viewLifecycleOwner) { _, _ ->
+            viewModel.loadRatingsByPhotoUrl(photoUrl)
         }
 
         binding.button2.setOnClickListener {
             findNavController().popBackStack()
         }
 
-        // Desabilitar a interação com as estrelas
-        val stars = listOf(
-            binding.imageButton,
-            binding.imageButton2,
-            binding.imageButton3,
-            binding.imageButton4,
-            binding.imageButton5
-        )
-
-        // Configurar clique para cada estrela (não faz nada agora)
-        for (star in stars) {
-            star.isClickable = false  // Desabilitar clique nas estrelas
-        }
-
         binding.btnAddComment.setOnClickListener {
             val modalFragment = CommentFragment()
-
-            // Criar um Bundle e passar o URL da foto
             val bundle = Bundle().apply {
                 putString("photoUrl", args.photoUrl)
             }
-
-            // Definir os argumentos para o Fragment
             modalFragment.arguments = bundle
-
-            // Exibir o fragmento
             modalFragment.show(parentFragmentManager, "ModalFragment")
         }
     }
 
     inner class RatingViewHolder(private val binding: FragmentCommentItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-
         fun bind(rating: Rating) {
             binding.comment.text = rating.comment
-            binding.clientName.text = "Client ID: ${rating.clientId}" // Exibindo o ID do cliente
+            binding.clientName.text = "Client ID: ${rating.clientId}"
             binding.rating.text = rating.rating.toString()
         }
     }
 
+    /**
+     * Atualiza a exibição das estrelas de acordo com a média de avaliações
+     *
+     * @param averageRating Média das avaliações, de 0 a 5
+     */
     private fun updateStars(averageRating: Int) {
         val stars = listOf(
             binding.imageButton,

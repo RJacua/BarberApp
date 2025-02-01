@@ -16,7 +16,6 @@ class CommentFragment : DialogFragment() {
     private val viewModel by viewModels<PhotoDetailsViewModel>()
     private val args by navArgs<CommentFragmentArgs>()
 
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         binding = FragmentCommentBinding.inflate(layoutInflater)
 
@@ -25,33 +24,33 @@ class CommentFragment : DialogFragment() {
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
         binding.btnCancelar.setOnClickListener {
-            dismiss() // Fecha o modal
-        }
-
-    binding.btnSalvar.setOnClickListener {
-        val comentario = binding.etComentario.text.toString()
-        val rating = binding.ratingBar.rating
-
-        if (comentario.isNotBlank()) {
-            val novoRating = Rating(
-                clientId = UserSession.loggedInClient!!.clientId,
-                photoUrl = args.photoUrl,
-                rating = rating.toDouble(),
-                comment = comentario
-            )
-            viewModel.insertRating(novoRating)
-            viewModel.loadRatingsByPhotoUrl(args.photoUrl)
-
-            // **Notificar PhotoDetailsFragment que um comentário foi adicionado**
-            parentFragmentManager.setFragmentResult("update_comments", bundleOf())
-
             dismiss()
-        } else {
-            binding.etComentario.error = "Write a comment!"
         }
+
+        binding.btnSalvar.setOnClickListener {
+            val comentario = binding.etComentario.text.toString()
+            val rating = binding.ratingBar.rating
+
+            if (comentario.isNotBlank()) {
+                val novoRating = Rating(
+                    clientId = UserSession.loggedInClient!!.clientId,
+                    photoUrl = args.photoUrl,
+                    rating = rating.toDouble(),
+                    comment = comentario
+                )
+
+                viewModel.insertRating(novoRating)
+
+                // **Aguardar 200ms antes de fechar para garantir a atualização**
+                binding.btnSalvar.postDelayed({
+                    parentFragmentManager.setFragmentResult("update_comments", bundleOf())
+                    dismiss()
+                }, 200)
+            } else {
+                binding.etComentario.error = "Write a comment!"
+            }
+        }
+
+        return dialog
     }
-
-    return dialog
-}
-
 }

@@ -14,6 +14,6 @@ interface RatingDao: BaseDao<Rating> {
     fun getRatingsByPhotoUrl(photoUrl: String): LiveData<List<Rating>>
 
     @Query("SELECT * FROM ratings WHERE photoUrl = :photoUrl")
-    fun getRatingsByPhotoUrlSync(photoUrl: String): List<Rating> // 🔹 Método para uso em coroutines
+    suspend fun getRatingsByPhotoUrlSync(photoUrl: String): List<Rating> // 🔹 Método para uso em coroutines
 
 }
