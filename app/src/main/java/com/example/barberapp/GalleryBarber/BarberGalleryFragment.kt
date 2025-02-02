@@ -49,11 +49,11 @@ class GalleryFragment : Fragment() {
 
         binding.galleryRecyclerView.adapter = adapter
 
-        // Automatically load all photos
+        // Carregar fotos automaticamente
         loadPhotos()
 
         viewModel.photos.observe(viewLifecycleOwner) { photos ->
-            Log.d("GalleryFragment", "Observed photos: $photos")
+            Log.d("GalleryFragment", "Fotos observadas: $photos")
             adapter.submitList(photos)
         }
 
@@ -67,29 +67,32 @@ class GalleryFragment : Fragment() {
     }
 
     /**
-     * Load photos from the directory filtered by barberId.
+     * Carrega as fotos do diretório filtradas pelo barberId.
      */
     private fun loadPhotos() {
         val barberId = UserSession.loggedInBarber!!.barberId
         val photos = requireContext().filesDir.listFiles()?.filter { file ->
-            Log.d("GalleryFragment", "Checking file: ${file.name}")
+            Log.d("GalleryFragment", "Verificando arquivo: ${file.name}")
             file.nameWithoutExtension.matches(Regex("\\d+_${barberId}_\\d+"))
         }?.map { it.absolutePath } ?: emptyList()
 
-        Log.d("GalleryFragment", "Photos found for barberId $barberId: $photos")
+        Log.d("GalleryFragment", "Fotos encontradas para barberId $barberId: $photos")
         viewModel.setPhotos(photos)
     }
 
     inner class PhotoViewHolder(private val binding: FragmentPhotoItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(photoPath: String) {
             binding.photoImageView.load(photoPath)
-            Log.d("PhotoAdapter", "Loading image: $photoPath")
+            Log.d("PhotoAdapter", "Carregando imagem: $photoPath")
+
+            binding.root.setOnClickListener {
+                findNavController().navigate(GalleryFragmentDirections.actionGalleryFragmentToPhotoDetailsBarberFragment(photoPath))
+            }
         }
     }
 
     private val PhotoDiffCallback = object : DiffUtil.ItemCallback<String>() {
         override fun areItemsTheSame(oldItem: String, newItem: String) = oldItem == newItem
-
         override fun areContentsTheSame(oldItem: String, newItem: String) = oldItem == newItem
     }
 }

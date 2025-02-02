@@ -206,6 +206,9 @@
         <action
             android:id="@+id/action_galleryFragment_to_homeBarberFragment"
             app:destination="@id/homeBarberFragment" />
+        <action
+            android:id="@+id/action_galleryFragment_to_photoDetailsBarberFragment"
+            app:destination="@id/photoDetailsBarberFragment" />
     </fragment>
     <fragment
         android:id="@+id/appointmentDetailsFragment"
@@ -244,6 +247,15 @@
         <action
             android:id="@+id/action_photoDetailsFragment_to_commentFragment"
             app:destination="@id/commentFragment" />
+        <argument
+            android:name="photoUrl"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/photoDetailsBarberFragment"
+        android:name="com.example.barberapp.PhotoDetailsBarberFragment"
+        android:label="fragment_photo_details_barber"
+        tools:layout="@layout/fragment_photo_details_barber" >
         <argument
             android:name="photoUrl"
             app:argType="string" />
