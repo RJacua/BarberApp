@@ -3,25 +3,88 @@ package com.example.barberapp
 import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
+import com.example.barberapp.Home.HomeClientFragment
+import com.example.barberapp.Login.LoginFragment
+import com.example.barberapp.MyAppointmentsBarber.AppointmentDetailsFragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var bottomNav: BottomNavigationView
+    private lateinit var navController: NavController
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+
+        bottomNav = findViewById(R.id.bottomNav)
+
+        // Obtém o NavController corretamente
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        navController = navHostFragment.navController
+
+        // Esconde a BottomNavigationView no LoginFragment
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            bottomNav.visibility = if (destination.id == R.id.loginFragment) View.GONE else View.VISIBLE
         }
 
+        // Configura a navegação da BottomNavigationView
+        bottomNav.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.home -> {
+                    if (UserSession.isLoggedInAsBarber) {
+                        navController.navigate(R.id.homeBarberFragment)
+                    } else {
+                        navController.navigate(R.id.homeClientFragment)
+                    }
+                    true
+                }
+                R.id.appointment -> {
+                    if (UserSession.isLoggedInAsBarber) {
+                        navController.navigate(R.id.barberAppointmentsFragment)
+                    } else {
+                        navController.navigate(R.id.appointmentsFragment)
+                    }
+                    true
+                }
+                R.id.gallery -> {
+                    if (UserSession.isLoggedInAsBarber) {
+                        navController.navigate(R.id.galleryFragment)
+                    } else {
+                        navController.navigate(R.id.clientGalleryFragment)
+                    }
+                    true
+                }
+                else -> false
+            }
+        }
     }
+
+
+
+    /*private fun loadFragment(fragment: Fragment) {
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.container, fragment)
+        transaction.commit()
+
+        // Verifica se o fragmento carregado é o LoginFragment
+        if (fragment is LoginFragment) {
+            bottomNav.visibility = View.GONE
+        } else {
+            bottomNav.visibility = View.VISIBLE
+        }
+    }*/
 
     /**
      * On destroy

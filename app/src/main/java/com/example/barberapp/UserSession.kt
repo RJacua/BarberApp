@@ -23,6 +23,8 @@ object UserSession {
     var selectedAppointmentTime: String? = null
     var selectedAppointmentDate: String? = null
 
+    val isLoggedInAsBarber: Boolean
+        get() = loggedInBarber != null
 
     /**
      * Clear session
