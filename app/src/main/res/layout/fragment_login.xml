@@ -6,7 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".Login.LoginFragment">
 
-
+<!--    <ImageView-->
+<!--        android:id="@+id/bgImage"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:scaleType="centerCrop"-->
+<!--        android:src="@drawable/bg_img" />-->
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="255dp"
@@ -105,5 +110,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.629" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

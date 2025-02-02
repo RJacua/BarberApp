@@ -66,9 +66,9 @@ class HomeBarberFragment : Fragment() {
 
 
         //button to go my gallery (access to camera and photos)
-        binding.btnYourGallery.setOnClickListener{
-            findNavController().navigate(HomeBarberFragmentDirections.actionHomeBarberFragmentToGalleryFragment())
-        }
+//        binding.btnYourGallery.setOnClickListener{
+//            findNavController().navigate(HomeBarberFragmentDirections.actionHomeBarberFragmentToGalleryFragment())
+//        }
 
         // logou button
         binding.btnBarberLogout.setOnClickListener {
@@ -77,9 +77,9 @@ class HomeBarberFragment : Fragment() {
         }
 
         //button to my appointments
-        binding.btnAppointments.setOnClickListener {
-            findNavController().navigate(HomeBarberFragmentDirections.actionHomeBarberFragmentToBarberAppointmentsFragment())
-        }
+//        binding.btnAppointments.setOnClickListener {
+//            findNavController().navigate(HomeBarberFragmentDirections.actionHomeBarberFragmentToBarberAppointmentsFragment())
+//        }
     }
 }
 

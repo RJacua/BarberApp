@@ -177,13 +177,13 @@ class HomeClientFragment : Fragment() {
 
         }
 
-        binding.btnAppointments.setOnClickListener {
-            findNavController().navigate(HomeClientFragmentDirections.actionHomeClientFragmentToAppointmentsFragment())
-        }
+//        binding.btnAppointments.setOnClickListener {
+//            findNavController().navigate(HomeClientFragmentDirections.actionHomeClientFragmentToAppointmentsFragment())
+//        }
 
-        binding.btnGallery.setOnClickListener {
-            findNavController().navigate(HomeClientFragmentDirections.actionHomeClientFragmentToClientGalleryFragment())
-        }
+//        binding.btnGallery.setOnClickListener {
+//            findNavController().navigate(HomeClientFragmentDirections.actionHomeClientFragmentToClientGalleryFragment())
+//        }
 
     }
 
