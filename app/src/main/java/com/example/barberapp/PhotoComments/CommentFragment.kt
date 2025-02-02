@@ -13,7 +13,7 @@ import com.example.barberapp.databinding.FragmentCommentBinding
 class CommentFragment : DialogFragment() {
 
     private lateinit var binding: FragmentCommentBinding
-    private val viewModel by viewModels<PhotoDetailsViewModel>()
+    private val viewModel by viewModels<CommentViewModel>()
     private val args by navArgs<CommentFragmentArgs>()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

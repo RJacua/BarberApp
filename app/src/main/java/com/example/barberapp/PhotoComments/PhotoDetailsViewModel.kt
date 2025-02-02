@@ -15,9 +15,10 @@ import kotlinx.coroutines.withContext
 class PhotoDetailsViewModel(application: Application) : AndroidViewModel(application) {
 
     private val ratingDao = AppDatabase(application).ratingDao()
+    private val clientDao = AppDatabase(application).clientDao()
 
-    private val _ratings = MutableLiveData<List<Rating>>()
-    val ratings: LiveData<List<Rating>> get() = _ratings
+    private val _ratings = MutableLiveData<List<Pair<Rating, String?>>>()
+    val ratings: LiveData<List<Pair<Rating, String?>>> get() = _ratings
 
     /**
      * Carrega os comentários pela URL da foto.
@@ -26,8 +27,13 @@ class PhotoDetailsViewModel(application: Application) : AndroidViewModel(applica
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val ratingsList = ratingDao.getRatingsByPhotoUrlSync(photoUrl)
+                val ratingsWithClientNames = ratingsList.map { rating ->
+                    val client = clientDao.getClientById(rating.clientId)
+                    rating to client?.name // Retorna o nome ou `null`
+                }
+
                 withContext(Dispatchers.Main) {
-                    _ratings.value = ratingsList
+                    _ratings.value = ratingsWithClientNames
                 }
             } catch (e: Exception) {
                 Log.e("PhotoDetailsViewModel", "Erro ao carregar comentários: ${e.message}")
@@ -38,7 +44,7 @@ class PhotoDetailsViewModel(application: Application) : AndroidViewModel(applica
     /**
      * Insere um novo comentário e recarrega a lista automaticamente.
      */
-    fun insertRating(rating: Rating) {
+    /*fun insertRating(rating: Rating) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 ratingDao.insert(rating)
@@ -53,5 +59,5 @@ class PhotoDetailsViewModel(application: Application) : AndroidViewModel(applica
                 Log.e("PhotoDetailsViewModel", "Erro ao inserir comentário: ${e.message}")
             }
         }
-    }
+    }*/
 }

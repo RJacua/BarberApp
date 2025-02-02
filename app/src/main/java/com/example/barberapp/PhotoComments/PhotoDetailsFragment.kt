@@ -39,7 +39,7 @@ class PhotoDetailsFragment : Fragment() {
 
         binding.commentList.layoutManager = LinearLayoutManager(requireContext())
 
-        val adapter = object : ListAdapter<Rating, RatingViewHolder>(ratingDiffer) {
+        val adapter = object : ListAdapter<Pair<Rating, String?>, RatingViewHolder>(ratingDiffer) {
             override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RatingViewHolder {
                 val itemBinding = FragmentCommentItemBinding.inflate(
                     LayoutInflater.from(parent.context),
@@ -59,14 +59,13 @@ class PhotoDetailsFragment : Fragment() {
         viewModel.ratings.observe(viewLifecycleOwner) { ratings ->
             ratings?.let {
                 adapter.submitList(it)
-                val averageRating = if (it.isNotEmpty()) it.map { rating -> rating.rating }.average().toInt() else 0
+                val averageRating = if (it.isNotEmpty()) it.map { pair -> pair.first.rating }.average().toInt() else 0
                 updateStars(averageRating)
             }
         }
 
         viewModel.loadRatingsByPhotoUrl(photoUrl)
 
-        // **Ouvir atualização dos comentários**
         parentFragmentManager.setFragmentResultListener("update_comments", viewLifecycleOwner) { _, _ ->
             viewModel.loadRatingsByPhotoUrl(photoUrl)
         }
@@ -87,18 +86,16 @@ class PhotoDetailsFragment : Fragment() {
 
     inner class RatingViewHolder(private val binding: FragmentCommentItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(rating: Rating) {
+        fun bind(ratingWithClient: Pair<Rating, String?>) {
+            val rating = ratingWithClient.first
+            val clientName = ratingWithClient.second ?: "Cliente Desconhecido"
+
             binding.comment.text = rating.comment
-            binding.clientName.text = "Client ID: ${rating.clientId}"
+            binding.clientName.text = clientName
             binding.rating.text = rating.rating.toString()
         }
     }
 
-    /**
-     * Atualiza a exibição das estrelas de acordo com a média de avaliações
-     *
-     * @param averageRating Média das avaliações, de 0 a 5
-     */
     private fun updateStars(averageRating: Int) {
         val stars = listOf(
             binding.imageButton,
@@ -117,8 +114,12 @@ class PhotoDetailsFragment : Fragment() {
         }
     }
 
-    private val ratingDiffer = object : DiffUtil.ItemCallback<Rating>() {
-        override fun areItemsTheSame(oldItem: Rating, newItem: Rating) = oldItem.ratingId == newItem.ratingId
-        override fun areContentsTheSame(oldItem: Rating, newItem: Rating) = oldItem == newItem
+    private val ratingDiffer = object : DiffUtil.ItemCallback<Pair<Rating, String?>>() {
+        override fun areItemsTheSame(oldItem: Pair<Rating, String?>, newItem: Pair<Rating, String?>) =
+            oldItem.first.ratingId == newItem.first.ratingId
+
+        override fun areContentsTheSame(oldItem: Pair<Rating, String?>, newItem: Pair<Rating, String?>) =
+            oldItem == newItem
     }
 }
+

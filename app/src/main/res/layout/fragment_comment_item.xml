@@ -15,15 +15,15 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/item_container"
         android:layout_width="match_parent"
-        android:layout_height="129dp"
+        android:layout_height="99dp"
         android:background="@drawable/item_default_background"
         android:padding="18dp">
 
         <TextView
             android:id="@+id/comment"
             style="@style/TextStyle.Body"
-            android:layout_width="355dp"
-            android:layout_height="47dp"
+            android:layout_width="352dp"
+            android:layout_height="35dp"
             android:text="Comentário"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -52,12 +52,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Rating"
+            android:textColor="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.917"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:tint="#F6BE00"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.988"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@android:drawable/star_off" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
