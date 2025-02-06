@@ -3,16 +3,16 @@
     "barbershopId": 1,
     "name": "Barbearia Lux",
     "address": "Rua Principal, 123",
-    "latitude": -23.55052,
-    "longitude": -46.633308,
+    "latitude": 38.014507,
+    "longitude": -7.872760,
     "rating": 4.8
   },
   {
     "barbershopId": 2,
     "name": "Corte Fino",
     "address": "Avenida Central, 456",
-    "latitude": -23.562573,
-    "longitude": -46.654896,
+    "latitude": 38.572912,
+    "longitude": -7.908665,
     "rating": 4.6
   },
   {

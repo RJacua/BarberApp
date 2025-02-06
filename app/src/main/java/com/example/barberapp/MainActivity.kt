@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
 
         // Esconde a BottomNavigationView no LoginFragment
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            bottomNav.visibility = if (destination.id == R.id.loginFragment) View.GONE else View.VISIBLE
+            bottomNav.visibility = if (destination.id == R.id.loginFragment || destination.id == R.id.registerFragment) View.GONE else View.VISIBLE
         }
 
         // Configura a navegação da BottomNavigationView
@@ -66,25 +66,18 @@ class MainActivity : AppCompatActivity() {
                     }
                     true
                 }
+                R.id.about -> {
+                    if (UserSession.isLoggedInAsBarber) {
+                        navController.navigate(R.id.mapsFragment)
+                    } else {
+                        navController.navigate(R.id.mapsFragment)
+                    }
+                    true
+                }
                 else -> false
             }
         }
     }
-
-
-
-    /*private fun loadFragment(fragment: Fragment) {
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.container, fragment)
-        transaction.commit()
-
-        // Verifica se o fragmento carregado é o LoginFragment
-        if (fragment is LoginFragment) {
-            bottomNav.visibility = View.GONE
-        } else {
-            bottomNav.visibility = View.VISIBLE
-        }
-    }*/
 
     /**
      * On destroy

@@ -1,0 +1,32 @@
+package com.example.barberapp
+
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.viewModelScope
+import com.example.barberapp.data.AppDatabase
+import com.example.barberapp.data.Barber
+import com.example.barberapp.data.Barbershop
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+
+class MapsViewModel(application: Application) : AndroidViewModel(application) {
+    private val database = AppDatabase(getApplication())
+
+    val barbershops: LiveData<List<Barbershop>> = database.barbershopDao().getAllBarbershops()
+
+    /**
+     * Get barber name by id
+     *
+     * @param barberId
+     * @return
+     */
+    suspend fun getBarberNameById(barberId: Int): String {
+        return withContext(Dispatchers.IO) {
+            val barber = database.barberDao().getBarberByIdLogin(barberId)
+            barber?.name ?: ""
+        }
+    }
+
+}
