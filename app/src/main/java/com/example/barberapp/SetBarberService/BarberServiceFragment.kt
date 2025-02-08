@@ -67,9 +67,6 @@ class BarberServiceFragment : Fragment() {
             adapter.submitList(services)
         }
 
-        binding.btnBackBarbServToHome.setOnClickListener {
-            findNavController().navigate(BarberServiceFragmentDirections.actionBarberServiceFragmentToHomeBarberFragment())
-        }
 
 
     }

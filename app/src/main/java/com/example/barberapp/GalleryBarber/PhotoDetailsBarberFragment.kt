@@ -1,4 +1,4 @@
-package com.example.barberapp
+package com.example.barberapp.GalleryBarber
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,20 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil3.load
-import com.example.barberapp.PhotoComments.CommentFragment
-import com.example.barberapp.PhotoComments.PhotoDetailsFragmentArgs
 import com.example.barberapp.PhotoComments.PhotoDetailsViewModel
 import com.example.barberapp.data.Rating
 import com.example.barberapp.databinding.FragmentCommentItemBinding
 import com.example.barberapp.databinding.FragmentPhotoDetailsBarberBinding
-import com.example.barberapp.databinding.FragmentPhotoDetailsBinding
 
 class PhotoDetailsBarberFragment : Fragment() {
     private val args by navArgs<PhotoDetailsBarberFragmentArgs>()
@@ -73,9 +69,6 @@ class PhotoDetailsBarberFragment : Fragment() {
             viewModel.loadRatingsByPhotoUrl(photoUrl)
         }
 
-        binding.button2.setOnClickListener {
-            findNavController().popBackStack()
-        }
     }
 
     inner class RatingViewHolder(private val binding: FragmentCommentItemBinding) :

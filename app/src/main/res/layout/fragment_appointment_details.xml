@@ -74,27 +74,27 @@
     <!-- Botão para salvar as alterações -->
 
     <!-- Botão para cancelar -->
+
     <Button
         android:id="@+id/btnCancel"
         style="@style/ButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
+        android:layout_marginStart="4dp"
         android:text="@string/cancel"
         app:layout_constraintBottom_toBottomOf="@id/btnSave"
         app:layout_constraintStart_toEndOf="@id/btnSave"
-        app:layout_constraintTop_toTopOf="@id/btnSave"
-        app:layout_constraintVertical_bias="0.833" />
+        app:layout_constraintTop_toTopOf="@id/btnSave" />
 
     <Button
         android:id="@+id/btnSave"
         style="@style/ButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="400dp"
+        android:layout_marginTop="288dp"
         android:text="@string/save"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.365"
+        app:layout_constraintHorizontal_bias="0.352"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/dropdownStatus" />
 

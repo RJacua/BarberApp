@@ -61,9 +61,6 @@ class GalleryFragment : Fragment() {
             findNavController().navigate(GalleryFragmentDirections.actionGalleryFragmentToCameraFragment())
         }
 
-        binding.btnBack.setOnClickListener {
-            findNavController().navigate(GalleryFragmentDirections.actionGalleryFragmentToHomeBarberFragment())
-        }
     }
 
     /**

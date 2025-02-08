@@ -87,11 +87,6 @@ class BarberAppointmentsFragment : Fragment() {
             Toast.makeText(requireContext(), "Barber not found.", Toast.LENGTH_SHORT).show()
         }
 
-        // Button to go back
-        binding.btnBack.setOnClickListener {
-            findNavController().navigateUp()
-        }
-
     }
 
     inner class BarberAppointmentsViewHolder(private val binding: FragmentBarberAppointmentsItemBinding) :

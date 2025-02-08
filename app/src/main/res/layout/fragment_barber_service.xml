@@ -26,8 +26,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/barberServiceList"
         android:layout_width="409dp"
-        android:layout_height="530dp"
-
+        android:layout_height="630dp"
+        android:layout_marginTop="100dp"
         android:padding="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,27 +35,5 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/fragment_barber_service_item" />
 
-    <!-- Container para os botões -->
-    <LinearLayout
-        android:id="@+id/buttonContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:orientation="horizontal"
-        android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Botão para criar novo serviço -->
-
-        <!-- Botão para voltar para a Home -->
-        <Button
-            android:id="@+id/btnBackBarbServToHome"
-            android:layout_width="150dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="8dp"
-            android:text="@string/back"
-            style="@style/ButtonStyle"/>
-    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,14 +9,15 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/appointmentsList"
-        android:layout_width="409dp"
-        android:layout_height="530dp"
-
+        android:layout_width="415dp"
+        android:layout_height="621dp"
+        android:layout_marginBottom="10dp"
         android:padding="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.949"
         tools:listitem="@layout/fragment_barber_appointments_item" />
 
     <TextView
@@ -34,15 +35,5 @@
         app:layout_constraintVertical_bias="0.064"
         style="@style/TextStyle.Subtitle"/>
 
-    <Button
-        android:id="@+id/btnBack"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/back"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appointmentsList"
-        style="@style/ButtonStyle"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

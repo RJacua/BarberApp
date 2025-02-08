@@ -47,11 +47,6 @@ class BarberScheduleFragment : Fragment() {
             createScheduleTable(scheduleMap)
         }
 
-        // Back to home button
-        binding.btnBackScheduleBackToHome.setOnClickListener {
-            findNavController().navigate(BarberScheduleFragmentDirections.actionScheduleFragmentToHomeBarberFragment())
-        }
-
         // Save schedule changes button
         binding.btnSaveSchedule.setOnClickListener {
             saveBarberSchedule(barberId)

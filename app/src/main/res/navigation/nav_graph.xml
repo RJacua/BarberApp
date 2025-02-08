@@ -253,7 +253,7 @@
     </fragment>
     <fragment
         android:id="@+id/photoDetailsBarberFragment"
-        android:name="com.example.barberapp.PhotoDetailsBarberFragment"
+        android:name="com.example.barberapp.GalleryBarber.PhotoDetailsBarberFragment"
         android:label="fragment_photo_details_barber"
         tools:layout="@layout/fragment_photo_details_barber" >
         <argument
