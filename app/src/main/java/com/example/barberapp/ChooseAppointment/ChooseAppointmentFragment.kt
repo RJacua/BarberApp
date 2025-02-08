@@ -103,9 +103,6 @@ class ChooseAppointmentFragment : Fragment() {
             saveSelectedTimeAndDate()
         }
 
-        binding.backBtn.setOnClickListener {
-            findNavController().navigateUp()
-        }
     }
 
     /**

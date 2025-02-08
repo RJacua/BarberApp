@@ -91,9 +91,6 @@ class ChooseBarberFragment : Fragment() {
             }
         }
 
-        binding.backBtn.setOnClickListener{
-            findNavController().navigateUp()
-        }
 
     }
 

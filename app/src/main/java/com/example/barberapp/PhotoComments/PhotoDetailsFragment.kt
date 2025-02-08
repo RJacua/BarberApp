@@ -70,9 +70,6 @@ class PhotoDetailsFragment : Fragment() {
             viewModel.loadRatingsByPhotoUrl(photoUrl)
         }
 
-        binding.button2.setOnClickListener {
-            findNavController().popBackStack()
-        }
 
         binding.btnAddComment.setOnClickListener {
             val modalFragment = CommentFragment()

@@ -66,9 +66,7 @@ class ClientGalleryFragment : Fragment() {
             adapter.submitList(photos)
         }
 
-        binding.btnBack.setOnClickListener{
-            findNavController().popBackStack()
-        }
+
     }
 
     inner class GalleryViewHolder(private val binding: FragmentPhotoItemBinding) :

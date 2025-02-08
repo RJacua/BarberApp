@@ -78,9 +78,7 @@ class ClientAppointmentsFragment : Fragment() {
         // load appointments
         viewModel.loadAppointments(UserSession.loggedInClient!!.clientId)
 
-        binding.btnback.setOnClickListener{
-            findNavController().navigateUp()
-        }
+
 
     }
 

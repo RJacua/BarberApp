@@ -89,9 +89,7 @@ class ChooseBarberShopFragment : Fragment() {
             }
         }
 
-        binding.backBtn.setOnClickListener{
-            findNavController().navigateUp()
-        }
+
     }
 
 

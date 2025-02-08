@@ -100,9 +100,6 @@ class ChooseServiceFragment : Fragment() {
             }
         }
 
-        binding.backBtn.setOnClickListener{
-            findNavController().navigateUp()
-        }
     }
 
 
