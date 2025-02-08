@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
 
         // Esconde a BottomNavigationView no LoginFragment
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            bottomNav.visibility = if (destination.id == R.id.loginFragment || destination.id == R.id.registerFragment) View.GONE else View.VISIBLE
+            bottomNav.visibility = if (destination.id == R.id.loginFragment || destination.id == R.id.registerFragment || destination.id == R.id.cameraFragment || destination.id == R.id.photoPreviewFragment) View.GONE else View.VISIBLE
         }
 
         // Configura a navegação da BottomNavigationView
