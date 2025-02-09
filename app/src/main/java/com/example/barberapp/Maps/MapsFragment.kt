@@ -43,15 +43,18 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Initialize the location client to fetch the user's current location
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
+        // Retrieve the map fragment and set up the callback for when the map is ready
         val mapFragment = childFragmentManager.findFragmentById(com.example.barberapp.R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
 
         setupSpinner()
 
         binding.showRouteButton.setOnClickListener {
-            val origin = userLocation // Agora usamos a localização do usuário
+            // Check if user location and selected barbershop are set before drawing the route
+            val origin = userLocation
             if (origin == null || selectedBarbershop == null) {
                 return@setOnClickListener
             }
@@ -59,12 +62,22 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
+    /**
+     * Called when the map is ready to be used.
+     * Enables location features and fetches the user's location.
+     *
+     * @param map The Google Map instance that is ready to be used.
+     */
     override fun onMapReady(map: GoogleMap) {
         googleMap = map
         enableMyLocation()
-        getUserLocation()  // Obter a localização assim que o mapa estiver pronto
+        getUserLocation()  // Fetch the user's location as soon as the map is ready
     }
 
+    /**
+     * Enables location tracking on the map if permissions are granted.
+     * If not, requests the necessary permissions from the user.
+     */
     private fun enableMyLocation() {
         if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
@@ -73,6 +86,14 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         googleMap?.isMyLocationEnabled = true
     }
 
+    /**
+     * Handles the result of the permission request.
+     * If permission is granted, enables location tracking on the map.
+     *
+     * @param requestCode The request code for permission.
+     * @param permissions The requested permissions.
+     * @param grantResults The results of the permission request.
+     */
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 1 && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -80,6 +101,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
+    /**
+     * Fetches the last known location of the user and moves the camera to their position.
+     */
     private fun getUserLocation() {
         fusedLocationClient.lastLocation.addOnSuccessListener(requireActivity()) { location ->
             location?.let {
@@ -89,6 +113,10 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
+    /**
+     * Sets up the dropdown menu (Spinner) to display the list of available barbershops.
+     * When a barbershop is selected, its location is updated on the map.
+     */
     private fun setupSpinner() {
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, mutableListOf<String>())
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -114,6 +142,13 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
+    /**
+     * Updates the map by clearing previous markers and adding a new one for the selected location.
+     * Also moves the camera to focus on the selected barbershop.
+     *
+     * @param location The coordinates of the selected barbershop.
+     * @param title The name of the barbershop.
+     */
     private fun updateMap(location: LatLng, title: String) {
         googleMap?.apply {
             clear()
@@ -122,6 +157,12 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
+    /**
+     * Requests directions from Google Maps API and draws a route between the user's location and the selected barbershop.
+     *
+     * @param origin The starting point of the route (user's location).
+     * @param destination The endpoint of the route (selected barbershop).
+     */
     private fun drawRoute(origin: LatLng, destination: LatLng) {
         val url = "https://maps.googleapis.com/maps/api/directions/json?" +
                 "origin=${origin.latitude},${origin.longitude}" +
@@ -133,7 +174,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         val request = Request.Builder().url(url).build()
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                // Tratar erros
+                // Handle request failure
             }
 
             override fun onResponse(call: Call, response: Response) {
@@ -148,6 +189,12 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         })
     }
 
+    /**
+     * Parses the JSON response from Google Maps API and extracts the route.
+     *
+     * @param jsonResponse The JSON response containing route details.
+     * @return A list of LatLng coordinates representing the path.
+     */
     private fun parseDirections(jsonResponse: String): List<LatLng> {
         val path = mutableListOf<LatLng>()
         val jsonObject = JSONObject(jsonResponse)
@@ -160,6 +207,12 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         return path
     }
 
+    /**
+     * Decodes a polyline string into a list of LatLng coordinates.
+     *
+     * @param encoded The encoded polyline string.
+     * @return A list of LatLng points representing the decoded path.
+     */
     private fun decodePolyline(encoded: String): List<LatLng> {
         val poly = mutableListOf<LatLng>()
         var index = 0
@@ -194,4 +247,5 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         return poly
     }
 }
+
 

@@ -12,6 +12,11 @@ class CommentViewModel(application: Application) : AndroidViewModel(application)
 
     private val ratingDao = AppDatabase(application).ratingDao()
 
+    /**
+     * Inserts a new rating into the database.
+     *
+     * @param rating
+     */
     fun insertRating(rating: Rating) {
         viewModelScope.launch(Dispatchers.IO) {
             ratingDao.insert(rating)

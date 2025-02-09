@@ -13,17 +13,4 @@ class MapsViewModel(application: Application) : AndroidViewModel(application) {
 
     val barbershops: LiveData<List<Barbershop>> = database.barbershopDao().getAllBarbershops()
 
-    /**
-     * Get barber name by id
-     *
-     * @param barberId
-     * @return
-     */
-    suspend fun getBarberNameById(barberId: Int): String {
-        return withContext(Dispatchers.IO) {
-            val barber = database.barberDao().getBarberByIdLogin(barberId)
-            barber?.name ?: ""
-        }
-    }
-
 }

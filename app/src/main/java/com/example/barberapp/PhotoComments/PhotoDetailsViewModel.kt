@@ -20,44 +20,31 @@ class PhotoDetailsViewModel(application: Application) : AndroidViewModel(applica
     private val _ratings = MutableLiveData<List<Pair<Rating, String?>>>()
     val ratings: LiveData<List<Pair<Rating, String?>>> get() = _ratings
 
+
     /**
-     * Carrega os comentários pela URL da foto.
+     * Load ratings by photo url
+     * Loads comments (ratings) for a specific photo based on its URL.
+     *
+     * @param photoUrl
      */
     fun loadRatingsByPhotoUrl(photoUrl: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val ratingsList = ratingDao.getRatingsByPhotoUrlSync(photoUrl)
+
+                // Fetch client names for each rating
                 val ratingsWithClientNames = ratingsList.map { rating ->
                     val client = clientDao.getClientById(rating.clientId)
-                    rating to client?.name // Retorna o nome ou `null`
+                    rating to client?.name // Returns client name or `null`
                 }
 
+                // Update LiveData on the main thread
                 withContext(Dispatchers.Main) {
                     _ratings.value = ratingsWithClientNames
                 }
             } catch (e: Exception) {
-                Log.e("PhotoDetailsViewModel", "Erro ao carregar comentários: ${e.message}")
+                Log.e("PhotoDetailsViewModel", "Error loading comments: ${e.message}")
             }
         }
     }
-
-    /**
-     * Insere um novo comentário e recarrega a lista automaticamente.
-     */
-    /*fun insertRating(rating: Rating) {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                ratingDao.insert(rating)
-                Log.d("PhotoDetailsViewModel", "Comentário inserido com sucesso!")
-
-                // **Após inserir, recarregar os comentários**
-                val updatedRatings = ratingDao.getRatingsByPhotoUrlSync(rating.photoUrl)
-                withContext(Dispatchers.Main) {
-                    _ratings.value = updatedRatings
-                }
-            } catch (e: Exception) {
-                Log.e("PhotoDetailsViewModel", "Erro ao inserir comentário: ${e.message}")
-            }
-        }
-    }*/
 }
