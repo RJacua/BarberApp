@@ -64,7 +64,7 @@ class GalleryFragment : Fragment() {
     }
 
     /**
-     * Carrega as fotos do diretório filtradas pelo barberId.
+     * Loads photos from the directory filtered by barberId.
      */
     private fun loadPhotos() {
         val barberId = UserSession.loggedInBarber!!.barberId

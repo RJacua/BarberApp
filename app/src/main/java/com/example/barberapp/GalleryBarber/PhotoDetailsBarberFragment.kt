@@ -83,6 +83,11 @@ class PhotoDetailsBarberFragment : Fragment() {
         }
     }
 
+    /**
+     * Update stars
+     *
+     * @param averageRating
+     */
     private fun updateStars(averageRating: Int) {
         val stars = listOf(
             binding.imageButton,

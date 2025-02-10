@@ -124,9 +124,6 @@ class PhotoDetailsFragment : Fragment() {
         }
     }
 
-    /**
-     * DiffUtil implementation to optimize list updates in RecyclerView.
-     */
     private val ratingDiffer = object : DiffUtil.ItemCallback<Pair<Rating, String?>>() {
         override fun areItemsTheSame(oldItem: Pair<Rating, String?>, newItem: Pair<Rating, String?>) =
             oldItem.first.ratingId == newItem.first.ratingId // Compare unique rating IDs
