@@ -80,10 +80,10 @@ class BarberScheduleFragment : Fragment() {
                 text = day
                 textSize = 16f
                 gravity = Gravity.CENTER
-                setPadding(16, 8, 16, 8)
+                setPadding(16, 0, 16, 8)
                 setBackgroundColor(Color.parseColor(backgroundColors[index % 2]))
                 setTextColor(Color.parseColor("#F6BE00"))
-                layoutParams = TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f)
+                layoutParams = TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 0.5f)
             }
             headerRow.addView(dayCell)
         }
