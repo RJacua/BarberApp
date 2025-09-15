@@ -168,7 +168,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                 "origin=${origin.latitude},${origin.longitude}" +
                 "&destination=${destination.latitude},${destination.longitude}" +
                 "&mode=driving" +
-                "&key=AIzaSyAiTlftHVk1KSldjZGvyAVkLfcO0G8BtfU"
+                "&key=API_KEY"
 
         val client = OkHttpClient()
         val request = Request.Builder().url(url).build()
